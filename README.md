@@ -12,16 +12,52 @@ Split {Japanese, English} text into sentences.
 
 ```js
 import splitSentences from "sentence-splitter";
-let sentences = splitSentences("text\n\ntext");
+let sentences = splitSentences("text.\n\ntext");
 console.log(JSON.stringify(sentences, null, 4));
 /*
 [
     {
         "type": "Sentence",
-        "raw": "text\n\n",
+        "raw": "text.",
         "loc": {
             "start": {
                 "line": 1,
+                "column": 0
+            },
+            "end": {
+                "line": 1,
+                "column": 5
+            }
+        },
+        "range": [
+            0,
+            5
+        ]
+    },
+    {
+        "type": "WhiteSpace",
+        "raw": "\n",
+        "loc": {
+            "start": {
+                "line": 1,
+                "column": 5
+            },
+            "end": {
+                "line": 2,
+                "column": 0
+            }
+        },
+        "range": [
+            5,
+            6
+        ]
+    },
+    {
+        "type": "WhiteSpace",
+        "raw": "\n",
+        "loc": {
+            "start": {
+                "line": 2,
                 "column": 0
             },
             "end": {
@@ -30,8 +66,8 @@ console.log(JSON.stringify(sentences, null, 4));
             }
         },
         "range": [
-            0,
-            6
+            6,
+            7
         ]
     },
     {
@@ -48,8 +84,8 @@ console.log(JSON.stringify(sentences, null, 4));
             }
         },
         "range": [
-            6,
-            10
+            7,
+            11
         ]
     }
 ]
@@ -66,6 +102,11 @@ sentences.length; // 2
 - `column`: start with **0**
 
 See more detail on [Why do `line` of location in JavaScript AST(ESTree) start with 1 and not 0?](https://gist.github.com/azu/8866b2cb9b7a933e01fe "Why do `line` of location in JavaScript AST(ESTree) start with 1 and not 0?")
+
+### Node's type
+
+- `Sentence`: Sentence Node contain punctuation.
+- `WhiteSpace`: WhiteSpace Node has `\n`.
 
 ## Tests
 
