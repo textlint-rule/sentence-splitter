@@ -8,7 +8,7 @@ Split {Japanese, English} text into sentences.
 
 ## Usage
 
-- `splitSentences(text, [options])`: `SentenceNode[]`
+- `splitSentences(text, [options])`: `Node[]`
 
 ```js
 import splitSentences from "sentence-splitter";
