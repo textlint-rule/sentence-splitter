@@ -1,0 +1,40 @@
+{
+  "name": "sentence-splitter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azu/sentence-splitter.git"
+  },
+  "author": "azu",
+  "email": "azuciao@gmail.com",
+  "homepage": "https://github.com/azu/sentence-splitter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azu/sentence-splitter/issues"
+  },
+  "version": "1.0.0",
+  "description": "split {japanese, english} text into sentences.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib --source-maps",
+    "watch": "babel src --out-dir lib --watch --source-maps",
+    "prepublish": "npm run --if-present build",
+    "test": "mocha"
+  },
+  "keywords": [
+    "text",
+    "analytics",
+    "textlint"
+  ],
+  "dependencies": {
+    "structured-source": "^3.0.2"
+  },
+  "devDependencies": {
+    "babel": "^5.8.34",
+    "espower-babel": "^3.3.0",
+    "mocha": "^2.3.3",
+    "power-assert": "^1.1.0"
+  }
+}
