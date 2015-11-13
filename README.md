@@ -1,6 +1,6 @@
 # sentence-splitter
 
-split {Japanese, English} text into sentences.
+Split {Japanese, English} text into sentences.
 
 ## Installation
 
