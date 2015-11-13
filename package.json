@@ -13,7 +13,11 @@
   },
   "version": "1.0.0",
   "description": "split {japanese, english} text into sentences.",
-  "main": "index.js",
+  "main": "lib/sentence-splitter.js",
+  "files": [
+    "lib",
+    "srchore"
+  ],
   "directories": {
     "test": "test"
   },
