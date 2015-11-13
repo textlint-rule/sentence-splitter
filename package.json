@@ -16,7 +16,7 @@
   "main": "lib/sentence-splitter.js",
   "files": [
     "lib",
-    "srchore"
+    "src"
   ],
   "directories": {
     "test": "test"
