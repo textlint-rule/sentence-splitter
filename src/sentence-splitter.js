@@ -2,7 +2,7 @@
 "use strict";
 import StructureSource from "structured-source";
 const defaultOptions = {
-    charRegExp: /[\.。\?\!、]/
+    charRegExp: /[\.。\?\!？！]/
 };
 const whiteSpace = /\n/;
 export const Syntax = {
