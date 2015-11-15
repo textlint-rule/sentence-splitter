@@ -63,6 +63,7 @@ export function createWhiteSpaceNode(text, loc, range) {
     return {
         type: "WhiteSpace",
         raw: text,
+        value: text,
         loc: loc,
         range: range
     }
@@ -71,6 +72,7 @@ export function createSentenceNode(text, loc, range) {
     return {
         type: "Sentence",
         raw: text,
+        value: text,
         loc: loc,
         range: range
     }
