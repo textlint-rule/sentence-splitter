@@ -113,6 +113,28 @@ describe("sentence-utils", function () {
         assert.deepEqual(sentences[0].loc.end, {line: 1, column: 5});
     });
     context("with options", function () {
+        it("should separate by whiteSpace", function () {
+            let sentences = splitSentences("text\n\ntext", {
+                newLineCharacters: "\n\n"
+            });
+            assert.equal(sentences.length, 4);
+            var sentence0 = sentences[0];
+            assert.strictEqual(sentence0.raw, "text");
+            assert.deepEqual(sentence0.loc.start, {line: 1, column: 0});
+            assert.deepEqual(sentence0.loc.end, {line: 1, column: 4});
+            var whiteSpace1 = sentences[1];
+            assert.strictEqual(whiteSpace1.raw, "\n");
+            assert.deepEqual(whiteSpace1.loc.start, {line: 1, column: 4});
+            assert.deepEqual(whiteSpace1.loc.end, {line: 2, column: 0});
+            var whiteSpace2 = sentences[2];
+            assert.strictEqual(whiteSpace2.raw, "\n");
+            assert.deepEqual(whiteSpace2.loc.start, {line: 2, column: 0});
+            assert.deepEqual(whiteSpace2.loc.end, {line: 3, column: 0});
+            var sentence3 = sentences[3];
+            assert.strictEqual(sentence3.raw, "text");
+            assert.deepEqual(sentence3.loc.start, {line: 3, column: 0});
+            assert.deepEqual(sentence3.loc.end, {line: 3, column: 4});
+        });
         it("should separate by charRegExp", function () {
             let sentences = splitSentences("text¶text", {
                 charRegExp: /¶/

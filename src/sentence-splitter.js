@@ -3,7 +3,7 @@
 import StructureSource from "structured-source";
 const defaultOptions = {
     charRegExp: /[\.。\?\!？！]/,
-    whiteSpaceRegExp: /\n/
+    newLineCharacters: "\n"
 };
 export const Syntax = {
     "WhiteSpace": "WhiteSpace",
@@ -11,7 +11,7 @@ export const Syntax = {
 };
 export default function splitSentences(text, options = {}) {
     const matchChar = options.charRegExp || defaultOptions.charRegExp;
-    const whiteSpace = options.whiteSpaceRegExp || defaultOptions.whiteSpaceRegExp;
+    const newLineCharacters = options.newLineCharacters || defaultOptions.newLineCharacters;
     const src = new StructureSource(text);
     let createNode = (type, start, end)=> {
         let range = [start, end];
@@ -29,17 +29,22 @@ export default function splitSentences(text, options = {}) {
     let startPoint = 0;
     let currentIndex = 0;
     let isSplitPoint = false;
+    const newLineCharactersLength = newLineCharacters.length;
     for (; currentIndex < text.length; currentIndex++) {
         let char = text[currentIndex];
-        if (whiteSpace.test(char)) {
+        let whiteTarget = text.slice(currentIndex, currentIndex + newLineCharactersLength);
+        if (whiteTarget === newLineCharacters) {
             // (string)\n
             if (startPoint !== currentIndex) {
                 results.push(createNode(Syntax.Sentence, startPoint, currentIndex));
             }
-            // string(\n)
-            results.push(createNode(Syntax.WhiteSpace, currentIndex, currentIndex + 1));
+            for (let i = 0; i < newLineCharactersLength; i++) {
+                // string(\n)
+                let startIndex = currentIndex + i;
+                results.push(createNode(Syntax.WhiteSpace, startIndex, startIndex + 1));
+            }
             // string\n|
-            startPoint = currentIndex + 1;
+            startPoint = currentIndex + newLineCharactersLength;
             isSplitPoint = false;
         } else if (matchChar.test(char)) {
             isSplitPoint = true;
