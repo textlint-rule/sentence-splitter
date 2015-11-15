@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/azu/sentence-splitter/issues"
   },
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "split {japanese, english} text into sentences.",
   "main": "lib/sentence-splitter.js",
   "files": [
