@@ -2,14 +2,16 @@
 "use strict";
 import StructureSource from "structured-source";
 const defaultOptions = {
-    charRegExp: /[\.。\?\!？！]/
+    charRegExp: /[\.。\?\!？！]/,
+    whiteSpaceRegExp: /\n/
 };
-const whiteSpace = /\n/;
 export const Syntax = {
     "WhiteSpace": "WhiteSpace",
     "Sentence": "Sentence"
 };
-export default function splitSentences(text, options = defaultOptions) {
+export default function splitSentences(text, options = {}) {
+    const matchChar = options.charRegExp || defaultOptions.charRegExp;
+    const whiteSpace = options.whiteSpaceRegExp || defaultOptions.whiteSpaceRegExp;
     const src = new StructureSource(text);
     let createNode = (type, start, end)=> {
         let range = [start, end];
@@ -27,7 +29,6 @@ export default function splitSentences(text, options = defaultOptions) {
     let startPoint = 0;
     let currentIndex = 0;
     let isSplitPoint = false;
-    let matchChar = options.charRegExp || defaultOptions.charRegExp;
     for (; currentIndex < text.length; currentIndex++) {
         let char = text[currentIndex];
         if (whiteSpace.test(char)) {
