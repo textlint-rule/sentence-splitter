@@ -19,6 +19,7 @@ console.log(JSON.stringify(sentences, null, 4));
     {
         "type": "Sentence",
         "raw": "text.",
+        "value": "text.",
         "loc": {
             "start": {
                 "line": 1,
@@ -37,6 +38,7 @@ console.log(JSON.stringify(sentences, null, 4));
     {
         "type": "WhiteSpace",
         "raw": "\n",
+        "value": "\n",
         "loc": {
             "start": {
                 "line": 1,
@@ -55,6 +57,7 @@ console.log(JSON.stringify(sentences, null, 4));
     {
         "type": "WhiteSpace",
         "raw": "\n",
+        "value": "\n",
         "loc": {
             "start": {
                 "line": 2,
@@ -73,6 +76,7 @@ console.log(JSON.stringify(sentences, null, 4));
     {
         "type": "Sentence",
         "raw": "text",
+        "value": "text",
         "loc": {
             "start": {
                 "line": 3,
