@@ -122,9 +122,15 @@ See more detail on [Why do `line` of location in JavaScript AST(ESTree) start wi
 - `Sentence`: Sentence Node contain punctuation.
 - `WhiteSpace`: WhiteSpace Node has `\n`.
 
-## FAQ
+### Treat Markdown break line
 
-### How to treat real sentence?
+td:lr: set `newLineCharacters: "\n\n"` to option.
+
+```js
+let sentences = splitSentences(text, {
+    newLineCharacters: "\n\n" // `\n\n` as a separator
+});
+```
 
 `sentence-splitter` split text into `Sentence` and `WhiteSpace`
 
