@@ -11,8 +11,8 @@ Split {Japanese, English} text into sentences.
 - `splitSentences(text, [options])`: `Node[]`
 
 ```js
-import splitSentences from "sentence-splitter";
-let sentences = splitSentences("text.\n\ntext");
+import {split, Syntax} from "sentence-splitter";
+let sentences = split("text.\n\ntext");
 console.log(JSON.stringify(sentences, null, 4));
 /*
 [
@@ -96,7 +96,7 @@ console.log(JSON.stringify(sentences, null, 4));
 */
 
 // with splitting char options
-let sentences = splitSentences("text¶text", {
+let sentences = split("text¶text", {
     charRegExp: /¶/
 });
 sentences.length; // 2
@@ -121,6 +121,12 @@ See more detail on [Why do `line` of location in JavaScript AST(ESTree) start wi
 
 - `Sentence`: Sentence Node contain punctuation.
 - `WhiteSpace`: WhiteSpace Node has `\n`.
+
+Get these `Syntax` constants value from the module:
+
+```js
+import {Syntax} from "sentence-splitter";
+console.log(Syntax.Sentence);// "Sentence"
 
 ### Treat Markdown break line
 
@@ -184,7 +190,7 @@ let text = `TextA
 TextB
            
 TextC`;
-let sentences = splitSentences(text, {
+let sentences = split(text, {
     newLineCharacters: "\n\n" // `\n\n` as a separator
 });
 console.log(JSON.stringify(sentences, null, 4))

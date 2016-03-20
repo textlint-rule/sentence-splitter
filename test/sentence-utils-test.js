@@ -1,6 +1,5 @@
 import assert from "power-assert";
-import splitSentences from "../src/sentence-splitter";
-import {Syntax} from "../src/sentence-splitter";
+import {Syntax, split as splitSentences} from "../src/sentence-splitter";
 describe("sentence-utils", function () {
     it("should return array", function () {
         let sentences = splitSentences("text");

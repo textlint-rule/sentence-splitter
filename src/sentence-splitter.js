@@ -9,7 +9,7 @@ export const Syntax = {
     "WhiteSpace": "WhiteSpace",
     "Sentence": "Sentence"
 };
-export default function splitSentences(text, options = {}) {
+export function split(text, options = {}) {
     const matchChar = options.charRegExp || defaultOptions.charRegExp;
     const newLineCharacters = options.newLineCharacters || defaultOptions.newLineCharacters;
     const src = new StructureSource(text);
