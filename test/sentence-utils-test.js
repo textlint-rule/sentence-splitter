@@ -113,9 +113,10 @@ describe("sentence-utils", function () {
     });
     context("with options", function () {
         it("should separate by whiteSpace", function () {
-            let sentences = splitSentences("text\n\ntext", {
+            var options = {
                 newLineCharacters: "\n\n"
-            });
+            };
+            let sentences = splitSentences("text\n\ntext", options);
             assert.equal(sentences.length, 4);
             var sentence0 = sentences[0];
             assert.strictEqual(sentence0.raw, "text");

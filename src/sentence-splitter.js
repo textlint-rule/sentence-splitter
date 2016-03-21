@@ -9,6 +9,14 @@ export const Syntax = {
     "WhiteSpace": "WhiteSpace",
     "Sentence": "Sentence"
 };
+/**
+ * @param {string} text
+ * @param {{
+ *      charRegExp: ?Object,
+ *      newLineCharacters: ?String
+ *  }} options
+ * @returns {Array}
+ */
 export function split(text, options = {}) {
     const matchChar = options.charRegExp || defaultOptions.charRegExp;
     const newLineCharacters = options.newLineCharacters || defaultOptions.newLineCharacters;
@@ -65,6 +73,12 @@ export function split(text, options = {}) {
     }
     return results;
 }
+/**
+ * @param {string} text
+ * @param {Object} loc
+ * @param {number[]} range
+ * @returns {{type: string, raw: string, value: string, loc: Object, range: number[]}}
+ */
 export function createWhiteSpaceNode(text, loc, range) {
     return {
         type: "WhiteSpace",
@@ -74,6 +88,12 @@ export function createWhiteSpaceNode(text, loc, range) {
         range: range
     }
 }
+/**
+ * @param {string} text
+ * @param {Object} loc
+ * @param {number[]} range
+ * @returns {{type: string, raw: string, value: string, loc: Object, range: number[]}}
+ */
 export function createSentenceNode(text, loc, range) {
     return {
         type: "Sentence",
