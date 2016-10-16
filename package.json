@@ -11,10 +11,10 @@
   "bugs": {
     "url": "https://github.com/azu/sentence-splitter/issues"
   },
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "split {japanese, english} text into sentences.",
   "main": "lib/sentence-splitter.js",
-  "bin":{
+  "bin": {
     "sentence-splitter": "bin/cmd.js"
   },
   "files": [
