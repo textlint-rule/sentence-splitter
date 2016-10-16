@@ -15,9 +15,10 @@
   "description": "split {japanese, english} text into sentences.",
   "main": "lib/sentence-splitter.js",
   "bin": {
-    "sentence-splitter": "bin/cmd.js"
+    "sentence-splitter": "./bin/cmd.js"
   },
   "files": [
+    "bin",
     "lib",
     "src"
   ],
