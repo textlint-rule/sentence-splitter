@@ -14,6 +14,9 @@
   "version": "2.0.0",
   "description": "split {japanese, english} text into sentences.",
   "main": "lib/sentence-splitter.js",
+  "bin":{
+    "sentence-splitter": "bin/cmd.js"
+  },
   "files": [
     "lib",
     "src"
@@ -33,6 +36,7 @@
     "textlint"
   ],
   "dependencies": {
+    "concat-stream": "^1.5.2",
     "structured-source": "^3.0.2"
   },
   "devDependencies": {

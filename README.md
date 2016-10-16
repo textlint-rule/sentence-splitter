@@ -6,6 +6,14 @@ Split {Japanese, English} text into sentences.
 
     npm install sentence-splitter
 
+### CLI
+
+    $ npm install -g sentence-splitter
+    $ echo "This is a pen.But This is not pen" | sentence-splitter
+    This is a pen.
+    But This is not pen
+
+
 ## Usage
 
 - `splitSentences(text, [options])`: `Node[]`
