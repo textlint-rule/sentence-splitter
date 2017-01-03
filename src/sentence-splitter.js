@@ -1,8 +1,12 @@
 // LICENSE : MIT
 "use strict";
+const assert = require("assert");
 import StructureSource from "structured-source";
 const defaultOptions = {
+    // charRegExp is deprecated
     charRegExp: /[\.。\?\!？！]/,
+    // separator char list
+    splitChars: [".", "。", "?", "!", "？", "！"],
     newLineCharacters: "\n"
 };
 export const Syntax = {
@@ -13,15 +17,19 @@ export const Syntax = {
  * @param {string} text
  * @param {{
  *      charRegExp: ?Object,
+ *      splitChars: ?string[],
  *      newLineCharacters: ?String
  *  }} options
  * @returns {Array}
  */
 export function split(text, options = {}) {
-    const matchChar = options.charRegExp || defaultOptions.charRegExp;
+    const charRegExp = options.charRegExp;
+    const splitChars = options.splitChars || defaultOptions.splitChars;
+    assert(!(options.charRegExp && options.splitChars), "should use either one `charRegExp` or `splitChars`.\n"
+        + "`charRegExp` is deprecated.");
     const newLineCharacters = options.newLineCharacters || defaultOptions.newLineCharacters;
     const src = new StructureSource(text);
-    let createNode = (type, start, end)=> {
+    let createNode = (type, start, end) => {
         let range = [start, end];
         let location = src.rangeToLocation(range);
         let slicedText = text.slice(start, end);
@@ -54,7 +62,7 @@ export function split(text, options = {}) {
             // string\n|
             startPoint = currentIndex + newLineCharactersLength;
             isSplitPoint = false;
-        } else if (matchChar.test(char)) {
+        } else if ((charRegExp && charRegExp.test(char)) || splitChars.indexOf(char) !== -1) {
             isSplitPoint = true;
         } else {
             // why `else`
