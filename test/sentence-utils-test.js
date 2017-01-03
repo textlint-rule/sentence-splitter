@@ -163,7 +163,7 @@ describe("sentence-utils", function() {
             assert.deepEqual(sentence1.loc.start, {line: 1, column: 5});
             assert.deepEqual(sentence1.loc.end, {line: 1, column: 9});
         });
-        it("should not set splitChars and charRegExp", function() {
+        it("should not set separatorChars and charRegExp", function() {
             try {
                 splitSentences("text¶text", {
                     separatorChars: ["¶"],
