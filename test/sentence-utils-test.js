@@ -151,7 +151,7 @@ describe("sentence-utils", function() {
         });
         it("should separate by splitChars", function() {
             let sentences = splitSentences("text¶text", {
-                splitChars: ["¶"]
+                separatorChars: ["¶"]
             });
             assert.equal(sentences.length, 2);
             var sentence0 = sentences[0];
@@ -166,7 +166,7 @@ describe("sentence-utils", function() {
         it("should not set splitChars and charRegExp", function() {
             try {
                 splitSentences("text¶text", {
-                    splitChars: ["¶"],
+                    separatorChars: ["¶"],
                     charRegExp: /¶/
                 });
                 throw new Error("FAIL");

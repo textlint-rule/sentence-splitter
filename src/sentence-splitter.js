@@ -6,7 +6,7 @@ const defaultOptions = {
     // charRegExp is deprecated
     charRegExp: /[\.。\?\!？！]/,
     // separator char list
-    splitChars: [".", "。", "?", "!", "？", "！"],
+    separatorChars: [".", "。", "?", "!", "？", "！"],
     newLineCharacters: "\n"
 };
 export const Syntax = {
@@ -17,16 +17,27 @@ export const Syntax = {
  * @param {string} text
  * @param {{
  *      charRegExp: ?Object,
- *      splitChars: ?string[],
+ *      separatorChars: ?string[],
  *      newLineCharacters: ?String
  *  }} options
  * @returns {Array}
  */
 export function split(text, options = {}) {
     const charRegExp = options.charRegExp;
-    const splitChars = options.splitChars || defaultOptions.splitChars;
-    assert(!(options.charRegExp && options.splitChars), "should use either one `charRegExp` or `splitChars`.\n"
+    const separatorChars = options.separatorChars || defaultOptions.separatorChars;
+    assert(!(options.charRegExp && options.separatorChars), "should use either one `charRegExp` or `separatorChars`.\n"
         + "`charRegExp` is deprecated.");
+    /**
+     * Is the `char` separator symbol?
+     * @param {string} char
+     * @returns {boolean}
+     */
+    const testCharIsSeparator = (char) => {
+        if (charRegExp) {
+            return charRegExp.test(char);
+        }
+        return separatorChars.indexOf(char) !== -1;
+    };
     const newLineCharacters = options.newLineCharacters || defaultOptions.newLineCharacters;
     const src = new StructureSource(text);
     let createNode = (type, start, end) => {
@@ -62,7 +73,7 @@ export function split(text, options = {}) {
             // string\n|
             startPoint = currentIndex + newLineCharactersLength;
             isSplitPoint = false;
-        } else if ((charRegExp && charRegExp.test(char)) || splitChars.indexOf(char) !== -1) {
+        } else if (testCharIsSeparator(char)) {
             isSplitPoint = true;
         } else {
             // why `else`

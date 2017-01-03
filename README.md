@@ -105,7 +105,7 @@ console.log(JSON.stringify(sentences, null, 4));
 
 // with splitting char options
 let sentences = split("text¶text", {
-    splitChars: ["¶"]
+    separatorChars: ["¶"]
 });
 sentences.length; // 2
 ```
@@ -117,7 +117,7 @@ See more detail on [Why do `line` of location in JavaScript AST(ESTree) start wi
 
 ### Options
 
-- `splitChars`
+- `separatorChars`
     - [".", "。", "?", "!", "？", "！"]
     - separator chars of sentences.
 - `charRegExp` (**Deprecated**)
