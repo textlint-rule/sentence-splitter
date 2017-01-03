@@ -105,7 +105,7 @@ console.log(JSON.stringify(sentences, null, 4));
 
 // with splitting char options
 let sentences = split("text¶text", {
-    charRegExp: /¶/
+    separatorChars: ["¶"]
 });
 sentences.length; // 2
 ```
@@ -117,7 +117,10 @@ See more detail on [Why do `line` of location in JavaScript AST(ESTree) start wi
 
 ### Options
 
-- `charRegExp`
+- `separatorChars`
+    - [".", "。", "?", "!", "？", "！"]
+    - separator chars of sentences.
+- `charRegExp` (**Deprecated**)
     - default: `/[\.。\?\!？！]/`
     - separator of sentences.
 - `newLineCharacters`
@@ -135,6 +138,7 @@ Get these `Syntax` constants value from the module:
 ```js
 import {Syntax} from "sentence-splitter";
 console.log(Syntax.Sentence);// "Sentence"
+````
 
 ### Treat Markdown break line
 
