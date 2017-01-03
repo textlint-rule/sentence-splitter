@@ -118,7 +118,7 @@ See more detail on [Why do `line` of location in JavaScript AST(ESTree) start wi
 ### Options
 
 - `separatorChars`
-    - [".", "。", "?", "!", "？", "！"]
+    - default: `[".", "。", "?", "!", "？", "！"]`
     - separator chars of sentences.
 - `charRegExp` (**Deprecated**)
     - default: `/[\.。\?\!？！]/`
