@@ -2,37 +2,44 @@
 "use strict";
 const assert = require("assert");
 import StructureSource from "structured-source";
+
 const defaultOptions = {
     // charRegExp is deprecated
     charRegExp: /[\.。\?\!？！]/,
     // separator char list
     separatorChars: [".", "。", "?", "!", "？", "！"],
-    newLineCharacters: "\n"
+    newLineCharacters: "\n",
+    whiteSpaceCharacters: [" ", "　"]
 };
 export const Syntax = {
-    "WhiteSpace": "WhiteSpace",
-    "Sentence": "Sentence"
+    WhiteSpace: "WhiteSpace",
+    Sentence: "Sentence"
 };
+
 /**
  * @param {string} text
  * @param {{
  *      charRegExp: ?Object,
  *      separatorChars: ?string[],
- *      newLineCharacters: ?String
+ *      newLineCharacters: ?String,
+ *      whiteSpaceCharacters: ?string[]
  *  }} options
  * @returns {Array}
  */
 export function split(text, options = {}) {
     const charRegExp = options.charRegExp;
     const separatorChars = options.separatorChars || defaultOptions.separatorChars;
-    assert(!(options.charRegExp && options.separatorChars), "should use either one `charRegExp` or `separatorChars`.\n"
-        + "`charRegExp` is deprecated.");
+    const whiteSpaceCharacters = options.whiteSpaceCharacters || defaultOptions.whiteSpaceCharacters;
+    assert(
+        !(options.charRegExp && options.separatorChars),
+        "should use either one `charRegExp` or `separatorChars`.\n" + "`charRegExp` is deprecated."
+    );
     /**
      * Is the `char` separator symbol?
      * @param {string} char
      * @returns {boolean}
      */
-    const testCharIsSeparator = (char) => {
+    const testCharIsSeparator = char => {
         if (charRegExp) {
             return charRegExp.test(char);
         }
@@ -40,7 +47,7 @@ export function split(text, options = {}) {
     };
     const newLineCharacters = options.newLineCharacters || defaultOptions.newLineCharacters;
     const src = new StructureSource(text);
-    let createNode = (type, start, end) => {
+    const createNode = (type, start, end) => {
         let range = [start, end];
         let location = src.rangeToLocation(range);
         let slicedText = text.slice(start, end);
@@ -84,6 +91,12 @@ export function split(text, options = {}) {
                 startPoint = currentIndex;
                 isSplitPoint = false;
             }
+            // Sentence<WhiteSpace>Sentence
+            if (whiteSpaceCharacters.indexOf(char) !== -1) {
+                results.push(createNode(Syntax.WhiteSpace, currentIndex, currentIndex + 1));
+                startPoint++;
+                currentIndex++;
+            }
         }
     }
 
@@ -92,6 +105,7 @@ export function split(text, options = {}) {
     }
     return results;
 }
+
 /**
  * @param {string} text
  * @param {Object} loc
@@ -105,8 +119,9 @@ export function createWhiteSpaceNode(text, loc, range) {
         value: text,
         loc: loc,
         range: range
-    }
+    };
 }
+
 /**
  * @param {string} text
  * @param {Object} loc
@@ -120,5 +135,5 @@ export function createSentenceNode(text, loc, range) {
         value: text,
         loc: loc,
         range: range
-    }
+    };
 }
