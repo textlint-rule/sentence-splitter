@@ -90,12 +90,12 @@ export function split(text, options = {}) {
                 // reset stat
                 startPoint = currentIndex;
                 isSplitPoint = false;
-            }
-            // Sentence<WhiteSpace>Sentence
-            if (whiteSpaceCharacters.indexOf(char) !== -1) {
-                results.push(createNode(Syntax.WhiteSpace, currentIndex, currentIndex + 1));
-                startPoint++;
-                currentIndex++;
+                // Sentence<WhiteSpace>Sentence
+                if (whiteSpaceCharacters.indexOf(char) !== -1) {
+                    results.push(createNode(Syntax.WhiteSpace, currentIndex, currentIndex + 1));
+                    startPoint++;
+                    currentIndex++;
+                }
             }
         }
     }

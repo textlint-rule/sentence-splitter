@@ -93,20 +93,20 @@ describe("sentence-utils", function() {
         assert.deepEqual(sentence2.loc.end, { line: 2, column: 4 });
     });
     it("should return sentences split by . and whitespace", function() {
-        let sentences = splitSentences("1txt. 2txt");
+        let sentences = splitSentences("1st text. 2nd text");
         assert.equal(sentences.length, 3);
         var sentence0 = sentences[0];
-        assert.strictEqual(sentence0.raw, "1txt.");
+        assert.strictEqual(sentence0.raw, "1st text.");
         assert.deepEqual(sentence0.loc.start, { line: 1, column: 0 });
-        assert.deepEqual(sentence0.loc.end, { line: 1, column: 5 });
+        assert.deepEqual(sentence0.loc.end, { line: 1, column: 9 });
         var whiteSpace1 = sentences[1];
         assert.strictEqual(whiteSpace1.raw, " ");
-        assert.deepEqual(whiteSpace1.loc.start, { line: 1, column: 5 });
-        assert.deepEqual(whiteSpace1.loc.end, { line: 1, column: 6 });
+        assert.deepEqual(whiteSpace1.loc.start, { line: 1, column: 9 });
+        assert.deepEqual(whiteSpace1.loc.end, { line: 1, column: 10 });
         var sentence2 = sentences[2];
-        assert.strictEqual(sentence2.raw, "2txt");
-        assert.deepEqual(sentence2.loc.start, { line: 1, column: 6 });
-        assert.deepEqual(sentence2.loc.end, { line: 1, column: 10 });
+        assert.strictEqual(sentence2.raw, "2nd text");
+        assert.deepEqual(sentence2.loc.start, { line: 1, column: 10 });
+        assert.deepEqual(sentence2.loc.end, { line: 1, column: 18 });
     });
     it("should return sentences split by !?", function() {
         let sentences = splitSentences("text!?text");
