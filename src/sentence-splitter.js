@@ -63,6 +63,7 @@ export function split(text, options = {}) {
     let startPoint = 0;
     let currentIndex = 0;
     let isSplitPoint = false;
+    let isInSentence = false;
     const newLineCharactersLength = newLineCharacters.length;
     for (; currentIndex < text.length; currentIndex++) {
         let char = text[currentIndex];
@@ -90,12 +91,16 @@ export function split(text, options = {}) {
                 // reset stat
                 startPoint = currentIndex;
                 isSplitPoint = false;
-                // Sentence<WhiteSpace>Sentence
-                if (whiteSpaceCharacters.indexOf(char) !== -1) {
-                    results.push(createNode(Syntax.WhiteSpace, currentIndex, currentIndex + 1));
-                    startPoint++;
-                    currentIndex++;
-                }
+                isInSentence = false;
+            }
+            // Sentence<WhiteSpace>*Sentence
+            if (isInSentence === false && whiteSpaceCharacters.indexOf(char) !== -1) {
+                // Add WhiteSpace
+                results.push(createNode(Syntax.WhiteSpace, startPoint, currentIndex + 1));
+                startPoint++;
+            } else {
+                // New sentence start
+                isInSentence = true;
             }
         }
     }

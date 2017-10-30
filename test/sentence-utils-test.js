@@ -108,6 +108,42 @@ describe("sentence-utils", function() {
         assert.deepEqual(sentence2.loc.start, { line: 1, column: 10 });
         assert.deepEqual(sentence2.loc.end, { line: 1, column: 18 });
     });
+    it("should return sentences split by multiple whitespaces", function() {
+        const sentences = splitSentences("1st text.   2nd text");
+        assert.equal(sentences.length, 2 + 3);
+        const [sentence0, whitespace0, whitespace1, whitespace2, sentence1] = sentences;
+        assert.strictEqual(sentence0.raw, "1st text.");
+        assert.deepEqual(sentence0.range, [0, 9]);
+        assert.strictEqual(whitespace0.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace0.value, " ");
+        assert.deepEqual(whitespace0.range, [9, 10]);
+        assert.strictEqual(whitespace1.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace1.value, " ");
+        assert.deepEqual(whitespace1.range, [10, 11]);
+        assert.strictEqual(whitespace2.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace2.value, " ");
+        assert.deepEqual(whitespace2.range, [11, 12]);
+        assert.strictEqual(sentence1.raw, "2nd text");
+        assert.deepEqual(sentence1.range, [12, 20]);
+    });
+    it("should return sentences split by text and whitespaces, and new line", function() {
+        const sentences = splitSentences("1st text. \n 2nd text");
+        assert.equal(sentences.length, 2 + 2 + 1);
+        const [sentence0, whitespace0, lineBreak, whitespace1, sentence1] = sentences;
+        assert.strictEqual(sentence0.raw, "1st text.");
+        assert.deepEqual(sentence0.range, [0, 9]);
+        assert.strictEqual(whitespace0.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace0.value, " ");
+        assert.deepEqual(whitespace0.range, [9, 10]);
+        assert.strictEqual(lineBreak.type, Syntax.WhiteSpace);
+        assert.strictEqual(lineBreak.value, "\n");
+        assert.deepEqual(lineBreak.range, [10, 11]);
+        assert.strictEqual(whitespace1.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace1.value, " ");
+        assert.deepEqual(whitespace1.range, [11, 12]);
+        assert.strictEqual(sentence1.raw, "2nd text");
+        assert.deepEqual(sentence1.range, [12, 20]);
+    });
     it("should return sentences split by !?", function() {
         let sentences = splitSentences("text!?text");
         assert.equal(sentences.length, 2);
