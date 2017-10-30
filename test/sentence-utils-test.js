@@ -126,6 +126,21 @@ describe("sentence-utils", function() {
         assert.strictEqual(sentence1.raw, "2nd text");
         assert.deepEqual(sentence1.range, [12, 20]);
     });
+    it("should support start and end whitespace", function() {
+        const sentences = splitSentences(" text. ");
+        assert.equal(sentences.length, 1 + 2);
+        const [whitespace0, sentence0, whitespace1] = sentences;
+        assert.strictEqual(whitespace0.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace0.value, " ");
+        assert.deepEqual(whitespace0.range, [0, 1]);
+
+        assert.strictEqual(sentence0.raw, "text.");
+        assert.deepEqual(sentence0.range, [1, 6]);
+
+        assert.strictEqual(whitespace1.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace1.value, " ");
+        assert.deepEqual(whitespace1.range, [6, 7]);
+    });
     it("should return sentences split by text and whitespaces, and new line", function() {
         const sentences = splitSentences("1st text. \n 2nd text");
         assert.equal(sentences.length, 2 + 2 + 1);
