@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import { AssertionError } from "assert";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
 import { Syntax, split as splitSentences } from "../src/sentence-splitter";
 
@@ -13,6 +12,16 @@ describe("sentence-utils", function() {
         assert.deepEqual(sentences[0].loc.start, { line: 1, column: 0 });
         assert.deepEqual(sentences[0].loc.end, { line: 1, column: 4 });
     });
+
+    it("should not split number", function() {
+        const sentences = splitSentences("Temperature is 40.2 degrees.");
+        assert.equal(sentences.length, 1);
+        const [sentence] = sentences;
+        assert.strictEqual(sentence.type, Syntax.Sentence);
+        assert.strictEqual(sentence.raw, "Temperature is 40.2 degrees.");
+        assert.deepEqual(sentence.range, [0, 28]);
+    });
+
     it("should return sentences split by first line break", function() {
         const sentences = splitSentences("\ntext");
         assert.equal(sentences.length, 2);
@@ -135,19 +144,12 @@ describe("sentence-utils", function() {
     });
     it("should return sentences split by text and whitespaces, and new line", function() {
         const sentences = splitSentences("1st text. \n 2nd text");
-        assert.equal(sentences.length, 2 + 2 + 1);
-        const [sentence0, whitespace0, lineBreak, whitespace1, sentence1] = sentences;
+        assert.equal(sentences.length, 3);
+        const [sentence0, lineBreak, sentence1] = sentences;
         assert.strictEqual(sentence0.raw, "1st text.");
         assert.deepEqual(sentence0.range, [0, 9]);
-        assert.strictEqual(whitespace0.type, Syntax.WhiteSpace);
-        assert.strictEqual(whitespace0.value, " ");
-        assert.deepEqual(whitespace0.range, [9, 10]);
         assert.strictEqual(lineBreak.type, Syntax.WhiteSpace);
-        assert.strictEqual(lineBreak.value, "\n");
-        assert.deepEqual(lineBreak.range, [10, 11]);
-        assert.strictEqual(whitespace1.type, Syntax.WhiteSpace);
-        assert.strictEqual(whitespace1.value, " ");
-        assert.deepEqual(whitespace1.range, [11, 12]);
+        assert.strictEqual(lineBreak.value, " \n ");
         assert.strictEqual(sentence1.raw, "2nd text");
         assert.deepEqual(sentence1.range, [12, 20]);
     });
@@ -170,46 +172,5 @@ describe("sentence-utils", function() {
         assert.strictEqual(sentence.raw, "text。");
         assert.deepEqual(sentences[0].loc.start, { line: 1, column: 0 });
         assert.deepEqual(sentences[0].loc.end, { line: 1, column: 5 });
-    });
-    context("with options", function() {
-        it("should separate by charRegExp", function() {
-            const sentences = splitSentences("text¶text", {
-                charRegExp: /¶/
-            });
-            assert.equal(sentences.length, 2);
-            const sentence0 = sentences[0];
-            assert.strictEqual(sentence0.raw, "text¶");
-            assert.deepEqual(sentence0.loc.start, { line: 1, column: 0 });
-            assert.deepEqual(sentence0.loc.end, { line: 1, column: 5 });
-            const sentence1 = sentences[1];
-            assert.strictEqual(sentence1.raw, "text");
-            assert.deepEqual(sentence1.loc.start, { line: 1, column: 5 });
-            assert.deepEqual(sentence1.loc.end, { line: 1, column: 9 });
-        });
-        it("should separate by splitChars", function() {
-            const sentences = splitSentences("text¶text", {
-                separatorChars: ["¶"]
-            });
-            assert.equal(sentences.length, 2);
-            const sentence0 = sentences[0];
-            assert.strictEqual(sentence0.raw, "text¶");
-            assert.deepEqual(sentence0.loc.start, { line: 1, column: 0 });
-            assert.deepEqual(sentence0.loc.end, { line: 1, column: 5 });
-            const sentence1 = sentences[1];
-            assert.strictEqual(sentence1.raw, "text");
-            assert.deepEqual(sentence1.loc.start, { line: 1, column: 5 });
-            assert.deepEqual(sentence1.loc.end, { line: 1, column: 9 });
-        });
-        it("should not set separatorChars and charRegExp", function() {
-            try {
-                splitSentences("text¶text", {
-                    separatorChars: ["¶"],
-                    charRegExp: /¶/
-                });
-                throw new Error("FAIL");
-            } catch (error) {
-                assert.ok(error instanceof AssertionError, "AssertionError");
-            }
-        });
     });
 });

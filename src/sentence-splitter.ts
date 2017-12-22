@@ -2,34 +2,21 @@
 "use strict";
 import { TxtNode, TxtParentNode } from "@textlint/ast-node-types";
 
-const assert = require("assert");
 const StructureSource = require("structured-source");
-
-const defaultOptions = {
-    // charRegExp is deprecated
-    charRegExp: /[\.。\?\!？！]/,
-    // separator char list
-    separatorChars: [".", "。", "?", "!", "？", "！"],
-    newLineCharacters: "\n",
-    whiteSpaceCharacters: [" ", "　"]
-};
 export const Syntax = {
     WhiteSpace: "WhiteSpace",
     Sentence: "Sentence"
 };
 
-export interface SplitOption {
-    charRegExp?: any;
-    separatorChars?: string[];
-    newLineCharacters?: string;
-    whiteSpaceCharacters?: string[];
+export abstract class AbstractParser {
+    abstract test(source: SourceCode): boolean;
+
+    abstract seek(source: SourceCode): void;
 }
 
-export class SplitParser {
-    private index: number = 0;
-    private nodeList: TxtParentNode[] = [];
-    private results: (TxtParentNode | TxtNode)[] = [];
+export class SourceCode {
     private source: any;
+    private index: number = 0;
 
     constructor(private text: string) {
         this.source = new StructureSource(text);
@@ -42,6 +29,68 @@ export class SplitParser {
             column: position.column as number,
             offset: this.index
         };
+    }
+
+    get hasEnd() {
+        return this.readOrFalse() === false;
+    }
+
+    readOrFalse() {
+        const char = this.read();
+        return char !== "" ? char : false;
+    }
+
+    /**
+     * read char
+     * if can not read, return empty string
+     * @returns {string}
+     */
+    read(over: number = 0) {
+        const index = this.index + over;
+        if (0 <= index && index < this.text.length) {
+            return this.text[index];
+        }
+        return false;
+    }
+
+    peek() {
+        this.index += 1;
+    }
+
+    seekNext(
+        parser: AbstractParser
+    ): {
+        value: string;
+        startPosition: {
+            line: number;
+            column: number;
+            offset: number;
+        };
+        endPosition: {
+            line: number;
+            column: number;
+            offset: number;
+        };
+    } {
+        const startPosition = this.now();
+        parser.seek(this);
+        const endPosition = this.now();
+        const value = this.text.slice(startPosition.offset, endPosition.offset);
+        return {
+            value,
+            startPosition,
+            endPosition
+        };
+    }
+}
+
+export class SplitParser {
+    private nodeList: TxtParentNode[] = [];
+    private results: (TxtParentNode | TxtNode)[] = [];
+    public source: SourceCode;
+
+    constructor(private text: string) {
+        this.source = new SourceCode(text);
     }
 
     get current(): TxtParentNode | undefined {
@@ -58,14 +107,6 @@ export class SplitParser {
         }
     }
 
-    read() {
-        if (this.index <= this.text.length) {
-            return this.text[this.index];
-        } else {
-            return false;
-        }
-    }
-
     // open with ParentNode
     open(parentNode: TxtParentNode) {
         this.nodeList.push(parentNode);
@@ -75,67 +116,28 @@ export class SplitParser {
         return this.nodeList.length > 0;
     }
 
-    peek = () => {
-        this.index += 1;
-    };
-
-    private next = (
-        test: (text: string) => boolean
-    ): {
-        value: string;
-        startPosition: {
-            line: number;
-            column: number;
-            offset: number;
-        };
-        endPosition: {
-            line: number;
-            column: number;
-            offset: number;
-        };
-    } => {
-        const startPosition = this.now();
-        let value = "";
-        let char: string | boolean;
-        while ((char = this.read())) {
-            if (!test(char)) {
-                break;
-            }
-            value += char;
-            this.peek();
-        }
-        const endPosition = this.now();
-        return {
-            value,
-            startPosition,
-            endPosition
-        };
-    };
-
-    nextLine(test: (text: string) => boolean) {
+    nextLine(parser: AbstractParser) {
         console.log("nextLine");
-        const { value, startPosition, endPosition } = this.next(test);
+        const { value, startPosition, endPosition } = this.source.seekNext(parser);
         this.pushNodeToCurrent(createWhiteSpaceNode(value, startPosition, endPosition));
         return endPosition;
     }
 
-    nextSpace(test: (text: string) => boolean) {
+    nextSpace(parser: AbstractParser) {
         console.log("nextSpace");
-        const { value, startPosition, endPosition } = this.next(test);
+        const { value, startPosition, endPosition } = this.source.seekNext(parser);
         this.pushNodeToCurrent(createNode("WhiteSpace", value, startPosition, endPosition));
-        return this.now();
     }
 
-    nextValue(test: (text: string) => boolean) {
+    nextValue(parser: AbstractParser) {
         console.log("nextValue");
-        const { value, startPosition, endPosition } = this.next(test);
+        const { value, startPosition, endPosition } = this.source.seekNext(parser);
         this.pushNodeToCurrent(createTextNode(value, startPosition, endPosition));
-        return this.now();
     }
 
     // close current Node and remove it from list
-    close(test: (text: string) => boolean) {
-        const { value, startPosition, endPosition } = this.next(test);
+    close(parser: AbstractParser) {
+        const { value, startPosition, endPosition } = this.source.seekNext(parser);
         if (startPosition.offset !== endPosition.offset) {
             this.pushNodeToCurrent(createPunctuationNode(value, startPosition, endPosition));
         }
@@ -147,7 +149,7 @@ export class SplitParser {
             return;
         }
         const firstChildNode: TxtNode = currentNode.children[0];
-        const endNow = this.now();
+        const endNow = this.source.now();
         currentNode.loc = {
             start: firstChildNode.loc.start,
             end: nowToLoc(endNow)
@@ -163,64 +165,101 @@ export class SplitParser {
     }
 }
 
-/**
- * @param {string} text
- * @param {{
- *      charRegExp: ?Object,
- *      separatorChars: ?string[],
- *      newLineCharacters: ?String,
- *      whiteSpaceCharacters: ?string[]
- *  }} options
- * @returns {Array}
- */
-export function split(text: string, options: SplitOption = {}) {
-    const charRegExp = options.charRegExp;
-    const separatorChars = options.separatorChars || defaultOptions.separatorChars;
-    const whiteSpaceCharacters = options.whiteSpaceCharacters || defaultOptions.whiteSpaceCharacters;
-    assert(
-        !(options.charRegExp && options.separatorChars),
-        "should use either one `charRegExp` or `separatorChars`.\n" + "`charRegExp` is deprecated."
-    );
-    /**
-     * Is the `char` separator symbol?
-     * @param {string} char
-     * @returns {boolean}
-     */
-    const testCharIsSeparator = (char: string) => {
-        if (charRegExp) {
-            return charRegExp.test(char);
+export function split(text: string) {
+    class NewLineParser {
+        test(sourceCode: SourceCode) {
+            const string = sourceCode.read();
+            if (!string) {
+                return false;
+            }
+            return /[\r\n]/.test(string);
         }
-        return separatorChars.indexOf(char) !== -1;
-    };
-    const newLineCharacters = options.newLineCharacters || defaultOptions.newLineCharacters;
 
-    const isNewLineText = (text: string) => text === newLineCharacters;
-    const isWhiteSpaceText = (text: string) => whiteSpaceCharacters.indexOf(text) !== -1;
-    const isValue = (text: string) => {
-        const isOtherMatch = testCharIsSeparator(text) || isNewLineText(text) || isWhiteSpaceText(text);
-        return !isOtherMatch;
-    };
+        seek(sourceCode: SourceCode): void {
+            while (this.test(sourceCode)) {
+                sourceCode.peek();
+            }
+        }
+    }
 
+    class SpaceParser {
+        test(sourceCode: SourceCode) {
+            const string = sourceCode.read();
+            if (!string) {
+                return false;
+            }
+            return /\s/.test(string);
+        }
+
+        seek(sourceCode: SourceCode): void {
+            while (this.test(sourceCode)) {
+                sourceCode.peek();
+            }
+        }
+    }
+
+    class SeparatorParser {
+        test(sourceCode: SourceCode) {
+            const firstChar = sourceCode.read();
+            if (!firstChar) {
+                return false;
+            }
+            if (!/[.。?!？！]/.test(firstChar)) {
+                return false;
+            }
+            const nextChar = sourceCode.read(1);
+            if (firstChar === ".") {
+                return nextChar === " ";
+            }
+            return true;
+        }
+
+        seek(sourceCode: SourceCode): void {
+            while (this.test(sourceCode)) {
+                sourceCode.peek();
+            }
+        }
+    }
+
+    const newLine = new NewLineParser();
+    const space = new SpaceParser();
+    const separator = new SeparatorParser();
+
+    class AnyValueParser extends AbstractParser {
+        test(sourceCode: SourceCode) {
+            if (sourceCode.hasEnd) {
+                return false;
+            }
+            return !newLine.test(sourceCode) && !space.test(sourceCode) && !separator.test(sourceCode);
+        }
+
+        seek(sourceCode: SourceCode) {
+            while (this.test(sourceCode)) {
+                sourceCode.peek();
+            }
+        }
+    }
+
+    const anyValue = new AnyValueParser();
     const splitParser = new SplitParser(text);
-    let char: string | boolean;
-    while ((char = splitParser.read())) {
-        console.log("char", char);
-        if (isNewLineText(char)) {
-            splitParser.nextLine(isNewLineText);
-        } else if (isWhiteSpaceText(char)) {
+    const sourceCode = splitParser.source;
+    while (!sourceCode.hasEnd) {
+        if (newLine.test(sourceCode)) {
+            splitParser.nextLine(newLine);
+        } else if (space.test(sourceCode)) {
             // Add WhiteSpace
-            splitParser.nextSpace(isWhiteSpaceText);
-        } else if (testCharIsSeparator(char)) {
-            splitParser.close(testCharIsSeparator);
+            splitParser.nextSpace(space);
+        } else if (separator.test(sourceCode)) {
+            splitParser.close(separator);
         } else {
             if (!splitParser.isOpened()) {
                 splitParser.open(createSentenceNode());
             }
-            splitParser.nextValue(isValue);
+            splitParser.nextValue(anyValue);
         }
     }
 
-    splitParser.close(() => true);
+    splitParser.close(anyValue);
     return splitParser.toList();
 }
 
