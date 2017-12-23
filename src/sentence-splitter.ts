@@ -111,7 +111,8 @@ export class SplitParser {
     }
 }
 
-function splitText(text: string): SplitParser {
+// From Text to AST
+export function split(text: string) {
     const newLine = new NewLineParser();
     const space = new SpaceParser();
     const separator = new SeparatorParser();
@@ -133,26 +134,6 @@ function splitText(text: string): SplitParser {
             splitParser.nextValue(anyValue);
         }
     }
-    return splitParser;
-}
-
-// From Text to AST
-export function split(text: string) {
-    const splitParser = splitText(text);
-
-    class AnyValueParser extends AbstractParser {
-        test(sourceCode: SourceCode) {
-            return !sourceCode.hasEnd;
-        }
-
-        seek(sourceCode: SourceCode) {
-            while (this.test(sourceCode)) {
-                sourceCode.peek();
-            }
-        }
-    }
-
-    const anyValue = new AnyValueParser();
     splitParser.close(anyValue);
     return splitParser.toList();
 }
