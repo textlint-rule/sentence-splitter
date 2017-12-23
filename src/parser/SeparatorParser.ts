@@ -11,6 +11,11 @@ export class SeparatorParser implements AbstractParser {
         if (sourceCode.isInContext()) {
             return false;
         }
+        const prevChar = sourceCode.read(-1);
+        // Ignore "vom 12. Juni?"
+        if (prevChar && /\d/.test(prevChar)) {
+            return false;
+        }
         const firstChar = sourceCode.read();
         if (!firstChar) {
             return false;

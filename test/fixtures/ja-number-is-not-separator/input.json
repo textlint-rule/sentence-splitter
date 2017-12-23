@@ -1,0 +1,39 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "円周率は3.14です。",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 11
+        }
+      },
+      "range": [
+        0,
+        11
+      ],
+      "raw": "円周率は3.14です。"
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 11
+    }
+  },
+  "range": [
+    0,
+    11
+  ],
+  "raw": "円周率は3.14です。"
+}

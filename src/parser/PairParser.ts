@@ -21,10 +21,15 @@ export class PairParser {
         if (!string) {
             return;
         }
-        if (this.pairKeys.some(key => key === string)) {
+        const keyIndex = this.pairKeys.indexOf(string);
+        if (keyIndex !== -1) {
             sourceCode.enterContext(string);
-        } else if (this.pairValues.some(value => value === string)) {
-            sourceCode.leaveContext(string);
+        } else {
+            const valueIndex = this.pairValues.indexOf(string);
+            if (valueIndex !== -1) {
+                const key = this.pairKeys[valueIndex];
+                sourceCode.leaveContext(key);
+            }
         }
     }
 }

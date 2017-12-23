@@ -33,7 +33,7 @@ export class SourceCode {
     }
 
     leaveContext(context: string) {
-        const index = this.contexts.indexOf(context);
+        const index = this.contexts.lastIndexOf(context);
         if (index !== -1) {
             this.contexts.splice(index, 1);
         }

@@ -63,20 +63,17 @@ export class SplitParser {
     }
 
     nextLine(parser: AbstractParser) {
-        console.log("nextLine");
         const { value, startPosition, endPosition } = this.source.seekNext(parser);
         this.pushNodeToCurrent(createWhiteSpaceNode(value, startPosition, endPosition));
         return endPosition;
     }
 
     nextSpace(parser: AbstractParser) {
-        console.log("nextSpace");
         const { value, startPosition, endPosition } = this.source.seekNext(parser);
         this.pushNodeToCurrent(createNode("WhiteSpace", value, startPosition, endPosition));
     }
 
     nextValue(parser: AbstractParser) {
-        console.log("nextValue");
         const { value, startPosition, endPosition } = this.source.seekNext(parser);
         this.pushNodeToCurrent(createTextNode(value, startPosition, endPosition));
     }
@@ -139,7 +136,7 @@ export function split(text: string) {
 }
 
 // From AST to AST
-export function splitAST(paragraphNode: TxtParentNode) {
+export function splitAST(paragraphNode: TxtParentNode): (TxtParentNode | TxtNode)[] {
     const newLine = new NewLineParser();
     const space = new SpaceParser();
     const separator = new SeparatorParser();
