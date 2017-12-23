@@ -1,8 +1,226 @@
 import * as assert from "assert";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
-import { Syntax, split as splitSentences } from "../src/sentence-splitter";
+import { Syntax, split as splitSentences, splitAST } from "../src/sentence-splitter";
 
 describe("sentence-utils", function() {
+    describe("splitAST", () => {
+        it("should handle ast", () => {
+            const result = splitAST({
+                type: "Paragraph",
+                children: [
+                    {
+                        type: "Str",
+                        value: "This is a ",
+                        loc: {
+                            start: {
+                                line: 1,
+                                column: 0
+                            },
+                            end: {
+                                line: 1,
+                                column: 10
+                            }
+                        },
+                        range: [0, 10],
+                        raw: "This is a "
+                    },
+                    {
+                        type: "Code",
+                        value: "pen",
+                        loc: {
+                            start: {
+                                line: 1,
+                                column: 10
+                            },
+                            end: {
+                                line: 1,
+                                column: 15
+                            }
+                        },
+                        range: [10, 15],
+                        raw: "`pen`"
+                    },
+                    {
+                        type: "Str",
+                        value: ".",
+                        loc: {
+                            start: {
+                                line: 1,
+                                column: 15
+                            },
+                            end: {
+                                line: 1,
+                                column: 16
+                            }
+                        },
+                        range: [15, 16],
+                        raw: "."
+                    }
+                ],
+                loc: {
+                    start: {
+                        line: 1,
+                        column: 0
+                    },
+                    end: {
+                        line: 1,
+                        column: 16
+                    }
+                },
+                range: [0, 16],
+                raw: "This is a `pen`."
+            });
+            console.log(JSON.stringify(result, null, 4));
+            assert.deepEqual(result, [
+                {
+                    type: "Sentence",
+                    raw: "This is a `pen`.",
+                    value: "This is a `pen`.",
+                    loc: {
+                        start: {
+                            line: 1,
+                            column: 0
+                        },
+                        end: {
+                            line: 1,
+                            column: 16
+                        }
+                    },
+                    range: [0, 16],
+                    children: [
+                        {
+                            type: "Str",
+                            raw: "This",
+                            value: "This",
+                            loc: {
+                                start: {
+                                    line: 1,
+                                    column: 0
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 4
+                                }
+                            },
+                            range: [0, 4]
+                        },
+                        {
+                            type: "WhiteSpace",
+                            raw: " ",
+                            value: " ",
+                            loc: {
+                                start: {
+                                    line: 1,
+                                    column: 4
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 5
+                                }
+                            },
+                            range: [4, 5]
+                        },
+                        {
+                            type: "Str",
+                            raw: "is",
+                            value: "is",
+                            loc: {
+                                start: {
+                                    line: 1,
+                                    column: 5
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 7
+                                }
+                            },
+                            range: [5, 7]
+                        },
+                        {
+                            type: "WhiteSpace",
+                            raw: " ",
+                            value: " ",
+                            loc: {
+                                start: {
+                                    line: 1,
+                                    column: 7
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 8
+                                }
+                            },
+                            range: [7, 8]
+                        },
+                        {
+                            type: "Str",
+                            raw: "a",
+                            value: "a",
+                            loc: {
+                                start: {
+                                    line: 1,
+                                    column: 8
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 9
+                                }
+                            },
+                            range: [8, 9]
+                        },
+                        {
+                            type: "WhiteSpace",
+                            raw: " ",
+                            value: " ",
+                            loc: {
+                                start: {
+                                    line: 1,
+                                    column: 9
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 10
+                                }
+                            },
+                            range: [9, 10]
+                        },
+                        {
+                            type: "Code",
+                            value: "pen",
+                            loc: {
+                                start: {
+                                    line: 1,
+                                    column: 10
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 15
+                                }
+                            },
+                            range: [10, 15],
+                            raw: "`pen`"
+                        },
+                        {
+                            type: "Str",
+                            raw: ".",
+                            value: ".",
+                            loc: {
+                                start: {
+                                    line: 1,
+                                    column: 15
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 16
+                                }
+                            },
+                            range: [15, 16]
+                        }
+                    ]
+                }
+            ]);
+        });
+    });
     it("should return array", function() {
         const sentences = splitSentences("text");
         assert.equal(sentences.length, 1);
@@ -22,6 +240,15 @@ describe("sentence-utils", function() {
         assert.deepEqual(sentence.range, [0, 28]);
     });
 
+    it("should not split in pair string", function() {
+        const sentences = splitSentences(`彼は「ココにある。」と言った。`);
+        console.log(sentences);
+        assert.equal(sentences.length, 1);
+        const [sentence] = sentences;
+        assert.strictEqual(sentence.type, Syntax.Sentence);
+        assert.strictEqual(sentence.raw, `彼は「ココにある。」と言った。`);
+        assert.deepEqual(sentence.range, [0, 15]);
+    });
     it("should return sentences split by first line break", function() {
         const sentences = splitSentences("\ntext");
         assert.equal(sentences.length, 2);
