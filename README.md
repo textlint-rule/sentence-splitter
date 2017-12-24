@@ -601,6 +601,12 @@ import {Syntax} from "sentence-splitter";
 console.log(Syntax.Sentence);// "Sentence"
 ````
 
+## Reference
+
+This library use ["Golden Rule" test](test/pragmatic_segmenter/test.ts) of `pragmatic_segmenter`.
+
+- [diasks2/pragmatic_segmenter: Pragmatic Segmenter is a rule-based sentence boundary detection gem that works out-of-the-box across many languages.](https://github.com/diasks2/pragmatic_segmenter "diasks2/pragmatic_segmenter: Pragmatic Segmenter is a rule-based sentence boundary detection gem that works out-of-the-box across many languages.")
+
 ## Tests
 
     npm test
