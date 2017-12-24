@@ -1,0 +1,213 @@
+{
+    "type": "Header",
+    "depth": 1,
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "capitalization in titles and headings",
+            "value": "capitalization in titles and headings",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 2
+                },
+                "end": {
+                    "line": 1,
+                    "column": 39
+                }
+            },
+            "range": [
+                2,
+                39
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "capitalization",
+                    "value": "capitalization",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 2
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 16
+                        }
+                    },
+                    "range": [
+                        2,
+                        16
+                    ]
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": " ",
+                    "value": " ",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 16
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 17
+                        }
+                    },
+                    "range": [
+                        16,
+                        17
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "in",
+                    "value": "in",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 17
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 19
+                        }
+                    },
+                    "range": [
+                        17,
+                        19
+                    ]
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": " ",
+                    "value": " ",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 19
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 20
+                        }
+                    },
+                    "range": [
+                        19,
+                        20
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "titles",
+                    "value": "titles",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 20
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 26
+                        }
+                    },
+                    "range": [
+                        20,
+                        26
+                    ]
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": " ",
+                    "value": " ",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 26
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 27
+                        }
+                    },
+                    "range": [
+                        26,
+                        27
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "and",
+                    "value": "and",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 27
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 30
+                        }
+                    },
+                    "range": [
+                        27,
+                        30
+                    ]
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": " ",
+                    "value": " ",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 30
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 31
+                        }
+                    },
+                    "range": [
+                        30,
+                        31
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "headings",
+                    "value": "headings",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 31
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 39
+                        }
+                    },
+                    "range": [
+                        31,
+                        39
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 1,
+            "column": 39
+        }
+    },
+    "range": [
+        0,
+        39
+    ],
+    "raw": "# capitalization in titles and headings"
+}

@@ -168,6 +168,7 @@ export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
     const sourceCode = splitParser.source;
     while (!sourceCode.hasEnd) {
         const currentNode = sourceCode.readNode();
+        console.log(currentNode);
         if (!currentNode) {
             break;
         }

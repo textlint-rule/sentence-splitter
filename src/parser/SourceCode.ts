@@ -19,6 +19,12 @@ export class SourceCode {
             this.text = input.raw;
             this.sourceNode = input;
             this.source = new StructureSource(input.raw);
+            // Header Node's children does not start with index 0
+            // Example: # Header
+            // It start index is `2`
+            if (this.sourceNode.children[0]) {
+                this.index = this.sourceNode.children[0].range[0];
+            }
         }
     }
 

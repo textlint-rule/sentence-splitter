@@ -9,7 +9,7 @@ Split {Japanese, English} text into sentences.
 ### CLI
 
     $ npm install -g sentence-splitter
-    $ echo "This is a pen.But This is not pen" | sentence-splitter
+    $ echo "This is a pen. But, this is not pen" | sentence-splitter
     This is a pen.
     But This is not pen
 
@@ -574,9 +574,9 @@ See more detail on [Why do `line` of location in JavaScript AST(ESTree) start wi
 
 ### Node's type
 
-- `Sentence`: Sentence Node contain punctuation.
+- `Sentence`: Sentence Node has `Str` nodes as children
 - `WhiteSpace`: WhiteSpace Node has `\n`.
-- `Punctuation`: WhiteSpace Node has `\n`.
+- `Punctuation`: Punctuation Node has `.`, `。`
 
 Get these `Syntax` constants value from the module:
 
@@ -584,98 +584,6 @@ Get these `Syntax` constants value from the module:
 import {Syntax} from "sentence-splitter";
 console.log(Syntax.Sentence);// "Sentence"
 ````
-
-### Treat Markdown break line
-
-td:lr: set `newLineCharacters: "\n\n"` to option.
-
-```js
-let sentences = splitSentences(text, {
-    newLineCharacters: "\n\n" // `\n\n` as a separator
-});
-```
-
-`sentence-splitter` split text into `Sentence` and `WhiteSpace`
-
-`sentence-splitter` following text to **3** Sentence and **3** WhiteSpace.
-
-Some markdown parser take cognizance 1 Sentence + 1 WhiteSpace + 1Sentence as 1 Sentence.
-
-```markdown
-TextA
-TextB
-
-TextC
-```
-
-Output: 
-
-```json
-[
-    {
-        "type": "Sentence",
-        "raw": "TextA",
-    },
-    {
-        "type": "WhiteSpace",
-        "raw": "\n",
-    },
-    {
-        "type": "Sentence",
-        "raw": "TextB",
-    },
-    {
-        "type": "WhiteSpace",
-        "raw": "\n",
-    },
-    {
-        "type": "WhiteSpace",
-        "raw": "\n",
-    },
-    {
-        "type": "Sentence",
-        "raw": "TextC",
-    }
-]
-```
-
-
-If you want to treat `\n\n` as a separator of sentences, can use `newLineCharacters` options.
-
-```js
-let text = `TextA
-TextB
-           
-TextC`;
-let sentences = split(text, {
-    newLineCharacters: "\n\n" // `\n\n` as a separator
-});
-console.log(JSON.stringify(sentences, null, 4))
-```
-
-Output: 
-
-```json
-[
-    {
-        "type": "Sentence",
-        "raw": "TextA\nTextB",
-    },
-    {
-        "type": "WhiteSpace",
-        "raw": "\n",
-    },
-    {
-        "type": "WhiteSpace",
-        "raw": "\n",
-    },
-    {
-        "type": "Sentence",
-        "raw": "TextC",
-    }
-]
-```
-
 
 ## Tests
 
