@@ -1,0 +1,79 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "First, A is A.",
+            "value": "First, A is A.",
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 0
+                },
+                "end": {
+                    "line": 2,
+                    "column": 14
+                }
+            },
+            "range": [
+                1,
+                15
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "First, A is A",
+                    "value": "First, A is A",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 13
+                        }
+                    },
+                    "range": [
+                        1,
+                        14
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 13
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 14
+                        }
+                    },
+                    "range": [
+                        14,
+                        15
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 2,
+            "column": 0
+        },
+        "end": {
+            "line": 2,
+            "column": 14
+        }
+    },
+    "range": [
+        1,
+        15
+    ],
+    "raw": "First, A is A."
+}
