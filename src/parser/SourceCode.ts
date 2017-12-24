@@ -90,13 +90,11 @@ export class SourceCode {
         };
     }
 
+    /**
+     * Return true, no more read char
+     */
     get hasEnd() {
-        return this.readOrFalse() === false;
-    }
-
-    readOrFalse() {
-        const char = this.read();
-        return char !== "" ? char : false;
+        return this.read() === false;
     }
 
     /**
@@ -139,14 +137,23 @@ export class SourceCode {
         return false;
     }
 
+    /**
+     * Increment current index
+     */
     peek() {
         this.index += 1;
     }
 
+    /**
+     * Increment node range
+     */
     peekNode(node: TxtNode) {
         this.index += node.range[1] - node.range[0];
     }
 
+    /**
+     * Seek and Peek
+     */
     seekNext(
         parser: AbstractParser
     ): {
@@ -173,6 +180,12 @@ export class SourceCode {
         };
     }
 
+    /**
+     * Slice text form the range.
+     * @param {number} start
+     * @param {number} end
+     * @returns {string}
+     */
     sliceRange(start: number, end: number): string {
         return this.textCharacters.slice(start, end).join("");
     }

@@ -194,6 +194,7 @@ export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
         }
     }
 
+    // It follow some text that is not ended with period.
     splitParser.close(anyValue);
     return {
         ...paragraphNode,
