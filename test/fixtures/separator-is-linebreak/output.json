@@ -3,8 +3,8 @@
     "children": [
         {
             "type": "Sentence",
-            "raw": "There it is!",
-            "value": "There it is!",
+            "raw": "First, A is A.",
+            "value": "First, A is A.",
             "loc": {
                 "start": {
                     "line": 1,
@@ -12,18 +12,18 @@
                 },
                 "end": {
                     "line": 1,
-                    "column": 12
+                    "column": 14
                 }
             },
             "range": [
                 0,
-                12
+                14
             ],
             "children": [
                 {
                     "type": "Str",
-                    "raw": "There it is",
-                    "value": "There it is",
+                    "raw": "First, A is A",
+                    "value": "First, A is A",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -31,90 +31,12 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 11
+                            "column": 13
                         }
                     },
                     "range": [
                         0,
-                        11
-                    ]
-                },
-                {
-                    "type": "Punctuation",
-                    "raw": "!",
-                    "value": "!",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 11
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 12
-                        }
-                    },
-                    "range": [
-                        11,
-                        12
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "WhiteSpace",
-            "raw": " ",
-            "value": " ",
-            "loc": {
-                "start": {
-                    "line": 1,
-                    "column": 12
-                },
-                "end": {
-                    "line": 1,
-                    "column": 13
-                }
-            },
-            "range": [
-                12,
-                13
-            ]
-        },
-        {
-            "type": "Sentence",
-            "raw": "I found it.",
-            "value": "I found it.",
-            "loc": {
-                "start": {
-                    "line": 1,
-                    "column": 13
-                },
-                "end": {
-                    "line": 1,
-                    "column": 24
-                }
-            },
-            "range": [
-                13,
-                24
-            ],
-            "children": [
-                {
-                    "type": "Str",
-                    "raw": "I found it",
-                    "value": "I found it",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 13
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 23
-                        }
-                    },
-                    "range": [
-                        13,
-                        23
+                        13
                     ]
                 },
                 {
@@ -124,16 +46,16 @@
                     "loc": {
                         "start": {
                             "line": 1,
-                            "column": 23
+                            "column": 13
                         },
                         "end": {
                             "line": 1,
-                            "column": 24
+                            "column": 14
                         }
                     },
                     "range": [
-                        23,
-                        24
+                        13,
+                        14
                     ]
                 }
             ]
@@ -145,7 +67,7 @@
             "loc": {
                 "start": {
                     "line": 1,
-                    "column": 24
+                    "column": 14
                 },
                 "end": {
                     "line": 2,
@@ -153,14 +75,14 @@
                 }
             },
             "range": [
-                24,
-                25
+                14,
+                15
             ]
         },
         {
             "type": "Sentence",
-            "raw": "Hello World.",
-            "value": "Hello World.",
+            "raw": "Second, B is B.",
+            "value": "Second, B is B.",
             "loc": {
                 "start": {
                     "line": 2,
@@ -168,18 +90,18 @@
                 },
                 "end": {
                     "line": 2,
-                    "column": 12
+                    "column": 15
                 }
             },
             "range": [
-                25,
-                37
+                15,
+                30
             ],
             "children": [
                 {
                     "type": "Str",
-                    "raw": "Hello World",
-                    "value": "Hello World",
+                    "raw": "Second, B is B",
+                    "value": "Second, B is B",
                     "loc": {
                         "start": {
                             "line": 2,
@@ -187,12 +109,12 @@
                         },
                         "end": {
                             "line": 2,
-                            "column": 11
+                            "column": 14
                         }
                     },
                     "range": [
-                        25,
-                        36
+                        15,
+                        29
                     ]
                 },
                 {
@@ -202,75 +124,75 @@
                     "loc": {
                         "start": {
                             "line": 2,
-                            "column": 11
+                            "column": 14
                         },
                         "end": {
                             "line": 2,
-                            "column": 12
+                            "column": 15
                         }
                     },
                     "range": [
-                        36,
-                        37
+                        29,
+                        30
                     ]
                 }
             ]
         },
         {
             "type": "WhiteSpace",
-            "raw": " ",
-            "value": " ",
+            "raw": "\n",
+            "value": "\n",
             "loc": {
                 "start": {
                     "line": 2,
-                    "column": 12
+                    "column": 15
                 },
                 "end": {
-                    "line": 2,
-                    "column": 13
+                    "line": 3,
+                    "column": 0
                 }
             },
             "range": [
-                37,
-                38
+                30,
+                31
             ]
         },
         {
             "type": "Sentence",
-            "raw": "My name is Jonas.",
-            "value": "My name is Jonas.",
+            "raw": "Third, C is C.",
+            "value": "Third, C is C.",
             "loc": {
                 "start": {
-                    "line": 2,
-                    "column": 13
+                    "line": 3,
+                    "column": 0
                 },
                 "end": {
-                    "line": 2,
-                    "column": 30
+                    "line": 3,
+                    "column": 14
                 }
             },
             "range": [
-                38,
-                55
+                31,
+                45
             ],
             "children": [
                 {
                     "type": "Str",
-                    "raw": "My name is Jonas",
-                    "value": "My name is Jonas",
+                    "raw": "Third, C is C",
+                    "value": "Third, C is C",
                     "loc": {
                         "start": {
-                            "line": 2,
-                            "column": 13
+                            "line": 3,
+                            "column": 0
                         },
                         "end": {
-                            "line": 2,
-                            "column": 29
+                            "line": 3,
+                            "column": 13
                         }
                     },
                     "range": [
-                        38,
-                        54
+                        31,
+                        44
                     ]
                 },
                 {
@@ -279,17 +201,17 @@
                     "value": ".",
                     "loc": {
                         "start": {
-                            "line": 2,
-                            "column": 29
+                            "line": 3,
+                            "column": 13
                         },
                         "end": {
-                            "line": 2,
-                            "column": 30
+                            "line": 3,
+                            "column": 14
                         }
                     },
                     "range": [
-                        54,
-                        55
+                        44,
+                        45
                     ]
                 }
             ]
@@ -301,13 +223,13 @@
             "column": 0
         },
         "end": {
-            "line": 2,
-            "column": 30
+            "line": 3,
+            "column": 14
         }
     },
     "range": [
         0,
-        55
+        45
     ],
-    "raw": "There it is! I found it.\nHello World. My name is Jonas."
+    "raw": "First, A is A.\nSecond, B is B.\nThird, C is C."
 }

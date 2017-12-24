@@ -27,7 +27,7 @@ export class SeparatorParser implements AbstractParser {
         // It will avoid false-position like `1.23`
         if (firstChar === ".") {
             if (nextChar) {
-                return nextChar === " ";
+                return /[\s\t\r\n]/.test(nextChar);
             } else {
                 return true;
             }

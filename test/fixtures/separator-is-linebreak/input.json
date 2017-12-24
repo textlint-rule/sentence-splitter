@@ -1,0 +1,39 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "First, A is A.\nSecond, B is B.\nThird, C is C.",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 14
+        }
+      },
+      "range": [
+        0,
+        45
+      ],
+      "raw": "First, A is A.\nSecond, B is B.\nThird, C is C."
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 3,
+      "column": 14
+    }
+  },
+  "range": [
+    0,
+    45
+  ],
+  "raw": "First, A is A.\nSecond, B is B.\nThird, C is C."
+}
