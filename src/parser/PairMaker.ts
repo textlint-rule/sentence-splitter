@@ -3,7 +3,7 @@ import { SourceCode } from "./SourceCode";
 /**
  * Mark pair character
  */
-export class PairParser {
+export class PairMaker {
     private pairs = {
         [`"`]: `"`,
         [`'`]: `'`,

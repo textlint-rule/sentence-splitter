@@ -4,11 +4,12 @@ import { AbstractParser } from "./AbstractParser";
 const StructureSource = require("structured-source");
 
 export class SourceCode {
+    index: number = 0;
     private source: any;
-    private index: number = 0;
-    private contexts: string[] = [];
     private text: string;
     private sourceNode?: TxtParentNode;
+    private contexts: string[] = [];
+    private contextRanges: [number, number][] = [];
 
     constructor(input: string | TxtParentNode) {
         if (typeof input === "string") {
@@ -19,6 +20,17 @@ export class SourceCode {
             this.sourceNode = input;
             this.source = new StructureSource(input.raw);
         }
+    }
+
+    markContextRange(range: [number, number]) {
+        this.contextRanges.push(range);
+    }
+
+    isInContextRange() {
+        const index = this.index;
+        return this.contextRanges.some(range => {
+            return range[0] <= index && index < range[1];
+        });
     }
 
     enterContext(context: string) {

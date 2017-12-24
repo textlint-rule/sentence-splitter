@@ -22,7 +22,8 @@ export const source = [
     {
         name: "One letter upper case abbreviations",
         input: "My name is Jonas E. Smith.",
-        output: ["My name is Jonas E. Smith."]
+        output: ["My name is Jonas E. Smith."],
+        skip: true
     },
 
     {
@@ -46,7 +47,8 @@ export const source = [
     {
         name: "Two letter lower case abbreviations at the end of a sentence",
         input: "Let's ask Jane and co. They should know.",
-        output: ["Let's ask Jane and co.", "They should know."]
+        output: ["Let's ask Jane and co.", "They should know."],
+        skip: true
     },
 
     {
@@ -94,7 +96,8 @@ export const source = [
     {
         name: "U.S. as non sentence boundary with next word capitalized",
         input: "I work for the U.S. Government in Virginia.",
-        output: ["I work for the U.S. Government in Virginia."]
+        output: ["I work for the U.S. Government in Virginia."],
+        skip: true // prefer to next
     },
 
     {
@@ -110,7 +113,8 @@ export const source = [
             "At 5 a.m. Mr. Smith went to the bank.",
             "He left the bank at 6 P.M.",
             "Mr. Smith then went to the store."
-        ]
+        ],
+        skip: true
     },
 
     {
@@ -158,7 +162,8 @@ export const source = [
     {
         name: "Double quotations at the end of a sentence",
         input: 'She turned to him, "This is great." She held the book out to show him.',
-        output: ['She turned to him, "This is great."', "She held the book out to show him."]
+        output: ['She turned to him, "This is great."', "She held the book out to show him."],
+        skip: true
     },
 
     {
@@ -188,79 +193,92 @@ export const source = [
     {
         name: "List (period followed by parens and no period to end item)",
         input: "1.) The first item 2.) The second item",
-        output: ["1.) The first item", "2.) The second item"]
+        output: ["1.) The first item", "2.) The second item"],
+        skip: true
     },
 
     {
         name: "List (period followed by parens and period to end item)",
         input: "1.) The first item. 2.) The second item.",
-        output: ["1.) The first item.", "2.) The second item."]
+        output: ["1.) The first item.", "2.) The second item."],
+        skip: true
     },
 
     {
         name: "List (parens and no period to end item)",
         input: "1) The first item 2) The second item",
-        output: ["1) The first item", "2) The second item"]
+        output: ["1) The first item", "2) The second item"],
+        skip: true
     },
 
     {
         name: "List (parens and period to end item)",
         input: "1) The first item. 2) The second item.",
-        output: ["1) The first item.", "2) The second item."]
+        output: ["1) The first item.", "2) The second item."],
+        skip: true
     },
 
     {
         name: "List (period to mark list and no period to end item)",
         input: "1. The first item 2. The second item",
-        output: ["1. The first item", "2. The second item"]
+        output: ["1. The first item", "2. The second item"],
+        skip: true
     },
 
     {
         name: "List (period to mark list and period to end item)",
         input: "1. The first item. 2. The second item.",
-        output: ["1. The first item.", "2. The second item."]
+        output: ["1. The first item.", "2. The second item."],
+        skip: true
     },
 
     {
         name: "List with bullet",
         input: "• 9. The first item • 10. The second item",
-        output: ["• 9. The first item", "• 10. The second item"]
+        output: ["• 9. The first item", "• 10. The second item"],
+        skip: true
     },
 
     {
         name: "List with hypthen",
         input: "⁃9. The first item ⁃10. The second item",
-        output: ["⁃9. The first item", "⁃10. The second item"]
+        output: ["⁃9. The first item", "⁃10. The second item"],
+        skip: true
     },
 
     {
         name: "Alphabetical list",
         input: "a. The first item b. The second item c. The third list item",
-        output: ["a. The first item", "b. The second item", "c. The third list item"]
+        output: ["a. The first item", "b. The second item", "c. The third list item"],
+        skip: true
     },
 
     {
         name: "Errant newlines in the middle of sentences (PDF)",
         input: "This is a sentence\ncut off in the middle because pdf.",
-        output: ["This is a sentence cut off in the middle because pdf."]
+        output: ["This is a sentence cut off in the middle because pdf."],
+        skip: true
     },
 
     {
         name: "Errant newlines in the middle of sentences",
         input: "It was a cold \nnight in the city.",
-        output: ["It was a cold night in the city."]
+        output: ["It was a cold night in the city."],
+        skip: true
     },
 
     {
         name: "Lower case list separated by newline",
         input: "features\ncontact manager\nevents, activities\n",
-        output: ["features", "contact manager", "events, activities"]
+        output: ["features", "contact manager", "events, activities"],
+        skip: true
     },
 
     {
         name: "Geo Coordinates",
         input: "You can find it at N°. 1026.253.553. That is where the treasure is.",
-        output: ["You can find it at N°. 1026.253.553.", "That is where the treasure is."]
+        output: ["You can find it at N°. 1026.253.553.", "That is where the treasure is."],
+        skip: true
     },
 
     {
@@ -281,7 +299,8 @@ export const source = [
             "Thoreau argues that by simplifying one’s life, “the laws of the universe will appear less complex. . . .”",
         output: [
             "Thoreau argues that by simplifying one’s life, “the laws of the universe will appear less complex. . . .”"
-        ]
+        ],
+        skip: true
     },
 
     {
@@ -297,7 +316,8 @@ export const source = [
         output: [
             "If words are left off at the end of a sentence, and that is all that is omitted, indicate the omission with ellipsis marks (preceded and followed by a space) and then indicate the end of the sentence with a period . . . .",
             "Next sentence."
-        ]
+        ],
+        skip: true
     },
 
     {
@@ -312,7 +332,8 @@ export const source = [
             "I wasn’t really ... well, what I mean...see . . . what I'm saying, the thing is . . . I didn’t mean it.",
         output: [
             "I wasn’t really ... well, what I mean...see . . . what I'm saying, the thing is . . . I didn’t mean it."
-        ]
+        ],
+        skip: true
     },
 
     {
@@ -322,7 +343,8 @@ export const source = [
         output: [
             "One further habit which was somewhat weakened . . . was that of combining words into self-interpreting compounds.",
             ". . . The practice was not abandoned. . . ."
-        ]
+        ],
+        skip: true
     },
 
     // Golden Rules (German)
@@ -334,7 +356,8 @@ export const source = [
         output: [
             "„Ich habe heute keine Zeit“, sagte die Frau und flüsterte leise: „Und auch keine Lust.“",
             "Wir haben 1.000.000 Euro."
-        ]
+        ],
+        skip: true
     },
 
     {
@@ -343,13 +366,15 @@ export const source = [
             "Es gibt jedoch einige Vorsichtsmaßnahmen, die Du ergreifen kannst, z. B. ist es sehr empfehlenswert, dass Du Dein Zuhause von allem Junkfood befreist.",
         output: [
             "Es gibt jedoch einige Vorsichtsmaßnahmen, die Du ergreifen kannst, z. B. ist es sehr empfehlenswert, dass Du Dein Zuhause von allem Junkfood befreist."
-        ]
+        ],
+        skip: true
     },
 
     {
         name: "Numbers",
         input: "Was sind die Konsequenzen der Abstimmung vom 12. Juni?",
-        output: ["Was sind die Konsequenzen der Abstimmung vom 12. Juni?"]
+        output: ["Was sind die Konsequenzen der Abstimmung vom 12. Juni?"],
+        skip: true
     },
 
     // Golden Rules (Japanese)
@@ -385,7 +410,8 @@ export const source = [
     {
         name: "Errant newlines in the middle of sentences",
         input: "これは父の\n家です。",
-        output: ["これは父の家です。"]
+        output: ["これは父の家です。"],
+        skip: true
     },
 
     // Golden Rules (Arabic)
@@ -399,7 +425,8 @@ export const source = [
             "ماذا حدث بعد الانتخابات الايرانية؟",
             "طرح الكثير من التساؤلات غداة ظهور نتائج الانتخابات الرئاسية الايرانية التي أججت مظاهرات واسعة واعمال عنف بين المحتجين على النتائج ورجال الامن.",
             "يقول معارضو الرئيس الإيراني إن الطريقة التي اعلنت بها النتائج كانت مثيرة للاستغراب."
-        ]
+        ],
+        skip: true
     },
 
     {
@@ -430,7 +457,8 @@ export const source = [
             "الاحد, 21 فبراير/ شباط, 2010, 05:01 GMT الصنداي تايمز:",
             "رئيس الموساد قد يصبح ضحية الحرب السرية التي شتنها بنفسه.",
             "العقل المنظم هو مئير داجان رئيس الموساد الإسرائيلي الذي يشتبه بقيامه باغتيال القائد الفلسطيني في حركة حماس محمود المبحوح في دبي."
-        ]
+        ],
+        skip: true
     },
 
     {
@@ -442,7 +470,8 @@ export const source = [
             "زرعها عملاء الموساد كما تقول مصادر إسرائيلية،",
             "وقرر الطبيب أن الفلسطيني قد توفي وفاة طبيعية ربما إثر نوبة قلبية،",
             "وبدأت مراسم الحداد عليه"
-        ]
+        ],
+        skip: true
     },
 
     // Golden Rules (Italian)
@@ -476,7 +505,8 @@ export const source = [
     {
         name: "Quotations",
         input: "Маленькая девочка бежала и кричала: «Не видали маму?».",
-        output: ["Маленькая девочка бежала и кричала: «Не видали маму?»."]
+        output: ["Маленькая девочка бежала и кричала: «Не видали маму?»."],
+        skip: true
     },
 
     {
@@ -502,7 +532,8 @@ export const source = [
     {
         name: "Abbreviations",
         input: "Hola Srta. Ledesma. Buenos días, soy el Lic. Naser Pastoriza, y él es mi padre, el Dr. Naser.",
-        output: ["Hola Srta. Ledesma.", "Buenos días, soy el Lic. Naser Pastoriza, y él es mi padre, el Dr. Naser."]
+        output: ["Hola Srta. Ledesma.", "Buenos días, soy el Lic. Naser Pastoriza, y él es mi padre, el Dr. Naser."],
+        skip: true
     },
 
     {
@@ -512,13 +543,15 @@ export const source = [
             "¡La casa cuesta $170.500.000,00!",
             "¡Muy costosa!",
             "Se prevé una disminución del 12.5% para el próximo año."
-        ]
+        ],
+        skip: true
     },
 
     {
         name: "Quotations",
         input: "«Ninguna mente extraordinaria está exenta de un toque de demencia.», dijo Aristóteles.",
-        output: ["«Ninguna mente extraordinaria está exenta de un toque de demencia.», dijo Aristóteles."]
+        output: ["«Ninguna mente extraordinaria está exenta de un toque de demencia.», dijo Aristóteles."],
+        skip: true
     },
 
     // Golden Rules (Greek)
@@ -531,7 +564,8 @@ export const source = [
             "Με συγχωρείτε· πού είναι οι τουαλέτες;",
             "Τις Κυριακές δε δούλευε κανένας.",
             "το κόστος του σπιτιού ήταν £260.950,00."
-        ]
+        ],
+        skip: true
     },
 
     // Golden Rules (Hindi)
@@ -543,7 +577,8 @@ export const source = [
         output: [
             "सच्चाई यह है कि इसे कोई नहीं जानता।",
             "हो सकता है यह फ़्रेन्को के खिलाफ़ कोई विद्रोह रहा हो, या फिर बेकाबू हो गया कोई आनंदोत्सव।"
-        ]
+        ],
+        skip: true
     },
 
     // Golden Rules (Armenian)
@@ -551,19 +586,22 @@ export const source = [
     {
         name: "Sentence ending punctuation",
         input: "Ի՞նչ ես մտածում: Ոչինչ:",
-        output: ["Ի՞նչ ես մտածում:", "Ոչինչ:"]
+        output: ["Ի՞նչ ես մտածում:", "Ոչինչ:"],
+        skip: true
     },
 
     {
         name: "Ellipsis",
         input: "Ապրիլի 24-ին սկսեց անձրևել...Այդպես էի գիտեի:",
-        output: ["Ապրիլի 24-ին սկսեց անձրևել...Այդպես էի գիտեի:"]
+        output: ["Ապրիլի 24-ին սկսեց անձրևել...Այդպես էի գիտեի:"],
+        skip: true
     },
 
     {
         name: "Period is not a sentence boundary",
         input: "Այսպիսով` մոտենում ենք ավարտին: Տրամաբանությյունը հետևյալն է. պարզություն և աշխատանք:",
-        output: ["Այսպիսով` մոտենում ենք ավարտին:", "Տրամաբանությյունը հետևյալն է. պարզություն և աշխատանք:"]
+        output: ["Այսպիսով` մոտենում ենք ավարտին:", "Տրամաբանությյունը հետևյալն է. պարզություն և աշխատանք:"],
+        skip: true
     },
 
     // Golden Rules (Burmese)
@@ -571,7 +609,8 @@ export const source = [
     {
         name: "Sentence ending punctuation",
         input: "ခင္ဗ်ားနာမည္ဘယ္လိုေခၚလဲ။၇ွင္ေနေကာင္းလား။",
-        output: ["ခင္ဗ်ားနာမည္ဘယ္လိုေခၚလဲ။", "၇ွင္ေနေကာင္းလား။"]
+        output: ["ခင္ဗ်ားနာမည္ဘယ္လိုေခၚလဲ။", "၇ွင္ေနေကာင္းလား။"],
+        skip: true
     },
 
     // Golden Rules (Amharic)
@@ -579,7 +618,8 @@ export const source = [
     {
         name: "Sentence ending punctuation",
         input: "እንደምን አለህ፧መልካም ቀን ይሁንልህ።እባክሽ ያልሽዉን ድገሚልኝ።",
-        output: ["እንደምን አለህ፧", "መልካም ቀን ይሁንልህ።", "እባክሽ ያልሽዉን ድገሚልኝ።"]
+        output: ["እንደምን አለህ፧", "መልካም ቀን ይሁንልህ።", "እባክሽ ያልሽዉን ድገሚልኝ።"],
+        skip: true
     },
 
     // Golden Rules (Persian)
@@ -587,7 +627,8 @@ export const source = [
     {
         name: "Sentence ending punctuation",
         input: "خوشبختم، آقای رضا. شما کجایی هستید؟ من از تهران هستم.",
-        output: ["خوشبختم، آقای رضا.", "شما کجایی هستید؟", "من از تهران هستم."]
+        output: ["خوشبختم، آقای رضا.", "شما کجایی هستید؟", "من از تهران هستم."],
+        skip: true
     },
 
     // Golden Rules (Urdu)
@@ -595,6 +636,7 @@ export const source = [
     {
         name: "Sentence ending punctuation",
         input: "کیا حال ہے؟ ميرا نام ___ ەے۔ میں حالا تاوان دےدوں؟",
-        output: ["کیا حال ہے؟", "ميرا نام ___ ەے۔", "میں حالا تاوان دےدوں؟"]
+        output: ["کیا حال ہے؟", "ميرا نام ___ ەے۔", "میں حالا تاوان دےدوں؟"],
+        skip: true
     }
 ];

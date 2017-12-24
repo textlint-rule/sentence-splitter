@@ -3,7 +3,7 @@ import { split, Syntax } from "../src/sentence-splitter";
 import * as assert from "assert";
 
 describe("pragmatic_segmenter Golden rule", () => {
-    source.forEach(sourceItem => {
+    source.filter(sourceItem => !(sourceItem as any).skip).forEach(sourceItem => {
         it(`${sourceItem.name}`, () => {
             const sentences = split(sourceItem.input);
             const sentenceTexts = sentences

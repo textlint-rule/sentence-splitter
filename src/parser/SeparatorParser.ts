@@ -1,7 +1,7 @@
 import { SourceCode } from "./SourceCode";
 import { AbstractParser } from "./AbstractParser";
 
-const separatorPattern = /[.。?!？！]/;
+const separatorPattern = /[.．。?!？！]/;
 
 /**
  * Separator parser
@@ -11,20 +11,19 @@ export class SeparatorParser implements AbstractParser {
         if (sourceCode.isInContext()) {
             return false;
         }
-        const prevChar = sourceCode.read(-1);
-        // Ignore "vom 12. Juni?"
-        if (prevChar && /\d/.test(prevChar)) {
+        if (sourceCode.isInContextRange()) {
             return false;
         }
         const firstChar = sourceCode.read();
+        const nextChar = sourceCode.read(1);
         if (!firstChar) {
             return false;
         }
         if (!separatorPattern.test(firstChar)) {
             return false;
         }
-        const nextChar = sourceCode.read(1);
-        // Text.<space>Text
+        // Need space after period
+        // Example: This is a pen. This it not a pen.
         // It will avoid false-position like `1.23`
         if (firstChar === ".") {
             return nextChar === " ";
