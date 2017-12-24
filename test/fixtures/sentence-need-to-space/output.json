@@ -100,8 +100,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "text.",
-                    "value": "text.",
+                    "raw": "text",
+                    "value": "text",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -109,11 +109,30 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 11
+                            "column": 10
                         }
                     },
                     "range": [
                         6,
+                        10
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 10
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 11
+                        }
+                    },
+                    "range": [
+                        10,
                         11
                     ]
                 }

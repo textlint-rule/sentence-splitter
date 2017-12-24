@@ -138,8 +138,8 @@
                 },
                 {
                     "type": "Str",
-                    "raw": "capital.",
-                    "value": "capital.",
+                    "raw": "capital",
+                    "value": "capital",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -147,11 +147,30 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 44
+                            "column": 43
                         }
                     },
                     "range": [
                         36,
+                        43
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 43
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 44
+                        }
+                    },
+                    "range": [
+                        43,
                         44
                     ]
                 }

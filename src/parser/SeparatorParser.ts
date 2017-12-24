@@ -26,7 +26,11 @@ export class SeparatorParser implements AbstractParser {
         // Example: This is a pen. This it not a pen.
         // It will avoid false-position like `1.23`
         if (firstChar === ".") {
-            return nextChar === " ";
+            if (nextChar) {
+                return nextChar === " ";
+            } else {
+                return true;
+            }
         }
         return true;
     }

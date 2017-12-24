@@ -22,8 +22,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "text.text.",
-                    "value": "text.text.",
+                    "raw": "text.text",
+                    "value": "text.text",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -31,11 +31,30 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 10
+                            "column": 9
                         }
                     },
                     "range": [
                         0,
+                        9
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 9
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 10
+                        }
+                    },
+                    "range": [
+                        9,
                         10
                     ]
                 }

@@ -520,8 +520,8 @@
                 },
                 {
                     "type": "Str",
-                    "raw": "Jonas.",
-                    "value": "Jonas.",
+                    "raw": "Jonas",
+                    "value": "Jonas",
                     "loc": {
                         "start": {
                             "line": 2,
@@ -529,11 +529,30 @@
                         },
                         "end": {
                             "line": 2,
-                            "column": 30
+                            "column": 29
                         }
                     },
                     "range": [
                         49,
+                        54
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 29
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 30
+                        }
+                    },
+                    "range": [
+                        54,
                         55
                     ]
                 }

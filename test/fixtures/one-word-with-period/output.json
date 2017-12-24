@@ -22,8 +22,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "text.",
-                    "value": "text.",
+                    "raw": "text",
+                    "value": "text",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -31,11 +31,30 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 5
+                            "column": 4
                         }
                     },
                     "range": [
                         0,
+                        4
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 4
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 5
+                        }
+                    },
+                    "range": [
+                        4,
                         5
                     ]
                 }

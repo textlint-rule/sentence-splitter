@@ -328,8 +328,8 @@
                 },
                 {
                     "type": "Str",
-                    "raw": "Math.",
-                    "value": "Math.",
+                    "raw": "Math",
+                    "value": "Math",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -337,11 +337,30 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 34
+                            "column": 33
                         }
                     },
                     "range": [
                         29,
+                        33
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 33
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 34
+                        }
+                    },
+                    "range": [
+                        33,
                         34
                     ]
                 }
