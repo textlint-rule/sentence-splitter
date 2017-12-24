@@ -48,9 +48,9 @@ export class SourceCode {
     }
 
     isInContextRange() {
-        const index = this.index;
+        const offset = this.offset;
         return this.contextRanges.some(range => {
-            return range[0] <= index && index < range[1];
+            return range[0] <= offset && offset < range[1];
         });
     }
 

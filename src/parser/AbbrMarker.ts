@@ -80,7 +80,7 @@ export class AbbrMarker implements AbstractMarker {
         // Allow: Multi-period abbr
         // Example: U.S.A
         if (/^([a-zA-Z]\.){3,}$/.test(currentWord)) {
-            return sourceCode.markContextRange([sourceCode.index, sourceCode.index + currentWord.length]);
+            return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         }
         // EXCALAMATION_WORDS
         // Example: Yahoo!
@@ -88,7 +88,7 @@ export class AbbrMarker implements AbstractMarker {
             return compareNoCaseSensitive(abbr, currentWord);
         });
         if (isMatchedEXCALAMATION_WORDS) {
-            return sourceCode.markContextRange([sourceCode.index, sourceCode.index + currentWord.length]);
+            return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         }
         // PREPOSITIVE_ABBREVIATIONS
         // Example: Mr. Fuji
@@ -96,7 +96,7 @@ export class AbbrMarker implements AbstractMarker {
             return compareNoCaseSensitive(abbr, currentWord);
         });
         if (isMatchedPREPOSITIVE_ABBREVIATIONS) {
-            return sourceCode.markContextRange([sourceCode.index, sourceCode.index + currentWord.length]);
+            return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         }
         // ABBREVIATIONS
         const isMatched = this.lang.ABBREVIATIONS.some(abbr => {
@@ -111,11 +111,11 @@ export class AbbrMarker implements AbstractMarker {
         // Example: `I` as a sentence boundary and `I` as an abbreviation
         // > We make a good team, you and I. Did you see Albert I. Jones yesterday?
         if (isCapitalized(prevWord) && /[A-Z]\./.test(currentWord) && isCapitalized(nextWord)) {
-            sourceCode.markContextRange([sourceCode.index, sourceCode.index + currentWord.length]);
+            sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         } else if (isMatched && !isCapitalized(nextWord)) {
             // Exception. This allow to write Capitalized word at next word
             // A.M. is store.
-            sourceCode.markContextRange([sourceCode.index, sourceCode.index + currentWord.length]);
+            sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         }
     }
 }
