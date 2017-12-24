@@ -23,7 +23,6 @@
         {
             "type": "Sentence",
             "raw": "space text.",
-            "value": "space text.",
             "loc": {
                 "start": {
                     "line": 1,

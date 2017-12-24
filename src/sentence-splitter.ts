@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-import { TxtNode, TxtParentNode, ASTNodeTypes } from "@textlint/ast-node-types";
+import { TxtNode, TxtParentNode, ASTNodeTypes, TxtTextNode } from "@textlint/ast-node-types";
 import { SourceCode } from "./parser/SourceCode";
 import { AbstractParser } from "./parser/AbstractParser";
 import { NewLineParser } from "./parser/NewLineParser";
@@ -17,19 +17,19 @@ export const Syntax = {
     Str: "Str"
 };
 
-export interface ToTypeNode<T extends string> extends TxtNode {
+export interface ToTypeNode<T extends string> extends TxtTextNode {
     readonly type: T;
 }
 
-export interface WhiteSpaceNode extends TxtNode {
+export interface WhiteSpaceNode extends TxtTextNode {
     readonly type: "WhiteSpace";
 }
 
-export interface PunctuationNode extends TxtNode {
+export interface PunctuationNode extends TxtTextNode {
     readonly type: "Punctuation";
 }
 
-export interface StrNode extends TxtNode {
+export interface StrNode extends TxtTextNode {
     readonly type: "Str";
 }
 
@@ -107,7 +107,6 @@ export class SplitParser {
         const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
         currentNode.range = [firstChildNode.range[0], endNow.offset];
         currentNode.raw = rawValue;
-        currentNode.value = rawValue;
         this.results.push(currentNode);
     }
 
@@ -257,7 +256,6 @@ export function createEmptySentenceNode(): SentenceNode {
     return {
         type: "Sentence",
         raw: "",
-        value: "",
         loc: {
             start: { column: NaN, line: NaN },
             end: { column: NaN, line: NaN }

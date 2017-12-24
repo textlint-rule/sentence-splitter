@@ -8,7 +8,7 @@ describe("sentence-splitter", function() {
         assert.equal(sentences.length, 1);
         const sentence = sentences[0];
         assert.strictEqual(sentence.raw, "text");
-        assert.strictEqual(sentence.value, "text");
+        assert.strictEqual(typeof sentence.value, "undefined");
         assert.deepEqual(sentences[0].loc.start, { line: 1, column: 0 });
         assert.deepEqual(sentences[0].loc.end, { line: 1, column: 4 });
     });

@@ -5,7 +5,6 @@
         {
             "type": "Sentence",
             "raw": "capitalization in titles and headings",
-            "value": "capitalization in titles and headings",
             "loc": {
                 "start": {
                     "line": 1,

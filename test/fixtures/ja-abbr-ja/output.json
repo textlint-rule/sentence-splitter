@@ -4,7 +4,6 @@
         {
             "type": "Sentence",
             "raw": "ただいまA.M 10時です",
-            "value": "ただいまA.M 10時です",
             "loc": {
                 "start": {
                     "line": 1,

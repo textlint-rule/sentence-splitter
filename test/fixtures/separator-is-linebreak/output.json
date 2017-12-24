@@ -4,7 +4,6 @@
         {
             "type": "Sentence",
             "raw": "First, A is A.",
-            "value": "First, A is A.",
             "loc": {
                 "start": {
                     "line": 1,
@@ -82,7 +81,6 @@
         {
             "type": "Sentence",
             "raw": "Second, B is B.",
-            "value": "Second, B is B.",
             "loc": {
                 "start": {
                     "line": 2,
@@ -160,7 +158,6 @@
         {
             "type": "Sentence",
             "raw": "Third, C is C.",
-            "value": "Third, C is C.",
             "loc": {
                 "start": {
                     "line": 3,

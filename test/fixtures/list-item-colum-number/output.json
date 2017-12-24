@@ -4,7 +4,6 @@
         {
             "type": "Sentence",
             "raw": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている",
-            "value": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている",
             "loc": {
                 "start": {
                     "line": 3,

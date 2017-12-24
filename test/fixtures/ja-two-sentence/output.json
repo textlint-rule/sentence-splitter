@@ -4,7 +4,6 @@
         {
             "type": "Sentence",
             "raw": "これは日本語。",
-            "value": "これは日本語。",
             "loc": {
                 "start": {
                     "line": 1,
@@ -63,7 +62,6 @@
         {
             "type": "Sentence",
             "raw": "これは2めのセンテンス。",
-            "value": "これは2めのセンテンス。",
             "loc": {
                 "start": {
                     "line": 1,
@@ -122,7 +120,6 @@
         {
             "type": "Sentence",
             "raw": "これは3つめのセンテンス。",
-            "value": "これは3つめのセンテンス。",
             "loc": {
                 "start": {
                     "line": 1,

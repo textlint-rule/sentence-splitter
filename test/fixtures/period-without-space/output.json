@@ -4,7 +4,6 @@
         {
             "type": "Sentence",
             "raw": "text.text.",
-            "value": "text.text.",
             "loc": {
                 "start": {
                     "line": 1,

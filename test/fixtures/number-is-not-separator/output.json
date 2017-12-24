@@ -4,7 +4,6 @@
         {
             "type": "Sentence",
             "raw": "π is 3.14 val.",
-            "value": "π is 3.14 val.",
             "loc": {
                 "start": {
                     "line": 1,
@@ -82,7 +81,6 @@
         {
             "type": "Sentence",
             "raw": "It defined in Math.",
-            "value": "It defined in Math.",
             "loc": {
                 "start": {
                     "line": 1,

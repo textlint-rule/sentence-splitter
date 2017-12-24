@@ -341,15 +341,15 @@ console.log(Syntax.Sentence);// "Sentence"
 ### Node's interface
 
 ```ts
-export interface WhiteSpaceNode extends TxtNode {
+export interface WhiteSpaceNode extends TxtTextNode {
     readonly type: "WhiteSpace";
 }
 
-export interface PunctuationNode extends TxtNode {
+export interface PunctuationNode extends TxtTextNode {
     readonly type: "Punctuation";
 }
 
-export interface StrNode extends TxtNode {
+export interface StrNode extends TxtTextNode {
     readonly type: "Str";
 }
 

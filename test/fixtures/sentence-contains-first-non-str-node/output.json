@@ -4,7 +4,6 @@
         {
             "type": "Sentence",
             "raw": "![image](http://exmaple.com) is not capital.",
-            "value": "![image](http://exmaple.com) is not capital.",
             "loc": {
                 "start": {
                     "line": 1,

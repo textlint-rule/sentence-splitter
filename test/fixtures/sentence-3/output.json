@@ -4,7 +4,6 @@
         {
             "type": "Sentence",
             "raw": "There it is!",
-            "value": "There it is!",
             "loc": {
                 "start": {
                     "line": 1,
@@ -82,7 +81,6 @@
         {
             "type": "Sentence",
             "raw": "I found it.",
-            "value": "I found it.",
             "loc": {
                 "start": {
                     "line": 1,
@@ -160,7 +158,6 @@
         {
             "type": "Sentence",
             "raw": "Hello World.",
-            "value": "Hello World.",
             "loc": {
                 "start": {
                     "line": 2,
@@ -238,7 +235,6 @@
         {
             "type": "Sentence",
             "raw": "My name is Jonas.",
-            "value": "My name is Jonas.",
             "loc": {
                 "start": {
                     "line": 2,
