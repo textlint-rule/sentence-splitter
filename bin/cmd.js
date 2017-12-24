@@ -11,8 +11,8 @@ input.pipe(
             .filter(function(node) {
                 return node.type === Syntax.Sentence;
             })
-            .forEach(function(sentence) {
-                console.log(sentence.value);
+            .forEach(function(sentence, index) {
+                console.log("Sentence " + index + ": " + sentence.value);
             });
     })
 );

@@ -1,0 +1,157 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "text.",
+            "value": "text.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 5
+                }
+            },
+            "range": [
+                0,
+                5
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "text",
+                    "value": "text",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 4
+                        }
+                    },
+                    "range": [
+                        0,
+                        4
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 4
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 5
+                        }
+                    },
+                    "range": [
+                        4,
+                        5
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": " ",
+            "value": " ",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 5
+                },
+                "end": {
+                    "line": 1,
+                    "column": 6
+                }
+            },
+            "range": [
+                5,
+                6
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "text.",
+            "value": "text.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 6
+                },
+                "end": {
+                    "line": 1,
+                    "column": 11
+                }
+            },
+            "range": [
+                6,
+                11
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "text",
+                    "value": "text",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 6
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 10
+                        }
+                    },
+                    "range": [
+                        6,
+                        10
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 10
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 11
+                        }
+                    },
+                    "range": [
+                        10,
+                        11
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 1,
+            "column": 11
+        }
+    },
+    "range": [
+        0,
+        11
+    ],
+    "raw": "text. text."
+}

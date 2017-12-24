@@ -1,0 +1,39 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "There it is! I found it.\nHello World. My name is Jonas.",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 30
+        }
+      },
+      "range": [
+        0,
+        55
+      ],
+      "raw": "There it is! I found it.\nHello World. My name is Jonas."
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 2,
+      "column": 30
+    }
+  },
+  "range": [
+    0,
+    55
+  ],
+  "raw": "There it is! I found it.\nHello World. My name is Jonas."
+}

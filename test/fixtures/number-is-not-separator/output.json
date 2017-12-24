@@ -1,0 +1,157 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "π is 3.14 val.",
+            "value": "π is 3.14 val.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 14
+                }
+            },
+            "range": [
+                0,
+                14
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "π is 3.14 val",
+                    "value": "π is 3.14 val",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 13
+                        }
+                    },
+                    "range": [
+                        0,
+                        13
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 13
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 14
+                        }
+                    },
+                    "range": [
+                        13,
+                        14
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": " ",
+            "value": " ",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 14
+                },
+                "end": {
+                    "line": 1,
+                    "column": 15
+                }
+            },
+            "range": [
+                14,
+                15
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "It defined in Math.",
+            "value": "It defined in Math.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 15
+                },
+                "end": {
+                    "line": 1,
+                    "column": 34
+                }
+            },
+            "range": [
+                15,
+                34
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "It defined in Math",
+                    "value": "It defined in Math",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 15
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 33
+                        }
+                    },
+                    "range": [
+                        15,
+                        33
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 33
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 34
+                        }
+                    },
+                    "range": [
+                        33,
+                        34
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 1,
+            "column": 34
+        }
+    },
+    "range": [
+        0,
+        34
+    ],
+    "raw": "π is 3.14 val. It defined in Math."
+}

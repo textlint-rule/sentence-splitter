@@ -1,0 +1,119 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "![image](http://exmaple.com) is not capital.",
+            "value": "![image](http://exmaple.com) is not capital.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 44
+                }
+            },
+            "range": [
+                0,
+                44
+            ],
+            "children": [
+                {
+                    "type": "Image",
+                    "title": null,
+                    "url": "http://exmaple.com",
+                    "alt": "image",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 28
+                        }
+                    },
+                    "range": [
+                        0,
+                        28
+                    ],
+                    "raw": "![image](http://exmaple.com)"
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": " ",
+                    "value": " ",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 28
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 29
+                        }
+                    },
+                    "range": [
+                        28,
+                        29
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "is not capital",
+                    "value": "is not capital",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 29
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 43
+                        }
+                    },
+                    "range": [
+                        29,
+                        43
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 43
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 44
+                        }
+                    },
+                    "range": [
+                        43,
+                        44
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 1,
+            "column": 44
+        }
+    },
+    "range": [
+        0,
+        44
+    ],
+    "raw": "![image](http://exmaple.com) is not capital."
+}

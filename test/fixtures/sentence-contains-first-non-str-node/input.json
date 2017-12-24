@@ -1,0 +1,60 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Image",
+      "title": null,
+      "url": "http://exmaple.com",
+      "alt": "image",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 28
+        }
+      },
+      "range": [
+        0,
+        28
+      ],
+      "raw": "![image](http://exmaple.com)"
+    },
+    {
+      "type": "Str",
+      "value": " is not capital.",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 28
+        },
+        "end": {
+          "line": 1,
+          "column": 44
+        }
+      },
+      "range": [
+        28,
+        44
+      ],
+      "raw": " is not capital."
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 44
+    }
+  },
+  "range": [
+    0,
+    44
+  ],
+  "raw": "![image](http://exmaple.com) is not capital."
+}

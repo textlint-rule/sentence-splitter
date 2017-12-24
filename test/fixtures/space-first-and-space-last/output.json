@@ -1,0 +1,117 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "WhiteSpace",
+            "raw": " ",
+            "value": " ",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 1
+                }
+            },
+            "range": [
+                0,
+                1
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "space text.",
+            "value": "space text.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 1
+                },
+                "end": {
+                    "line": 1,
+                    "column": 12
+                }
+            },
+            "range": [
+                1,
+                12
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "space text",
+                    "value": "space text",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 1
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 11
+                        }
+                    },
+                    "range": [
+                        1,
+                        11
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 11
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 12
+                        }
+                    },
+                    "range": [
+                        11,
+                        12
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": "  ",
+            "value": "  ",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 12
+                },
+                "end": {
+                    "line": 1,
+                    "column": 14
+                }
+            },
+            "range": [
+                12,
+                14
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 1,
+            "column": 14
+        }
+    },
+    "range": [
+        0,
+        14
+    ],
+    "raw": " space text.  "
+}

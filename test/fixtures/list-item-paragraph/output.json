@@ -1,0 +1,79 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "text that follows a label, such as a Caution or Note.",
+            "value": "text that follows a label, such as a Caution or Note.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 90
+                },
+                "end": {
+                    "line": 1,
+                    "column": 143
+                }
+            },
+            "range": [
+                90,
+                143
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "text that follows a label, such as a Caution or Note",
+                    "value": "text that follows a label, such as a Caution or Note",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 90
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 142
+                        }
+                    },
+                    "range": [
+                        90,
+                        142
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 142
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 143
+                        }
+                    },
+                    "range": [
+                        142,
+                        143
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 5,
+            "column": 2
+        },
+        "end": {
+            "line": 5,
+            "column": 55
+        }
+    },
+    "range": [
+        90,
+        143
+    ],
+    "raw": "text that follows a label, such as a Caution or Note."
+}
