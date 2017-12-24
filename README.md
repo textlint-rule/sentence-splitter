@@ -16,7 +16,7 @@ Split {Japanese, English} text into sentences.
 
 ## Usage
 
-```
+```ts
 /**
  * split `text` into Sentence node list.
  */
