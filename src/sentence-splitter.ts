@@ -105,8 +105,8 @@ export class SplitParser {
             end: nowToLoc(endNow)
         };
         currentNode.range = [firstChildNode.range[0], endNow.offset];
-        currentNode.raw = this.source.slice(firstChildNode.range[0], endNow.offset);
-        currentNode.value = this.source.slice(firstChildNode.range[0], endNow.offset);
+        currentNode.raw = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
+        currentNode.value = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
         this.results.push(currentNode);
     }
 
@@ -168,7 +168,6 @@ export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
     const sourceCode = splitParser.source;
     while (!sourceCode.hasEnd) {
         const currentNode = sourceCode.readNode();
-        console.log(currentNode);
         if (!currentNode) {
             break;
         }
@@ -186,6 +185,9 @@ export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
                 splitParser.nextValue(anyValue);
             }
         } else {
+            if (!splitParser.isOpened()) {
+                splitParser.open(createEmptySentenceNode());
+            }
             splitParser.pushNodeToCurrent(currentNode);
             sourceCode.peekNode(currentNode);
         }

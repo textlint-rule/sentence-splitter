@@ -1,0 +1,39 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "text that follows a label, such as a Caution or Note.",
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 2
+        },
+        "end": {
+          "line": 5,
+          "column": 55
+        }
+      },
+      "range": [
+        90,
+        143
+      ],
+      "raw": "text that follows a label, such as a Caution or Note."
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 5,
+      "column": 2
+    },
+    "end": {
+      "line": 5,
+      "column": 55
+    }
+  },
+  "range": [
+    90,
+    143
+  ],
+  "raw": "text that follows a label, such as a Caution or Note."
+}

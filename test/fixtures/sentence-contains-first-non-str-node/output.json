@@ -1,0 +1,176 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "![image](http://exmaple.com) is not capital.",
+            "value": "![image](http://exmaple.com) is not capital.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 44
+                }
+            },
+            "range": [
+                0,
+                44
+            ],
+            "children": [
+                {
+                    "type": "Image",
+                    "title": null,
+                    "url": "http://exmaple.com",
+                    "alt": "image",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 28
+                        }
+                    },
+                    "range": [
+                        0,
+                        28
+                    ],
+                    "raw": "![image](http://exmaple.com)"
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": " ",
+                    "value": " ",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 28
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 29
+                        }
+                    },
+                    "range": [
+                        28,
+                        29
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "is",
+                    "value": "is",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 29
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 31
+                        }
+                    },
+                    "range": [
+                        29,
+                        31
+                    ]
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": " ",
+                    "value": " ",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 31
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 32
+                        }
+                    },
+                    "range": [
+                        31,
+                        32
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "not",
+                    "value": "not",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 32
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 35
+                        }
+                    },
+                    "range": [
+                        32,
+                        35
+                    ]
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": " ",
+                    "value": " ",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 35
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 36
+                        }
+                    },
+                    "range": [
+                        35,
+                        36
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "capital.",
+                    "value": "capital.",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 36
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 44
+                        }
+                    },
+                    "range": [
+                        36,
+                        44
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 1,
+            "column": 44
+        }
+    },
+    "range": [
+        0,
+        44
+    ],
+    "raw": "![image](http://exmaple.com) is not capital."
+}

@@ -27,21 +27,29 @@ ${JSON.stringify(actual)}
 `
                 );
                 // Test value
-                const inputRaw = actualContent.raw;
+                const inputRaw = actualContent.children.reduce((string, node) => {
+                    return string + node.raw;
+                }, "");
                 const outputRaw = expected.children.reduce((string, node) => {
                     return string + node.raw;
                 }, "");
                 assert.strictEqual(inputRaw, outputRaw);
                 // test loc
-                assert.deepEqual(expected.loc, {
-                    start: expected.children[0].loc.start,
-                    end: expected.children[expected.children.length - 1].loc.end
-                });
+                assert.deepEqual(
+                    {
+                        start: actual.children[0].loc.start,
+                        end: actual.children[expected.children.length - 1].loc.end
+                    },
+                    {
+                        start: expected.children[0].loc.start,
+                        end: expected.children[expected.children.length - 1].loc.end
+                    }
+                );
                 // test range
-                assert.deepEqual(expected.range, [
-                    expected.children[0].range[0],
-                    expected.children[expected.children.length - 1].range[1]
-                ]);
+                assert.deepEqual(
+                    [actual.children[0].range[0], actual.children[expected.children.length - 1].range[1]],
+                    [expected.children[0].range[0], expected.children[expected.children.length - 1].range[1]]
+                );
             }
         });
     });
