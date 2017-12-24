@@ -28,8 +28,9 @@ export class SourceCode {
             this.index = this.startOffset;
             // before line count of Paragraph node
             const lineBreaks = Array.from(new Array(this.sourceNode.loc.start.line - 1)).fill("\n");
-            const offset = Array.from(new Array(this.startOffset - lineBreaks.length));
-            this.textCharacters = lineBreaks.concat(offset, input.raw.split(""));
+            // filled with dummy text
+            const offset = Array.from(new Array(this.startOffset - lineBreaks.length)).fill("∯");
+            this.textCharacters = offset.concat(lineBreaks, input.raw.split(""));
             this.source = new StructureSource(this.textCharacters.join(""));
             if (this.sourceNode.children[0]) {
                 // Header Node's children does not start with index 0

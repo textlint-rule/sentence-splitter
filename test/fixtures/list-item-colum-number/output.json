@@ -1,0 +1,60 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている",
+            "value": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている",
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 0
+                },
+                "end": {
+                    "line": 3,
+                    "column": 44
+                }
+            },
+            "range": [
+                42,
+                86
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている",
+                    "value": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 44
+                        }
+                    },
+                    "range": [
+                        42,
+                        86
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 3,
+            "column": 2
+        },
+        "end": {
+            "line": 3,
+            "column": 46
+        }
+    },
+    "range": [
+        42,
+        86
+    ],
+    "raw": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている"
+}

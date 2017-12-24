@@ -8,11 +8,11 @@
             "loc": {
                 "start": {
                     "line": 5,
-                    "column": 86
+                    "column": 0
                 },
                 "end": {
                     "line": 5,
-                    "column": 139
+                    "column": 53
                 }
             },
             "range": [
@@ -27,11 +27,11 @@
                     "loc": {
                         "start": {
                             "line": 5,
-                            "column": 86
+                            "column": 0
                         },
                         "end": {
                             "line": 5,
-                            "column": 138
+                            "column": 52
                         }
                     },
                     "range": [
@@ -46,11 +46,11 @@
                     "loc": {
                         "start": {
                             "line": 5,
-                            "column": 138
+                            "column": 52
                         },
                         "end": {
                             "line": 5,
-                            "column": 139
+                            "column": 53
                         }
                     },
                     "range": [

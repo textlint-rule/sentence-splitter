@@ -1,0 +1,39 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている",
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 2
+        },
+        "end": {
+          "line": 3,
+          "column": 46
+        }
+      },
+      "range": [
+        42,
+        86
+      ],
+      "raw": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている"
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 3,
+      "column": 2
+    },
+    "end": {
+      "line": 3,
+      "column": 46
+    }
+  },
+  "range": [
+    42,
+    86
+  ],
+  "raw": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている"
+}
