@@ -104,9 +104,10 @@ export class SplitParser {
             start: firstChildNode.loc.start,
             end: nowToLoc(endNow)
         };
+        const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
         currentNode.range = [firstChildNode.range[0], endNow.offset];
-        currentNode.raw = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
-        currentNode.value = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
+        currentNode.raw = rawValue;
+        currentNode.value = rawValue;
         this.results.push(currentNode);
     }
 

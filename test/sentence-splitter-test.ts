@@ -1,6 +1,6 @@
 import * as assert from "assert";
-import { ASTNodeTypes } from "@textlint/ast-node-types";
-import { split as splitSentences, Syntax } from "../src/sentence-splitter";
+import { ASTNodeTypes, TxtParentNode } from "@textlint/ast-node-types";
+import { split as splitSentences, splitAST, Syntax } from "../src/sentence-splitter";
 
 describe("sentence-splitter", function() {
     it("should return array", function() {
@@ -192,5 +192,28 @@ describe("sentence-splitter", function() {
         assert.strictEqual(sentence.raw, "text。");
         assert.deepEqual(sentences[0].loc.start, { line: 1, column: 0 });
         assert.deepEqual(sentences[0].loc.end, { line: 1, column: 5 });
+    });
+
+    describe("splitAST", () => {
+        it("should handle empty child", () => {
+            const paragraphNode: TxtParentNode = {
+                type: "Paragraph",
+                children: [],
+                loc: {
+                    start: {
+                        line: 1,
+                        column: 0
+                    },
+                    end: {
+                        line: 1,
+                        column: 0
+                    }
+                },
+                range: [0, 0],
+                raw: ""
+            };
+            const resultParagraph = splitAST(paragraphNode);
+            assert.deepEqual(resultParagraph, paragraphNode, "same result");
+        });
     });
 });
