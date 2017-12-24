@@ -30,7 +30,21 @@ export class AnyValueParser implements AbstractParser {
     }
 
     seek(sourceCode: SourceCode) {
-        while (this.test(sourceCode)) {
+        const currentNode = sourceCode.readNode();
+        if (!currentNode) {
+            // Text mode
+            while (this.test(sourceCode)) {
+                this.markers.forEach(marker => marker.mark(sourceCode));
+                sourceCode.peek();
+            }
+            return;
+        }
+        // node - should not over next node
+        const isInCurrentNode = () => {
+            const currentOffset = sourceCode.offset;
+            return currentNode.range[0] <= currentOffset && currentOffset < currentNode.range[1];
+        };
+        while (isInCurrentNode() && this.test(sourceCode)) {
             this.markers.forEach(marker => marker.mark(sourceCode));
             sourceCode.peek();
         }

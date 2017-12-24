@@ -4,13 +4,13 @@ import { AbstractParser } from "./AbstractParser";
 const StructureSource = require("structured-source");
 
 export class SourceCode {
-    private _index: number = 0;
+    private index: number = 0;
     private source: any;
     private textCharacters: string[];
     private sourceNode?: TxtParentNode;
     private contexts: string[] = [];
     private contextRanges: [number, number][] = [];
-    private firstChildOffset: number;
+    private firstChildPadding: number;
     private startOffset: number;
 
     constructor(input: string | TxtParentNode) {
@@ -18,7 +18,7 @@ export class SourceCode {
             this.textCharacters = input.split("");
             this.source = new StructureSource(input);
             this.startOffset = 0;
-            this.firstChildOffset = 0;
+            this.firstChildPadding = 0;
         } else {
             this.sourceNode = input;
             // When pass AST, fist node may be >=
@@ -35,20 +35,12 @@ export class SourceCode {
             if (this.sourceNode.children[0]) {
                 // Header Node's children does not start with index 0
                 // Example: # Header
-                // It firstChildOffset is `2`
-                this.firstChildOffset = this.sourceNode.children[0].range[0] - this.startOffset;
+                // It firstChildPadding is `2`
+                this.firstChildPadding = this.sourceNode.children[0].range[0] - this.startOffset;
             } else {
-                this.firstChildOffset = 0;
+                this.firstChildPadding = 0;
             }
         }
-    }
-
-    get index() {
-        return this._index;
-    }
-
-    set index(newIndex) {
-        this._index = newIndex;
     }
 
     markContextRange(range: [number, number]) {
@@ -81,10 +73,19 @@ export class SourceCode {
     }
 
     /**
-     * Return absolute position object
+     * Return current offset value
+     * @returns {number}
+     */
+    get offset() {
+        return this.index + this.firstChildPadding;
+    }
+
+    /**
+     * Return current position object.
+     * It includes line, column, offset.
      */
     now() {
-        const indexWithChildrenOffset = this.index + this.firstChildOffset;
+        const indexWithChildrenOffset = this.offset;
         const position = this.source.indexToPosition(indexWithChildrenOffset);
         return {
             line: position.line as number,
@@ -106,7 +107,7 @@ export class SourceCode {
      * @returns {string}
      */
     read(over: number = 0) {
-        const index = this.index + this.firstChildOffset + over;
+        const index = this.offset + over;
         if (index < this.startOffset) {
             return false;
         }
@@ -125,7 +126,7 @@ export class SourceCode {
         if (!this.sourceNode) {
             return false;
         }
-        const index = this.index + this.firstChildOffset + over;
+        const index = this.offset + over;
         if (index < this.startOffset) {
             return false;
         }
