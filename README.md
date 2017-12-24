@@ -315,10 +315,9 @@ console.log(JSON.stringify(sentences, null, 4));
 */
 ```
 
-- `line`: start with **1**
-- `column`: start with **0**
+## Node
 
-See more detail on [Why do `line` of location in JavaScript AST(ESTree) start with 1 and not 0?](https://gist.github.com/azu/8866b2cb9b7a933e01fe "Why do `line` of location in JavaScript AST(ESTree) start with 1 and not 0?")
+This node is based on [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
 
 ### Node's type
 
@@ -332,7 +331,47 @@ Get these `Syntax` constants value from the module:
 ```js
 import {Syntax} from "sentence-splitter";
 console.log(Syntax.Sentence);// "Sentence"
-````
+```
+
+### Node's interface
+
+```ts
+export interface WhiteSpaceNode extends TxtNode {
+    readonly type: "WhiteSpace";
+}
+
+export interface PunctuationNode extends TxtNode {
+    readonly type: "Punctuation";
+}
+
+export interface StrNode extends TxtNode {
+    readonly type: "Str";
+}
+
+export interface SentenceNode extends TxtParentNode {
+    readonly type: "Sentence";
+}
+```
+
+Fore more details, Please see [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
+
+### Node layout
+
+Node layout image.
+
+```
+<WhiteSpace />
+<Sentence>
+    <Str />
+    <Punctuation />
+    <Str />
+    <Punctuation />
+</Sentence>
+<WhiteSpace />
+```
+
+Note: This library will not split `Str` into `Str` and `WhiteSpace`(tokenize)
+Because, Tokenize need to implement language specific context.  
 
 ## Reference
 
