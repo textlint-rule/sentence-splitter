@@ -1,6 +1,7 @@
 import { SourceCode } from "./SourceCode";
 import { Language } from "./lang/LanguageInterface";
 import { English } from "./lang/English";
+import { AbstractMarker } from "./AbstractMarker";
 
 const isCapitalized = (text: string) => {
     if (!text || text.length === 0) {
@@ -16,7 +17,7 @@ const compareNoCaseSensitive = (a: string, b: string): boolean => {
 /**
  * abbreviation marker
  */
-export class AbbrMarker {
+export class AbbrMarker implements AbstractMarker {
     private lang: Language;
 
     constructor(lang: Language = English) {

@@ -7,11 +7,14 @@ import { NewLineParser } from "./parser/NewLineParser";
 import { SpaceParser } from "./parser/SpaceParser";
 import { SeparatorParser } from "./parser/SeparatorParser";
 import { AnyValueParser } from "./parser/AnyValueParser";
+import { AbbrMarker } from "./parser/AbbrMarker";
+import { PairMaker } from "./parser/PairMaker";
 
 export const Syntax = {
     WhiteSpace: "WhiteSpace",
     Punctuation: "Punctuation",
-    Sentence: "Sentence"
+    Sentence: "Sentence",
+    Str: "Str"
 };
 
 export interface ToTypeNode<T extends string> extends TxtNode {
@@ -24,6 +27,10 @@ export interface WhiteSpaceNode extends TxtNode {
 
 export interface PunctuationNode extends TxtNode {
     readonly type: "Punctuation";
+}
+
+export interface StrNode extends TxtNode {
+    readonly type: "Str";
 }
 
 export interface SentenceNode extends TxtParentNode {
@@ -108,12 +115,19 @@ export class SplitParser {
     }
 }
 
-// From Text to AST
-export function split(text: string) {
+/**
+ * split `text` into Sentence nodes
+ */
+export function split(text: string): (TxtParentNode | TxtNode)[] {
     const newLine = new NewLineParser();
     const space = new SpaceParser();
     const separator = new SeparatorParser();
-    const anyValue = new AnyValueParser([newLine, space, separator]);
+    const abbrMarker = new AbbrMarker();
+    const pairMaker = new PairMaker();
+    const anyValue = new AnyValueParser({
+        parsers: [newLine, space, separator],
+        markers: [abbrMarker, pairMaker]
+    });
     const splitParser = new SplitParser(text);
     const sourceCode = splitParser.source;
     while (!sourceCode.hasEnd) {
@@ -135,12 +149,21 @@ export function split(text: string) {
     return splitParser.toList();
 }
 
-// From AST to AST
-export function splitAST(paragraphNode: TxtParentNode): (TxtParentNode | TxtNode)[] {
+/**
+ * Convert Paragraph Node to Sentence node list
+ * This Node is based on TxtAST.
+ * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
+ */
+export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
     const newLine = new NewLineParser();
     const space = new SpaceParser();
     const separator = new SeparatorParser();
-    const anyValue = new AnyValueParser([newLine, space, separator]);
+    const abbrMarker = new AbbrMarker();
+    const pairMaker = new PairMaker();
+    const anyValue = new AnyValueParser({
+        parsers: [newLine, space, separator],
+        markers: [abbrMarker, pairMaker]
+    });
     const splitParser = new SplitParser(paragraphNode);
     const sourceCode = splitParser.source;
     while (!sourceCode.hasEnd) {
@@ -152,7 +175,6 @@ export function splitAST(paragraphNode: TxtParentNode): (TxtParentNode | TxtNode
             if (newLine.test(sourceCode)) {
                 splitParser.nextLine(newLine);
             } else if (space.test(sourceCode)) {
-                // Add WhiteSpace
                 splitParser.nextSpace(space);
             } else if (separator.test(sourceCode)) {
                 splitParser.close(separator);
@@ -169,7 +191,10 @@ export function splitAST(paragraphNode: TxtParentNode): (TxtParentNode | TxtNode
     }
 
     splitParser.close(anyValue);
-    return splitParser.toList();
+    return {
+        ...paragraphNode,
+        children: splitParser.toList()
+    };
 }
 
 /**
@@ -219,7 +244,7 @@ export function createTextNode(
         column: number;
         offset: number;
     }
-) {
+): StrNode {
     return createNode("Str", text, startPosition, endPosition);
 }
 

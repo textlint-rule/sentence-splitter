@@ -1,61 +1,79 @@
-[
-    {
-        "type": "Sentence",
-        "raw": "円周率は3.14です。",
-        "value": "円周率は3.14です。",
-        "loc": {
-            "start": {
-                "line": 1,
-                "column": 0
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "円周率は3.14です。",
+            "value": "円周率は3.14です。",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 11
+                }
             },
-            "end": {
-                "line": 1,
-                "column": 11
-            }
+            "range": [
+                0,
+                11
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "円周率は3.14です",
+                    "value": "円周率は3.14です",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 10
+                        }
+                    },
+                    "range": [
+                        0,
+                        10
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": "。",
+                    "value": "。",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 10
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 11
+                        }
+                    },
+                    "range": [
+                        10,
+                        11
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
         },
-        "range": [
-            0,
-            11
-        ],
-        "children": [
-            {
-                "type": "Str",
-                "raw": "円周率は3.14です",
-                "value": "円周率は3.14です",
-                "loc": {
-                    "start": {
-                        "line": 1,
-                        "column": 0
-                    },
-                    "end": {
-                        "line": 1,
-                        "column": 10
-                    }
-                },
-                "range": [
-                    0,
-                    10
-                ]
-            },
-            {
-                "type": "Punctuation",
-                "raw": "。",
-                "value": "。",
-                "loc": {
-                    "start": {
-                        "line": 1,
-                        "column": 10
-                    },
-                    "end": {
-                        "line": 1,
-                        "column": 11
-                    }
-                },
-                "range": [
-                    10,
-                    11
-                ]
-            }
-        ]
-    }
-]
+        "end": {
+            "line": 1,
+            "column": 11
+        }
+    },
+    "range": [
+        0,
+        11
+    ],
+    "raw": "円周率は3.14です。"
+}

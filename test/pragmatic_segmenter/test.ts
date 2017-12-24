@@ -1,3 +1,7 @@
+/**
+ * Source:
+ * https://github.com/diasks2/pragmatic_segmenter
+ */
 export const source = [
     // Golden Rules (English)
 

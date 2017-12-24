@@ -1,9 +1,10 @@
 import { SourceCode } from "./SourceCode";
+import { AbstractMarker } from "./AbstractMarker";
 
 /**
  * Mark pair character
  */
-export class PairMaker {
+export class PairMaker implements AbstractMarker {
     private pairs = {
         [`"`]: `"`,
         [`'`]: `'`,

@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
 import { split as splitSentences, Syntax } from "../src/sentence-splitter";
 
-describe("sentence-utils", function() {
+describe("sentence-splitter", function() {
     it("should return array", function() {
         const sentences = splitSentences("text");
         assert.equal(sentences.length, 1);

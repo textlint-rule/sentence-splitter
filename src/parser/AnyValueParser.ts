@@ -1,22 +1,25 @@
 import { SourceCode } from "./SourceCode";
 import { AbstractParser } from "./AbstractParser";
-import { PairMaker } from "./PairMaker";
-import { AbbrMarker } from "./AbbrMarker";
+import { AbstractMarker } from "./AbstractMarker";
+
+export interface AnyValueParserOptions {
+    parsers: AbstractParser[];
+    markers: AbstractMarker[];
+}
 
 /**
  * Any value without `parsers`
  */
 export class AnyValueParser implements AbstractParser {
-    private pair: PairMaker;
-    private abbr: AbbrMarker;
+    private parsers: AbstractParser[];
+    private markers: AbstractMarker[];
 
     /**
-     * Eat any value without `parsers`
-     * @param {AbstractParser[]} parsers
+     * Eat any value without `parsers.test`
      */
-    constructor(private parsers: AbstractParser[]) {
-        this.pair = new PairMaker();
-        this.abbr = new AbbrMarker();
+    constructor(options: AnyValueParserOptions) {
+        this.parsers = options.parsers;
+        this.markers = options.markers;
     }
 
     test(sourceCode: SourceCode) {
@@ -28,8 +31,7 @@ export class AnyValueParser implements AbstractParser {
 
     seek(sourceCode: SourceCode) {
         while (this.test(sourceCode)) {
-            this.pair.mark(sourceCode);
-            this.abbr.mark(sourceCode);
+            this.markers.forEach(marker => marker.mark(sourceCode));
             sourceCode.peek();
         }
     }
