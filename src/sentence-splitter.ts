@@ -151,7 +151,7 @@ export function split(text: string): (TxtParentNode | TxtNode)[] {
 }
 
 /**
- * Convert Paragraph Node to Sentence node list
+ * Convert Paragraph Node to Paragraph node that convert children to Sentence node
  * This Node is based on TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */

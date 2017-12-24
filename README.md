@@ -16,7 +16,22 @@ Split {Japanese, English} text into sentences.
 
 ## Usage
 
-- `splitSentences(text, [options])`: `Node[]`
+```
+/**
+ * split `text` into Sentence node list.
+ */
+export declare function split(text: string): (TxtParentNode | TxtNode)[];
+/**
+ * Convert Paragraph Node to Paragraph node that convert children to Sentence node
+ * This Node is based on TxtAST.
+ * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
+ */
+export declare function splitAST(paragraphNode: TxtParentNode): TxtParentNode;
+```
+
+`TxtParentNode` and `TxtNode` is defined in [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
+
+### Example
 
 ```js
 import {split, Syntax} from "sentence-splitter";
@@ -574,7 +589,8 @@ See more detail on [Why do `line` of location in JavaScript AST(ESTree) start wi
 
 ### Node's type
 
-- `Sentence`: Sentence Node has `Str` nodes as children
+- `Str`: Str node has `value`
+- `Sentence`: Sentence Node has `Str`, `WhiteSpace`, or `Punctuation` nodes as children
 - `WhiteSpace`: WhiteSpace Node has `\n`.
 - `Punctuation`: Punctuation Node has `.`, `。`
 
