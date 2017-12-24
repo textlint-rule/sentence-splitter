@@ -22,8 +22,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "There",
-                    "value": "There",
+                    "raw": "There it is",
+                    "value": "There it is",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -31,87 +31,11 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 5
-                        }
-                    },
-                    "range": [
-                        0,
-                        5
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 5
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 6
-                        }
-                    },
-                    "range": [
-                        5,
-                        6
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "it",
-                    "value": "it",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 6
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 8
-                        }
-                    },
-                    "range": [
-                        6,
-                        8
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 8
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 9
-                        }
-                    },
-                    "range": [
-                        8,
-                        9
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "is",
-                    "value": "is",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 9
-                        },
-                        "end": {
-                            "line": 1,
                             "column": 11
                         }
                     },
                     "range": [
-                        9,
+                        0,
                         11
                     ]
                 },
@@ -176,8 +100,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "I",
-                    "value": "I",
+                    "raw": "I found it.",
+                    "value": "I found it.",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -185,87 +109,11 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 14
-                        }
-                    },
-                    "range": [
-                        13,
-                        14
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 14
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 15
-                        }
-                    },
-                    "range": [
-                        14,
-                        15
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "found",
-                    "value": "found",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 15
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 20
-                        }
-                    },
-                    "range": [
-                        15,
-                        20
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 20
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 21
-                        }
-                    },
-                    "range": [
-                        20,
-                        21
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "it.",
-                    "value": "it.",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 21
-                        },
-                        "end": {
-                            "line": 1,
                             "column": 24
                         }
                     },
                     "range": [
-                        21,
+                        13,
                         24
                     ]
                 },
@@ -290,8 +138,8 @@
                 },
                 {
                     "type": "Str",
-                    "raw": "Hello",
-                    "value": "Hello",
+                    "raw": "Hello World",
+                    "value": "Hello World",
                     "loc": {
                         "start": {
                             "line": 2,
@@ -299,49 +147,11 @@
                         },
                         "end": {
                             "line": 2,
-                            "column": 5
-                        }
-                    },
-                    "range": [
-                        25,
-                        30
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 5
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 6
-                        }
-                    },
-                    "range": [
-                        30,
-                        31
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "World",
-                    "value": "World",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 6
-                        },
-                        "end": {
-                            "line": 2,
                             "column": 11
                         }
                     },
                     "range": [
-                        31,
+                        25,
                         36
                     ]
                 },
@@ -406,8 +216,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "My",
-                    "value": "My",
+                    "raw": "My name is Jonas",
+                    "value": "My name is Jonas",
                     "loc": {
                         "start": {
                             "line": 2,
@@ -415,125 +225,11 @@
                         },
                         "end": {
                             "line": 2,
-                            "column": 15
-                        }
-                    },
-                    "range": [
-                        38,
-                        40
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 15
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 16
-                        }
-                    },
-                    "range": [
-                        40,
-                        41
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "name",
-                    "value": "name",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 16
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 20
-                        }
-                    },
-                    "range": [
-                        41,
-                        45
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 20
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 21
-                        }
-                    },
-                    "range": [
-                        45,
-                        46
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "is",
-                    "value": "is",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 21
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 23
-                        }
-                    },
-                    "range": [
-                        46,
-                        48
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 23
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 24
-                        }
-                    },
-                    "range": [
-                        48,
-                        49
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "Jonas",
-                    "value": "Jonas",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 24
-                        },
-                        "end": {
-                            "line": 2,
                             "column": 29
                         }
                     },
                     "range": [
-                        49,
+                        38,
                         54
                     ]
                 },

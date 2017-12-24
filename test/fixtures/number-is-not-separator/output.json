@@ -22,8 +22,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "π",
-                    "value": "π",
+                    "raw": "π is 3.14 val",
+                    "value": "π is 3.14 val",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -31,125 +31,11 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 1
-                        }
-                    },
-                    "range": [
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 1
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 2
-                        }
-                    },
-                    "range": [
-                        1,
-                        2
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "is",
-                    "value": "is",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 2
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 4
-                        }
-                    },
-                    "range": [
-                        2,
-                        4
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 4
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 5
-                        }
-                    },
-                    "range": [
-                        4,
-                        5
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "3.14",
-                    "value": "3.14",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 5
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 9
-                        }
-                    },
-                    "range": [
-                        5,
-                        9
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 9
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 10
-                        }
-                    },
-                    "range": [
-                        9,
-                        10
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "val",
-                    "value": "val",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 10
-                        },
-                        "end": {
-                            "line": 1,
                             "column": 13
                         }
                     },
                     "range": [
-                        10,
+                        0,
                         13
                     ]
                 },
@@ -214,8 +100,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "It",
-                    "value": "It",
+                    "raw": "It defined in Math",
+                    "value": "It defined in Math",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -223,125 +109,11 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 17
-                        }
-                    },
-                    "range": [
-                        15,
-                        17
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 17
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 18
-                        }
-                    },
-                    "range": [
-                        17,
-                        18
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "defined",
-                    "value": "defined",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 18
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 25
-                        }
-                    },
-                    "range": [
-                        18,
-                        25
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 25
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 26
-                        }
-                    },
-                    "range": [
-                        25,
-                        26
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "in",
-                    "value": "in",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 26
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 28
-                        }
-                    },
-                    "range": [
-                        26,
-                        28
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 28
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 29
-                        }
-                    },
-                    "range": [
-                        28,
-                        29
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "Math",
-                    "value": "Math",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 29
-                        },
-                        "end": {
-                            "line": 1,
                             "column": 33
                         }
                     },
                     "range": [
-                        29,
+                        15,
                         33
                     ]
                 },

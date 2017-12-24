@@ -62,8 +62,8 @@
                 },
                 {
                     "type": "Str",
-                    "raw": "is",
-                    "value": "is",
+                    "raw": "is not capital",
+                    "value": "is not capital",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -71,87 +71,11 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 31
-                        }
-                    },
-                    "range": [
-                        29,
-                        31
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 31
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 32
-                        }
-                    },
-                    "range": [
-                        31,
-                        32
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "not",
-                    "value": "not",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 32
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 35
-                        }
-                    },
-                    "range": [
-                        32,
-                        35
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 35
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 36
-                        }
-                    },
-                    "range": [
-                        35,
-                        36
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "capital",
-                    "value": "capital",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 36
-                        },
-                        "end": {
-                            "line": 1,
                             "column": 43
                         }
                     },
                     "range": [
-                        36,
+                        29,
                         43
                     ]
                 },

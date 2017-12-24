@@ -22,8 +22,8 @@
             "children": [
                 {
                     "type": "Str",
-                    "raw": "ただいまA.M",
-                    "value": "ただいまA.M",
+                    "raw": "ただいまA.M 10時です",
+                    "value": "ただいまA.M 10時です",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -31,49 +31,11 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 7
-                        }
-                    },
-                    "range": [
-                        0,
-                        7
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": " ",
-                    "value": " ",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 7
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 8
-                        }
-                    },
-                    "range": [
-                        7,
-                        8
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "10時です",
-                    "value": "10時です",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 8
-                        },
-                        "end": {
-                            "line": 1,
                             "column": 13
                         }
                     },
                     "range": [
-                        8,
+                        0,
                         13
                     ]
                 }

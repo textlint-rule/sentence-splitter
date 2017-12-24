@@ -126,7 +126,7 @@ export function split(text: string): (TxtParentNode | TxtNode)[] {
     const abbrMarker = new AbbrMarker();
     const pairMaker = new PairMaker();
     const anyValue = new AnyValueParser({
-        parsers: [newLine, space, separator],
+        parsers: [newLine, separator],
         markers: [abbrMarker, pairMaker]
     });
     const splitParser = new SplitParser(text);
@@ -162,7 +162,7 @@ export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
     const abbrMarker = new AbbrMarker();
     const pairMaker = new PairMaker();
     const anyValue = new AnyValueParser({
-        parsers: [newLine, space, separator],
+        parsers: [newLine, separator],
         markers: [abbrMarker, pairMaker]
     });
     const splitParser = new SplitParser(paragraphNode);
