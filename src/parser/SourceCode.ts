@@ -131,7 +131,12 @@ export class SourceCode {
             return false;
         }
         const matchNodeList = this.sourceNode.children.filter(node => {
-            return node.range[0] <= index && index <= node.range[1];
+            // <p>[node]</p>
+            //         ^
+            //        range[1]
+            // `< range[1]` prevent infinity loop
+            // https://github.com/azu/sentence-splitter/issues/9
+            return node.range[0] <= index && index < node.range[1];
         });
         if (matchNodeList.length > 0) {
             // last match
