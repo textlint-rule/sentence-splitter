@@ -145,7 +145,7 @@ export function split(text: string): (TxtParentNode | TxtNode)[] {
             splitParser.nextValue(anyValue);
         }
     }
-    splitParser.close(anyValue);
+    splitParser.close(space);
     return splitParser.toList();
 }
 
@@ -194,7 +194,8 @@ export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
     }
 
     // It follow some text that is not ended with period.
-    splitParser.close(anyValue);
+    // TODO: space is correct?
+    splitParser.close(space);
     return {
         ...paragraphNode,
         children: splitParser.toList()

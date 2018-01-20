@@ -1,0 +1,292 @@
+{
+    "type": "Paragraph",
+    "tagName": "p",
+    "properties": {},
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "There it is!",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 3
+                },
+                "end": {
+                    "line": 1,
+                    "column": 15
+                }
+            },
+            "range": [
+                3,
+                15
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "There it is",
+                    "value": "There it is",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 3
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 14
+                        }
+                    },
+                    "range": [
+                        3,
+                        14
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": "!",
+                    "value": "!",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 14
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 15
+                        }
+                    },
+                    "range": [
+                        14,
+                        15
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": " ",
+            "value": " ",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 15
+                },
+                "end": {
+                    "line": 1,
+                    "column": 16
+                }
+            },
+            "range": [
+                15,
+                16
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "I found it.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 16
+                },
+                "end": {
+                    "line": 1,
+                    "column": 27
+                }
+            },
+            "range": [
+                16,
+                27
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "I found it",
+                    "value": "I found it",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 16
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 26
+                        }
+                    },
+                    "range": [
+                        16,
+                        26
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 26
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 27
+                        }
+                    },
+                    "range": [
+                        26,
+                        27
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": "\n",
+            "value": "\n",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 27
+                },
+                "end": {
+                    "line": 2,
+                    "column": 0
+                }
+            },
+            "range": [
+                27,
+                28
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "Hello World.",
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 0
+                },
+                "end": {
+                    "line": 2,
+                    "column": 12
+                }
+            },
+            "range": [
+                28,
+                40
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "Hello World",
+                    "value": "Hello World",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 11
+                        }
+                    },
+                    "range": [
+                        28,
+                        39
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 11
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 12
+                        }
+                    },
+                    "range": [
+                        39,
+                        40
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": " ",
+            "value": " ",
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 12
+                },
+                "end": {
+                    "line": 2,
+                    "column": 13
+                }
+            },
+            "range": [
+                40,
+                41
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "My name is Jonas.",
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 13
+                },
+                "end": {
+                    "line": 2,
+                    "column": 30
+                }
+            },
+            "range": [
+                41,
+                58
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "My name is Jonas.",
+                    "value": "My name is Jonas.",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 13
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 30
+                        }
+                    },
+                    "range": [
+                        41,
+                        58
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 2,
+            "column": 34
+        }
+    },
+    "range": [
+        0,
+        62
+    ],
+    "raw": "<p>There it is! I found it.\nHello World. My name is Jonas.</p>"
+}
