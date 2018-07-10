@@ -21,7 +21,14 @@ describe("sentence-splitter", function() {
         assert.strictEqual(sentence.raw, "Temperature is 40.2 degrees.");
         assert.deepEqual(sentence.range, [0, 28]);
     });
-
+    it("should not split in pair string which pair string is same mark", function() {
+        const sentences = splitSentences(`I hear "I'm back to home." from radio.`);
+        assert.equal(sentences.length, 1);
+        const [sentence] = sentences;
+        assert.strictEqual(sentence.type, Syntax.Sentence);
+        assert.strictEqual(sentence.raw, `I hear "I'm back to home." from radio.`);
+        assert.deepEqual(sentence.range, [0, 38]);
+    });
     it("should not split in pair string", function() {
         const sentences = splitSentences(`彼は「ココにある。」と言った。`);
         assert.equal(sentences.length, 1);

@@ -40,22 +40,23 @@
     "textlint"
   ],
   "dependencies": {
-    "@textlint/ast-node-types": "^3.0.0",
+    "@textlint/ast-node-types": "^4.0.2",
     "concat-stream": "^1.5.2",
     "object.values": "^1.0.4",
     "structured-source": "^3.0.2"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.44",
-    "@types/node": "^8.5.2",
-    "cross-env": "^5.1.1",
+    "@types/mocha": "^5.2.4",
+    "@types/node": "^10.5.2",
+    "cross-env": "^5.2.0",
     "husky": "^0.14.3",
-    "lint-staged": "^4.3.0",
-    "mocha": "^4.0.1",
-    "power-assert": "^1.4.2",
-    "prettier": "^1.7.4",
-    "ts-node": "^4.0.2",
-    "typescript": "^2.6.2"
+    "lint-staged": "^7.2.0",
+    "mocha": "^5.2.0",
+    "power-assert": "^1.6.0",
+    "prettier": "^1.13.7",
+    "ts-node": "^7.0.0",
+    "ts-node-test-register": "^4.0.0",
+    "typescript": "^2.9.2"
   },
   "prettier": {
     "printWidth": 120,

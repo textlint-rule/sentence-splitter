@@ -1,0 +1,153 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "実行コンテキストが\"Script\"である場合、そのコード直下に書かれた",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 35
+        }
+      },
+      "range": [
+        0,
+        35
+      ],
+      "raw": "実行コンテキストが\"Script\"である場合、そのコード直下に書かれた"
+    },
+    {
+      "type": "Code",
+      "value": "this",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 35
+        },
+        "end": {
+          "line": 1,
+          "column": 41
+        }
+      },
+      "range": [
+        35,
+        41
+      ],
+      "raw": "`this`"
+    },
+    {
+      "type": "Str",
+      "value": "はグローバルオブジェクトを参照します。\nグローバルオブジェクトとは、実行環境において異なるものが定義されています。\nブラウザなら",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 41
+        },
+        "end": {
+          "line": 3,
+          "column": 6
+        }
+      },
+      "range": [
+        41,
+        105
+      ],
+      "raw": "はグローバルオブジェクトを参照します。\nグローバルオブジェクトとは、実行環境において異なるものが定義されています。\nブラウザなら"
+    },
+    {
+      "type": "Code",
+      "value": "window",
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 6
+        },
+        "end": {
+          "line": 3,
+          "column": 14
+        }
+      },
+      "range": [
+        105,
+        113
+      ],
+      "raw": "`window`"
+    },
+    {
+      "type": "Str",
+      "value": "オブジェクト、Node.jsなら",
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 14
+        },
+        "end": {
+          "line": 3,
+          "column": 30
+        }
+      },
+      "range": [
+        113,
+        129
+      ],
+      "raw": "オブジェクト、Node.jsなら"
+    },
+    {
+      "type": "Code",
+      "value": "global",
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 30
+        },
+        "end": {
+          "line": 3,
+          "column": 38
+        }
+      },
+      "range": [
+        129,
+        137
+      ],
+      "raw": "`global`"
+    },
+    {
+      "type": "Str",
+      "value": "オブジェクトとなります。",
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 38
+        },
+        "end": {
+          "line": 3,
+          "column": 50
+        }
+      },
+      "range": [
+        137,
+        149
+      ],
+      "raw": "オブジェクトとなります。"
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 3,
+      "column": 50
+    }
+  },
+  "range": [
+    0,
+    149
+  ],
+  "raw": "実行コンテキストが\"Script\"である場合、そのコード直下に書かれた`this`はグローバルオブジェクトを参照します。\nグローバルオブジェクトとは、実行環境において異なるものが定義されています。\nブラウザなら`window`オブジェクト、Node.jsなら`global`オブジェクトとなります。"
+}

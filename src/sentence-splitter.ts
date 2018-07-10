@@ -9,6 +9,7 @@ import { SeparatorParser } from "./parser/SeparatorParser";
 import { AnyValueParser } from "./parser/AnyValueParser";
 import { AbbrMarker } from "./parser/AbbrMarker";
 import { PairMaker } from "./parser/PairMaker";
+import { debugLog } from "./logger";
 
 export const Syntax = {
     WhiteSpace: "WhiteSpace",
@@ -124,7 +125,9 @@ export function split(text: string): (TxtParentNode | TxtNode)[] {
     const separator = new SeparatorParser();
     const abbrMarker = new AbbrMarker();
     const pairMaker = new PairMaker();
-    const anyValue = new AnyValueParser({
+    // anyValueParser has multiple parser and markers.
+    // anyValueParse eat any value if it reach to other value.
+    const anyValueParser = new AnyValueParser({
         parsers: [newLine, separator],
         markers: [abbrMarker, pairMaker]
     });
@@ -142,7 +145,7 @@ export function split(text: string): (TxtParentNode | TxtNode)[] {
             if (!splitParser.isOpened()) {
                 splitParser.open(createEmptySentenceNode());
             }
-            splitParser.nextValue(anyValue);
+            splitParser.nextValue(anyValueParser);
         }
     }
     splitParser.close(space);
@@ -172,14 +175,18 @@ export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
             break;
         }
         if (currentNode.type === ASTNodeTypes.Str) {
-            if (newLine.test(sourceCode)) {
-                splitParser.nextLine(newLine);
-            } else if (space.test(sourceCode)) {
+            if (space.test(sourceCode)) {
+                debugLog("space");
                 splitParser.nextSpace(space);
             } else if (separator.test(sourceCode)) {
+                debugLog("separator");
                 splitParser.close(separator);
+            } else if (newLine.test(sourceCode)) {
+                debugLog("newline");
+                splitParser.nextLine(newLine);
             } else {
                 if (!splitParser.isOpened()) {
+                    debugLog("open -> createEmptySentenceNode()");
                     splitParser.open(createEmptySentenceNode());
                 }
                 splitParser.nextValue(anyValue);

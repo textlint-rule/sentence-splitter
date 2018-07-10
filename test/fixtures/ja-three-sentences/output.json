@@ -1,0 +1,346 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "実行コンテキストが\"Script\"である場合、そのコード直下に書かれた`this`はグローバルオブジェクトを参照します。",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 60
+                }
+            },
+            "range": [
+                0,
+                60
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "実行コンテキストが\"Script\"である場合、そのコード直下に書かれた",
+                    "value": "実行コンテキストが\"Script\"である場合、そのコード直下に書かれた",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 35
+                        }
+                    },
+                    "range": [
+                        0,
+                        35
+                    ]
+                },
+                {
+                    "type": "Code",
+                    "value": "this",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 35
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 41
+                        }
+                    },
+                    "range": [
+                        35,
+                        41
+                    ],
+                    "raw": "`this`"
+                },
+                {
+                    "type": "Str",
+                    "raw": "はグローバルオブジェクトを参照します",
+                    "value": "はグローバルオブジェクトを参照します",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 41
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 59
+                        }
+                    },
+                    "range": [
+                        41,
+                        59
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": "。",
+                    "value": "。",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 59
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 60
+                        }
+                    },
+                    "range": [
+                        59,
+                        60
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": "\n",
+            "value": "\n",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 60
+                },
+                "end": {
+                    "line": 2,
+                    "column": 0
+                }
+            },
+            "range": [
+                60,
+                61
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "グローバルオブジェクトとは、実行環境において異なるものが定義されています。",
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 0
+                },
+                "end": {
+                    "line": 2,
+                    "column": 37
+                }
+            },
+            "range": [
+                61,
+                98
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "グローバルオブジェクトとは、実行環境において異なるものが定義されています",
+                    "value": "グローバルオブジェクトとは、実行環境において異なるものが定義されています",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 36
+                        }
+                    },
+                    "range": [
+                        61,
+                        97
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": "。",
+                    "value": "。",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 36
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 37
+                        }
+                    },
+                    "range": [
+                        97,
+                        98
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": "\n",
+            "value": "\n",
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 37
+                },
+                "end": {
+                    "line": 3,
+                    "column": 0
+                }
+            },
+            "range": [
+                98,
+                99
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "ブラウザなら`window`オブジェクト、Node.jsなら`global`オブジェクトとなります。",
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 0
+                },
+                "end": {
+                    "line": 3,
+                    "column": 50
+                }
+            },
+            "range": [
+                99,
+                149
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "ブラウザなら",
+                    "value": "ブラウザなら",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 6
+                        }
+                    },
+                    "range": [
+                        99,
+                        105
+                    ]
+                },
+                {
+                    "type": "Code",
+                    "value": "window",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 6
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 14
+                        }
+                    },
+                    "range": [
+                        105,
+                        113
+                    ],
+                    "raw": "`window`"
+                },
+                {
+                    "type": "Str",
+                    "raw": "オブジェクト、Node.jsなら",
+                    "value": "オブジェクト、Node.jsなら",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 14
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 30
+                        }
+                    },
+                    "range": [
+                        113,
+                        129
+                    ]
+                },
+                {
+                    "type": "Code",
+                    "value": "global",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 30
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 38
+                        }
+                    },
+                    "range": [
+                        129,
+                        137
+                    ],
+                    "raw": "`global`"
+                },
+                {
+                    "type": "Str",
+                    "raw": "オブジェクトとなります",
+                    "value": "オブジェクトとなります",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 38
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 49
+                        }
+                    },
+                    "range": [
+                        137,
+                        148
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": "。",
+                    "value": "。",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 49
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 50
+                        }
+                    },
+                    "range": [
+                        148,
+                        149
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 3,
+            "column": 50
+        }
+    },
+    "range": [
+        0,
+        149
+    ],
+    "raw": "実行コンテキストが\"Script\"である場合、そのコード直下に書かれた`this`はグローバルオブジェクトを参照します。\nグローバルオブジェクトとは、実行環境において異なるものが定義されています。\nブラウザなら`window`オブジェクト、Node.jsなら`global`オブジェクトとなります。"
+}
