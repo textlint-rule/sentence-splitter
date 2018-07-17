@@ -1,0 +1,30 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+  <!--
+  <script src="https://cdn.rawgit.com/azu/sentence-splitter/gh-pages/sentence-splitter.js"></script>
+-->
+  <script src="./sentence-splitter.js"></script>
+  <script>
+  function split() {
+    var source = document.getElementById("source").value;
+    var sentences = splitToSentences(source).join("\n");
+    document.getElementById("result").value = sentences;
+  }
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend>Split text to sentences</legend>
+      <label for="source">Original text</label>
+      <textarea id="source">Hello, he said. Hello, she said.
+Bye, he said. Bye, she said.
+      </textarea>
+      <input type="button" value="Split" onclick="split()"></input>
+      <input type="button" value="Clear" onclick="getElementById('result').value = '';"></input>
+      <label for="result">Sentences</label>
+      <textarea id="result"></textarea>
+    </fieldset>
+  </form>
+</html>

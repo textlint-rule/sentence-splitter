@@ -18,6 +18,30 @@ Split {Japanese, English} text into sentences.
     This is a pen.
     But This is not pen
 
+### Browser
+
+    <head>
+      <script src="https://cdn.rawgit.com/adamschmideg/sentence-splitter/gh-pages/sentence-splitter.js"></script>
+      <script>
+      function split() {
+        var source = document.getElementById("source").value;
+        var sentences = splitToSentences(source).join("\n");
+        document.getElementById("result").value = sentences;
+      }
+      </script>
+    </head>
+    <body>
+      <textarea id="source">This is a pen. But this is not a pen.
+      And this is another paragraph.
+      </textarea>
+      <input type="button" value="Split" onclick="split()"></input>
+      <textarea id="result"></textarea>
+    </body>
+
+See a [working demo](http://adam.schmideg.net/sentence-splitter).
+
+You can publish your own version to your github pages running `npm run publishDemo`.
+On Windows, you should run it in a Git Bash console.
 
 ## Usage
 
