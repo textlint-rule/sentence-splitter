@@ -32,7 +32,8 @@
     "test": "mocha \"test/**/*.{js,ts}\"",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
     "precommit": "lint-staged",
-    "postcommit": "git reset"
+    "postcommit": "git reset",
+    "webpack": "WEBPACK_ENV=build webpack"
   },
   "keywords": [
     "text",
@@ -54,9 +55,12 @@
     "mocha": "^5.2.0",
     "power-assert": "^1.6.0",
     "prettier": "^1.13.7",
+    "ts-loader": "^4.4.2",
     "ts-node": "^7.0.0",
     "ts-node-test-register": "^4.0.0",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8"
   },
   "prettier": {
     "printWidth": 120,
