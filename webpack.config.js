@@ -16,7 +16,7 @@ module.exports = {
     },
     output: {
         libraryTarget: "umd",
-        filename: "bundle.js",
+        filename: "sentence-splitter.js",
         path: path.resolve(__dirname, "dist")
     }
 };

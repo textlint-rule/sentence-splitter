@@ -1,0 +1,21 @@
+<html>
+<head>
+  <script src="../dist/sentence-splitter.js"></script>
+  <script>
+  function split() {
+    var source = document.getElementById("source").innerHTML;
+    var sentences = splitToSentences(source);
+    document.getElementById("result").innerHTML = sentences;
+  }
+  </script>
+</head>
+<body>
+  <div class="left">
+    <textarea id="source">Hello, he said. Goodbye, she said.</textarea>
+  </div>
+  <input type="button" value="Split" onclick="split()"></input>
+  <input type="button" value="Clear" onclick="getElementById('result').innerHTML = '';"></input>
+  <div class="result">
+      <textarea id="result"></textarea>
+  </div>
+</html>
