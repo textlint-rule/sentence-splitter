@@ -1,5 +1,6 @@
 <html>
 <head>
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
   <script src="../dist/sentence-splitter.js"></script>
   <script>
   function split() {
@@ -10,12 +11,15 @@
   </script>
 </head>
 <body>
-  <div class="left">
-    <textarea id="source">Hello, he said. Goodbye, she said.</textarea>
-  </div>
-  <input type="button" value="Split" onclick="split()"></input>
-  <input type="button" value="Clear" onclick="getElementById('result').innerHTML = '';"></input>
-  <div class="result">
+  <form>
+    <fieldset>
+      <legend>Split text to sentences</legend>
+      <label for="source">Original text</label>
+      <textarea id="source">Hello, he said. Goodbye, she said.</textarea>
+      <input type="button" value="Split" onclick="split()"></input>
+      <input type="button" value="Clear" onclick="getElementById('result').innerHTML = '';"></input>
+      <label for="result">Sentences</label>
       <textarea id="result"></textarea>
-  </div>
+    </fieldset>
+  </form>
 </html>
