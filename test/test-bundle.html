@@ -4,9 +4,9 @@
   <script src="../dist/sentence-splitter.js"></script>
   <script>
   function split() {
-    var source = document.getElementById("source").innerHTML;
+    var source = document.getElementById("source").value;
     var sentences = splitToSentences(source);
-    document.getElementById("result").innerHTML = sentences;
+    document.getElementById("result").value = sentences;
   }
   </script>
 </head>
@@ -17,7 +17,7 @@
       <label for="source">Original text</label>
       <textarea id="source">Hello, he said. Goodbye, she said.</textarea>
       <input type="button" value="Split" onclick="split()"></input>
-      <input type="button" value="Clear" onclick="getElementById('result').innerHTML = '';"></input>
+      <input type="button" value="Clear" onclick="getElementById('result').value = '';"></input>
       <label for="result">Sentences</label>
       <textarea id="result"></textarea>
     </fieldset>
