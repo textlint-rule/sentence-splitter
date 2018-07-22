@@ -1,4 +1,5 @@
 const path = require("path");
+var CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: "./src/index.ts",
@@ -11,6 +12,7 @@ module.exports = {
             }
         ]
     },
+    plugins: [new CopyWebpackPlugin([{ from: "src/html/", to: "./" }])],
     resolve: {
         extensions: [".tsx", ".ts", ".js"]
     },

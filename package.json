@@ -32,7 +32,10 @@
     "test": "mocha \"test/**/*.{js,ts}\"",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
     "precommit": "lint-staged",
-    "postcommit": "git reset"
+    "postcommit": "git reset",
+    "buildDemo": "webpack --mode production",
+    "deployDemo": "gh-pages -d dist",
+    "publishDemo": "npm run buildDemo && npm run deployDemo"
   },
   "keywords": [
     "text",
@@ -48,7 +51,9 @@
   "devDependencies": {
     "@types/mocha": "^5.2.4",
     "@types/node": "^10.5.2",
+    "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
+    "gh-pages": "^1.2.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
     "mocha": "^5.2.0",
