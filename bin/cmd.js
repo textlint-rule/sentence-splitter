@@ -12,7 +12,7 @@ input.pipe(
                 return node.type === Syntax.Sentence;
             })
             .forEach(function(sentence, index) {
-                console.log("Sentence " + index + ": " + sentence.value);
+                console.log("Sentence " + index + ": " + sentence.raw);
             });
     })
 );
