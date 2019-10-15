@@ -20,7 +20,8 @@ export class PairMaker implements AbstractMarker {
         [`（`]: `）`,
         [`(`]: `)`,
         [`『`]: `』`,
-        [`【`]: `】`
+        [`【`]: `】`,
+        [`《`]: `》`
     };
     private pairKeys = Object.keys(this.pairs);
     private pairValues = values(this.pairs);
