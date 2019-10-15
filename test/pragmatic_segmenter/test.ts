@@ -412,6 +412,12 @@ export const source = [
     },
 
     {
+        name: "Guillemet",
+        input: "《響け！ユーフォニアム》は京都アニメーションの有名作品です。",
+        output: ["《響け！ユーフォニアム》は京都アニメーションの有名作品です。"]
+    },
+
+    {
         name: "Errant newlines in the middle of sentences",
         input: "これは父の\n家です。",
         output: ["これは父の家です。"],
