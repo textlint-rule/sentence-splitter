@@ -23,7 +23,7 @@ export class SeparatorParser implements AbstractParser {
             return false;
         }
         // Need space after period
-        // Example: This is a pen. This it not a pen.
+        // Example: "This is a pen. This is not a pen."
         // It will avoid false-position like `1.23`
         if (firstChar === ".") {
             if (nextChar) {
