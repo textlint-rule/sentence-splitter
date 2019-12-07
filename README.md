@@ -399,7 +399,7 @@ Update snapshots(`output.json`):
     npm run updateSnapshot
 
 
-### Adding snapshot testing
+### Adding snapshot testcase
 
 1. Create `test/fixtures/<test-case-name>/` directory
 2. Put `test/fixtures/<test-case-name>/_input.md` with testing content
