@@ -5,7 +5,7 @@ import { SourceCode } from "./parser/SourceCode";
 import { AbstractParser } from "./parser/AbstractParser";
 import { NewLineParser } from "./parser/NewLineParser";
 import { SpaceParser } from "./parser/SpaceParser";
-import { SeparatorParser } from "./parser/SeparatorParser";
+import { SeparatorParser, SeparatorParserOptions } from "./parser/SeparatorParser";
 import { AnyValueParser } from "./parser/AnyValueParser";
 import { AbbrMarker } from "./parser/AbbrMarker";
 import { PairMaker } from "./parser/PairMaker";
@@ -116,13 +116,17 @@ export class SplitParser {
     }
 }
 
-/**
- * split `text` into Sentence nodes
- */
-export function split(text: string): (TxtParentNode | TxtNode)[] {
+export interface splitOptions {
+    /**
+     * Separator options
+     */
+    SeparatorParser?: SeparatorParserOptions;
+}
+
+const createParsers = (options: splitOptions = {}) => {
     const newLine = new NewLineParser();
     const space = new SpaceParser();
-    const separator = new SeparatorParser();
+    const separator = new SeparatorParser(options.SeparatorParser);
     const abbrMarker = new AbbrMarker();
     const pairMaker = new PairMaker();
     // anyValueParser has multiple parser and markers.
@@ -131,6 +135,20 @@ export function split(text: string): (TxtParentNode | TxtNode)[] {
         parsers: [newLine, separator],
         markers: [abbrMarker, pairMaker]
     });
+    return {
+        newLine,
+        space,
+        separator,
+        abbrMarker,
+        anyValueParser
+    };
+};
+
+/**
+ * split `text` into Sentence nodes
+ */
+export function split(text: string, options?: splitOptions): (TxtParentNode | TxtNode)[] {
+    const { newLine, space, separator, anyValueParser } = createParsers(options);
     const splitParser = new SplitParser(text);
     const sourceCode = splitParser.source;
     while (!sourceCode.hasEnd) {
@@ -157,16 +175,8 @@ export function split(text: string): (TxtParentNode | TxtNode)[] {
  * This Node is based on TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
-export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
-    const newLine = new NewLineParser();
-    const space = new SpaceParser();
-    const separator = new SeparatorParser();
-    const abbrMarker = new AbbrMarker();
-    const pairMaker = new PairMaker();
-    const anyValue = new AnyValueParser({
-        parsers: [newLine, separator],
-        markers: [abbrMarker, pairMaker]
-    });
+export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): TxtParentNode {
+    const { newLine, space, separator, anyValueParser } = createParsers(options);
     const splitParser = new SplitParser(paragraphNode);
     const sourceCode = splitParser.source;
     while (!sourceCode.hasEnd) {
@@ -189,7 +199,7 @@ export function splitAST(paragraphNode: TxtParentNode): TxtParentNode {
                     debugLog("open -> createEmptySentenceNode()");
                     splitParser.open(createEmptySentenceNode());
                 }
-                splitParser.nextValue(anyValue);
+                splitParser.nextValue(anyValueParser);
             }
         } else {
             if (!splitParser.isOpened()) {

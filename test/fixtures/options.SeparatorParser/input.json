@@ -1,0 +1,39 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "Hello! Tom!\nHello! Tom.\nHello!?Tom.\nこんにちわ、Tom。",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 4,
+          "column": 10
+        }
+      },
+      "range": [
+        0,
+        46
+      ],
+      "raw": "Hello! Tom!\nHello! Tom.\nHello!?Tom.\nこんにちわ、Tom。"
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 4,
+      "column": 10
+    }
+  },
+  "range": [
+    0,
+    46
+  ],
+  "raw": "Hello! Tom!\nHello! Tom.\nHello!?Tom.\nこんにちわ、Tom。"
+}
