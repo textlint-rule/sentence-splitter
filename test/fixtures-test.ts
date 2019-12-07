@@ -13,7 +13,7 @@ describe("fixtures testing", () => {
             const actualContent: TxtParentNode = JSON.parse(fs.readFileSync(actualPath, "utf-8"));
             const actual = splitAST(actualContent);
             const outputFilePath = path.join(fixtureDir, "output.json");
-            if (process.env.UPDATE) {
+            if (process.env.UPDATE_SNAPSHOT) {
                 fs.writeFileSync(outputFilePath, JSON.stringify(actual, null, 4));
                 this.skip();
             } else {

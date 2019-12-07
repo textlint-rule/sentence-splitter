@@ -6,34 +6,34 @@
       "value": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている",
       "loc": {
         "start": {
-          "line": 3,
-          "column": 2
+          "line": 1,
+          "column": 0
         },
         "end": {
-          "line": 3,
-          "column": 46
+          "line": 1,
+          "column": 44
         }
       },
       "range": [
-        42,
-        86
+        0,
+        44
       ],
       "raw": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている"
     }
   ],
   "loc": {
     "start": {
-      "line": 3,
-      "column": 2
+      "line": 1,
+      "column": 0
     },
     "end": {
-      "line": 3,
-      "column": 46
+      "line": 1,
+      "column": 44
     }
   },
   "range": [
-    42,
-    86
+    0,
+    44
   ],
   "raw": "ルールは、設定値などがJavaScriptで表現でき、npmで共有できる作りになっている"
 }

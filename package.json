@@ -30,6 +30,8 @@
     "watch": "tsc -p . --watch",
     "prepublish": "npm run --if-present build",
     "test": "mocha \"test/**/*.{js,ts}\"",
+    "createInputJson": "ts-node scripts/generate-input-json-from-_input-md.ts",
+    "updateSnapshot": "UPDATE_SNAPSHOT=1 npm test",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
     "precommit": "lint-staged",
     "postcommit": "git reset"

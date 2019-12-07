@@ -16,5 +16,5 @@ fs.readdirSync(fixturesDir).map(caseName => {
     const inputMarkdown = fs.readFileSync(actualPath, "utf-8");
     const AST: TxtParentNode = parse(inputMarkdown);
     const firstBodyNode = AST.children[0];
-    fs.writeFileSync(path.join(fixtureDir, "input.json"), firstBodyNode, "utf-8");
+    fs.writeFileSync(path.join(fixtureDir, "input.json"), JSON.stringify(firstBodyNode, null, 2) + "\n", "utf-8");
 });
