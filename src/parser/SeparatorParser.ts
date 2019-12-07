@@ -5,7 +5,7 @@ export const DefaultOptions = {
     separatorCharacters: [
         ".", // period
         "．", // (ja) zenkaku-period
-        "。", // (ja) touten
+        "。", // (ja) 句点
         "?", // question mark
         "!", //  exclamation mark
         "？", // (ja) zenkaku question mark
