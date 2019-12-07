@@ -1,0 +1,1 @@
+# capitalization in titles and headings

@@ -46,6 +46,7 @@
     "structured-source": "^3.0.2"
   },
   "devDependencies": {
+    "@textlint/markdown-to-ast": "^6.1.6",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.14",
     "cross-env": "^6.0.3",

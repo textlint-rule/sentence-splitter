@@ -1,0 +1,1 @@
+text that follows a label, such as a Caution or Note.
