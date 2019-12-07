@@ -405,7 +405,7 @@ Update snapshots(`output.json`):
 2. Put `test/fixtures/<test-case-name>/_input.md` with testing content
 3. Run `npm run updateSnapshot`
 4. Check the `test/fixtures/<test-case-name>/output.json`
-5. If ok, commit it
+5. If it is ok, commit it
 
 
 ## Contributing
