@@ -6,34 +6,34 @@
       "value": "text that follows a label, such as a Caution or Note.",
       "loc": {
         "start": {
-          "line": 5,
-          "column": 2
+          "line": 1,
+          "column": 0
         },
         "end": {
-          "line": 5,
-          "column": 55
+          "line": 1,
+          "column": 53
         }
       },
       "range": [
-        90,
-        143
+        0,
+        53
       ],
       "raw": "text that follows a label, such as a Caution or Note."
     }
   ],
   "loc": {
     "start": {
-      "line": 5,
-      "column": 2
+      "line": 1,
+      "column": 0
     },
     "end": {
-      "line": 5,
-      "column": 55
+      "line": 1,
+      "column": 53
     }
   },
   "range": [
-    90,
-    143
+    0,
+    53
   ],
   "raw": "text that follows a label, such as a Caution or Note."
 }

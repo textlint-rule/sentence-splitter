@@ -386,7 +386,27 @@ This library use ["Golden Rule" test](test/pragmatic_segmenter/test.ts) of `prag
 
 ## Tests
 
+Run tests:
+
     npm test
+    
+Create `input.json` from `_input.md`
+
+    npm run createInputJson    
+
+Update snapshots(`output.json`):
+
+    npm run updateSnapshot
+
+
+### Adding snapshot testcase
+
+1. Create `test/fixtures/<test-case-name>/` directory
+2. Put `test/fixtures/<test-case-name>/_input.md` with testing content
+3. Run `npm run updateSnapshot`
+4. Check the `test/fixtures/<test-case-name>/output.json`
+5. If it is ok, commit it
+
 
 ## Contributing
 

@@ -1,0 +1,1 @@
+![image](http://exmaple.com) is not capital.
