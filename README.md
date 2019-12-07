@@ -22,16 +22,29 @@ Split {Japanese, English} text into sentences.
 ## Usage
 
 ```ts
+export interface SeparatorParserOptions {
+    /**
+     * Recognize each characters as separator
+     * Example [".", "!", "?"]
+     */
+    separatorCharacters?: string[]
+}
+export interface splitOptions {
+    /**
+     * Separator options
+     */
+    SeparatorParser?: SeparatorParserOptions;
+}
 /**
- * split `text` into Sentence node list.
+ * split `text` into Sentence nodes
  */
-export declare function split(text: string): (TxtParentNode | TxtNode)[];
+export declare function split(text: string, options?: splitOptions): (TxtParentNode | TxtNode)[];
 /**
  * Convert Paragraph Node to Paragraph node that convert children to Sentence node
  * This Node is based on TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
-export declare function splitAST(paragraphNode: TxtParentNode): TxtParentNode;
+export declare function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): TxtParentNode;
 ```
 
 `TxtParentNode` and `TxtNode` is defined in [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").

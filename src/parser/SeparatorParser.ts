@@ -1,12 +1,37 @@
 import { SourceCode } from "./SourceCode";
 import { AbstractParser } from "./AbstractParser";
 
-const separatorPattern = /[.．。?!？！]/;
+export const DefaultOptions = {
+    separatorCharacters: [
+        ".", // period
+        "．", // (ja) zenkaku-period
+        "。", // (ja) dokuten
+        "?", // question mark
+        "!", //  exclamation mark
+        "？", // (ja) zenkaku question mark
+        "！" // (ja) zenkaku exclamation mark
+    ]
+};
+
+export interface SeparatorParserOptions {
+    /**
+     * Recognize each characters as separator
+     * Example [".", "!", "?"]
+     */
+    separatorCharacters?: string[];
+}
 
 /**
  * Separator parser
  */
 export class SeparatorParser implements AbstractParser {
+    private separatorCharacters: string[];
+
+    constructor(readonly options?: SeparatorParserOptions) {
+        this.separatorCharacters =
+            options && options.separatorCharacters ? options.separatorCharacters : DefaultOptions.separatorCharacters;
+    }
+
     test(sourceCode: SourceCode) {
         if (sourceCode.isInContext()) {
             return false;
@@ -19,7 +44,7 @@ export class SeparatorParser implements AbstractParser {
         if (!firstChar) {
             return false;
         }
-        if (!separatorPattern.test(firstChar)) {
+        if (!this.separatorCharacters.includes(firstChar)) {
             return false;
         }
         // Need space after period
