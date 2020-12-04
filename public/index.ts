@@ -16,7 +16,7 @@ textElement?.addEventListener("input", () => {
 });
 
 const textFromURL = location.hash;
-if (textFromURL) {
+if (textFromURL.length > 0) {
     const decodedText = decodeURIComponent(textFromURL);
     textElement.value = decodedText;
     onUpdate(decodedText);

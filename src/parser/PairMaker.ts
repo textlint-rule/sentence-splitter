@@ -2,7 +2,7 @@ import { SourceCode } from "./SourceCode";
 import { AbstractMarker } from "./AbstractMarker";
 import { debugLog } from "../logger";
 // @ts-ignore
-import values from "object.values";
+import values from "object_values";
 
 /**
  * Mark pair character
