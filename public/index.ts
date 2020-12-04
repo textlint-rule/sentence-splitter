@@ -7,6 +7,7 @@ const onUpdate = (text: string) => {
     try {
         const json = split(text);
         jsonElement.textContent = JSON.stringify(json, null, 4);
+        location.hash = encodeURIComponent(text);
     } catch {}
 };
 
@@ -14,7 +15,7 @@ textElement?.addEventListener("input", () => {
     onUpdate(textElement.value);
 });
 
-const textFromURL = new URL(location.href).searchParams.get("text");
+const textFromURL = location.hash;
 if (textFromURL) {
     const decodedText = decodeURIComponent(textFromURL);
     textElement.value = decodedText;
