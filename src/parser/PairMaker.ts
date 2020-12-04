@@ -1,6 +1,9 @@
 import { SourceCode } from "./SourceCode";
 import { AbstractMarker } from "./AbstractMarker";
 import { debugLog } from "../logger";
+// @ts-ignore
+import values from "object.values";
+
 /**
  * Mark pair character
  * PairMarker aim to mark pair string as a single sentence.
@@ -21,7 +24,7 @@ export class PairMaker implements AbstractMarker {
         [`《`]: `》`
     };
     private pairKeys = Object.keys(this.pairs);
-    private pairValues = Object.values(this.pairs);
+    private pairValues = values(this.pairs);
 
     mark(sourceCode: SourceCode): void {
         const string = sourceCode.read();

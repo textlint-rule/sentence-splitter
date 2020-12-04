@@ -3,6 +3,7 @@
     /* Basic Options */
     "module": "commonjs",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "newLine": "LF",
     "outDir": "./lib/",
     "target": "es5",
