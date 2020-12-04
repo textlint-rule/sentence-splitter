@@ -85,3 +85,6 @@ crashlytics.properties
 crashlytics-build.properties
 
 
+
+# Local Netlify folder
+.netlify
