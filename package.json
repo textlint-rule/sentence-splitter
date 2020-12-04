@@ -26,7 +26,7 @@
     "test": "test"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production tsc -p .",
+    "build": "tsc -p .",
     "watch": "tsc -p . --watch",
     "prepublish": "npm run --if-present build",
     "test": "mocha \"test/**/*.{js,ts}\"",
@@ -34,7 +34,10 @@
     "updateSnapshot": "UPDATE_SNAPSHOT=1 npm test",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
     "precommit": "lint-staged",
-    "postcommit": "git reset"
+    "postcommit": "git reset",
+    "start": "parcel serve public/index.html",
+    "presite:build": "npm run build",
+    "site:build": "parcel build public/index.html"
   },
   "keywords": [
     "text",
@@ -44,22 +47,22 @@
   "dependencies": {
     "@textlint/ast-node-types": "^4.2.5",
     "concat-stream": "^2.0.0",
-    "object.values": "^1.1.0",
     "structured-source": "^3.0.2"
   },
   "devDependencies": {
+    "@snowpack/plugin-typescript": "^1.1.1",
     "@textlint/markdown-to-ast": "^6.1.6",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.14",
-    "cross-env": "^6.0.3",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "mocha": "^6.2.2",
+    "parcel": "^1.12.4",
     "power-assert": "^1.6.1",
     "prettier": "^1.19.1",
     "ts-node": "^8.5.4",
     "ts-node-test-register": "^8.0.1",
-    "typescript": "^3.7.3"
+    "typescript": "^4.1.2"
   },
   "prettier": {
     "printWidth": 120,
