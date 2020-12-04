@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    grid-auto-rows: minmax(500px, auto);
+    grid-auto-rows: minmax(800px, 1fr);
 }
 
 .mainLabel {
