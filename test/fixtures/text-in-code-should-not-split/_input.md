@@ -1,1 +1,1 @@
-This should not split `https://{Application Load Balancer DNS NAME}/login?continue=/backoffice`
+This should not split `https://{...}/login?continue=/backoffice`

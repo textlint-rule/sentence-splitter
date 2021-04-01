@@ -22,7 +22,7 @@
     },
     {
       "type": "Code",
-      "value": "https://{Application Load Balancer DNS NAME}/login?continue=/backoffice",
+      "value": "https://{...}/login?continue=/backoffice",
       "loc": {
         "start": {
           "line": 1,
@@ -30,14 +30,14 @@
         },
         "end": {
           "line": 1,
-          "column": 95
+          "column": 64
         }
       },
       "range": [
         22,
-        95
+        64
       ],
-      "raw": "`https://{Application Load Balancer DNS NAME}/login?continue=/backoffice`"
+      "raw": "`https://{...}/login?continue=/backoffice`"
     }
   ],
   "loc": {
@@ -47,12 +47,12 @@
     },
     "end": {
       "line": 1,
-      "column": 95
+      "column": 64
     }
   },
   "range": [
     0,
-    95
+    64
   ],
-  "raw": "This should not split `https://{Application Load Balancer DNS NAME}/login?continue=/backoffice`"
+  "raw": "This should not split `https://{...}/login?continue=/backoffice`"
 }
