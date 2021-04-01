@@ -1,0 +1,58 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "This should not split ",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 22
+        }
+      },
+      "range": [
+        0,
+        22
+      ],
+      "raw": "This should not split "
+    },
+    {
+      "type": "Code",
+      "value": "https://{Application Load Balancer DNS NAME}/login?continue=/backoffice",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 22
+        },
+        "end": {
+          "line": 1,
+          "column": 95
+        }
+      },
+      "range": [
+        22,
+        95
+      ],
+      "raw": "`https://{Application Load Balancer DNS NAME}/login?continue=/backoffice`"
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 95
+    }
+  },
+  "range": [
+    0,
+    95
+  ],
+  "raw": "This should not split `https://{Application Load Balancer DNS NAME}/login?continue=/backoffice`"
+}
