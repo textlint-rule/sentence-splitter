@@ -45,7 +45,7 @@
     "textlint"
   ],
   "dependencies": {
-    "@textlint/ast-node-types": "^4.2.5",
+    "@textlint/ast-node-types": "^4.4.2",
     "concat-stream": "^2.0.0",
     "object_values": "^0.1.2",
     "structured-source": "^3.0.2"

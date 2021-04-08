@@ -931,10 +931,15 @@
     execa "^4.0.3"
     npm-run-path "^4.0.1"
 
-"@textlint/ast-node-types@^4.2.5", "@textlint/ast-node-types@^4.3.4":
+"@textlint/ast-node-types@^4.3.4":
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-4.3.4.tgz#f6596c45c32c85dc06915c3077bb7686033efd32"
   integrity sha512-Grq+vJuNH7HCa278eFeiqJvowrD+onMCoG2ctLyoN+fXYIQGIr1/8fo8AcIg+VM16Kga+N6Y1UWNOWPd8j1nFg==
+
+"@textlint/ast-node-types@^4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-4.4.2.tgz#d3fda5c9086baba04bc75440039ccf18415c8446"
+  integrity sha512-m5brKbI7UY/Q8sbIZ7z1KB8ls04nRILshz5fPQ4EZ04jL19qrrUHJR8A6nK3vJ/GelkDWl4I0VDYSAjLEFQV8g==
 
 "@textlint/markdown-to-ast@^6.1.6":
   version "6.2.5"
