@@ -415,6 +415,10 @@ export default function(context, options = {}) {
 }
 ```
 
+Example
+
+- [textlint-ja/textlint-rule-max-ten: textlint rule that limit maxinum ten(、) count of sentence.](https://github.com/textlint-ja/textlint-rule-max-ten)
+
 ## Reference
 
 This library use ["Golden Rule" test](test/pragmatic_segmenter/test.ts) of `pragmatic_segmenter`.
