@@ -170,12 +170,16 @@ export function split(text: string, options?: splitOptions): (TxtParentNode | Tx
     return splitParser.toList();
 }
 
+export interface SentenceParentNode extends TxtNode {
+    children: Array<TxtNode | TxtTextNode | SentenceNode>;
+}
+
 /**
  * Convert Paragraph Node to Paragraph node that convert children to Sentence node
  * This Node is based on TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
-export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): TxtParentNode {
+export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): SentenceParentNode {
     const { newLine, space, separator, anyValueParser } = createParsers(options);
     const splitParser = new SplitParser(paragraphNode);
     const sourceCode = splitParser.source;

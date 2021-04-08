@@ -18,7 +18,6 @@ Split {Japanese, English} text into sentences.
     This is a pen.
     But This is not pen
 
-
 ## Usage
 
 ```ts
@@ -29,16 +28,19 @@ export interface SeparatorParserOptions {
      */
     separatorCharacters?: string[]
 }
+
 export interface splitOptions {
     /**
      * Separator options
      */
     SeparatorParser?: SeparatorParserOptions;
 }
+
 /**
  * split `text` into Sentence nodes
  */
 export declare function split(text: string, options?: splitOptions): (TxtParentNode | TxtNode)[];
+
 /**
  * Convert Paragraph Node to Paragraph node that convert children to Sentence node
  * This Node is based on TxtAST.
@@ -47,12 +49,14 @@ export declare function split(text: string, options?: splitOptions): (TxtParentN
 export declare function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): TxtParentNode;
 ```
 
-`TxtParentNode` and `TxtNode` is defined in [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
+`TxtParentNode` and `TxtNode` is defined
+in [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
 
 ### Example
 
 ```js
-import {split, Syntax} from "sentence-splitter";
+import { split, Syntax } from "sentence-splitter";
+
 let sentences = split(`There it is! I found it.
 Hello World. My name is Jonas.`);
 console.log(JSON.stringify(sentences, null, 4));
@@ -347,7 +351,8 @@ This node is based on [TxtAST](https://github.com/textlint/textlint/blob/master/
 Get these `Syntax` constants value from the module:
 
 ```js
-import {Syntax} from "sentence-splitter";
+import { Syntax } from "sentence-splitter";
+
 console.log(Syntax.Sentence);// "Sentence"
 ```
 
@@ -389,7 +394,26 @@ Node layout image.
 ```
 
 Note: This library will not split `Str` into `Str` and `WhiteSpace`(tokenize)
-Because, Tokenize need to implement language specific context.  
+Because, Tokenize need to implement language specific context.
+
+### in textlint rule
+
+You can use `splitAST` in textlint rule.
+
+```ts
+import { splitAST, Syntax as SentenceSyntax } from "sentence-splitter";
+
+export default function(context, options = {}) {
+    const { Syntax, RuleError, report, getSource } = context;
+    return {
+        [Syntax.Paragraph](node) {
+            const resultNode = splitAST(node);
+            const sentenceNodes = resultNode.children.filter(childNode => childNode.type === SentenceSyntax.Sentence);
+            console.log(sentenceNodes); // => Sentence nodes
+        }
+    }
+}
+```
 
 ## Reference
 
@@ -402,7 +426,7 @@ This library use ["Golden Rule" test](test/pragmatic_segmenter/test.ts) of `prag
 Run tests:
 
     npm test
-    
+
 Create `input.json` from `_input.md`
 
     npm run createInputJson    
@@ -411,7 +435,6 @@ Update snapshots(`output.json`):
 
     npm run updateSnapshot
 
-
 ### Adding snapshot testcase
 
 1. Create `test/fixtures/<test-case-name>/` directory
@@ -419,7 +442,6 @@ Update snapshots(`output.json`):
 3. Run `npm run updateSnapshot`
 4. Check the `test/fixtures/<test-case-name>/output.json`
 5. If it is ok, commit it
-
 
 ## Contributing
 
