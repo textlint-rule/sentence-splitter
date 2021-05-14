@@ -399,6 +399,7 @@ Because, Tokenize need to implement language specific context.
 ### in textlint rule
 
 You can use `splitAST` in textlint rule.
+`splitAST` function can preverse original AST's position unlike `split` function.
 
 ```ts
 import { splitAST, Syntax as SentenceSyntax } from "sentence-splitter";
