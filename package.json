@@ -40,7 +40,7 @@
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
     "precommit": "lint-staged",
     "postcommit": "git reset",
-    "dev": "vite dev",
+    "dev": "vite",
     "site:build": "vite build"
   },
   "lint-staged": {
