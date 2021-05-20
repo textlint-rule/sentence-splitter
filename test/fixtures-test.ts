@@ -37,7 +37,7 @@ ${JSON.stringify(actual)}
                 }, "");
                 assert.strictEqual(inputRaw, outputRaw);
                 // test loc
-                assert.deepEqual(
+                assert.deepStrictEqual(
                     {
                         start: actual.children[0].loc.start,
                         end: actual.children[expected.children.length - 1].loc.end
@@ -48,7 +48,7 @@ ${JSON.stringify(actual)}
                     }
                 );
                 // test range
-                assert.deepEqual(
+                assert.deepStrictEqual(
                     [actual.children[0].range[0], actual.children[expected.children.length - 1].range[1]],
                     [expected.children[0].range[0], expected.children[expected.children.length - 1].range[1]]
                 );

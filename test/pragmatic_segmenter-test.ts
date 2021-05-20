@@ -13,7 +13,7 @@ describe("pragmatic_segmenter Golden rule", () => {
                 .map(node => {
                     return node.raw;
                 });
-            assert.deepEqual(sentenceTexts, sourceItem.output);
+            assert.deepStrictEqual(sentenceTexts, sourceItem.output);
         });
     });
 });
