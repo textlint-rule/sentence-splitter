@@ -1,0 +1,83 @@
+"use strict";
+
+var _classProps = function (child, staticProps, instanceProps) {
+  if (staticProps) Object.defineProperties(child, staticProps);
+  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+};
+
+var upperBound = require('boundary').upperBound;
+var Position = function Position(line, column) {
+  this.line = line;
+  this.column = column;
+};
+
+exports.Position = Position;
+var SourceLocation = function SourceLocation(start, end) {
+  this.start = start;
+  this.end = end;
+};
+
+exports.SourceLocation = SourceLocation;
+var StructuredSource = (function () {
+  var StructuredSource =
+  /**
+   * @constructs StructuredSource
+   * @param {string} source - source code text.
+   */
+  function StructuredSource(source) {
+    this.indice = [0];
+    var regexp = /[\r\n\u2028\u2029]/g;
+    var length = source.length;
+    regexp.lastIndex = 0;
+    while (true) {
+      var result = regexp.exec(source);
+      if (!result) {
+        break;
+      }
+      var index = result.index;
+      if (source.charCodeAt(index) === 13 /* '\r' */ && source.charCodeAt(index + 1) === 10 /* '\n' */) {
+        index += 1;
+      }
+      var nextIndex = index + 1;
+      // If there's a last line terminator, we push it to the indice.
+      // So use < instead of <=.
+      if (length < nextIndex) {
+        break;
+      }
+      this.indice.push(nextIndex);
+      regexp.lastIndex = nextIndex;
+    }
+  };
+
+  StructuredSource.prototype.locationToRange = function (loc) {
+    return [this.positionToIndex(loc.start), this.positionToIndex(loc.end)];
+  };
+
+  StructuredSource.prototype.rangeToLocation = function (range) {
+    return new SourceLocation(this.indexToPosition(range[0]), this.indexToPosition(range[1]));
+  };
+
+  StructuredSource.prototype.positionToIndex = function (pos) {
+    // Line number starts with 1.
+    // Column number starts with 0.
+    var start = this.indice[pos.line - 1];
+    return start + pos.column;
+  };
+
+  StructuredSource.prototype.indexToPosition = function (index) {
+    var startLine = upperBound(this.indice, index);
+    return new Position(startLine, index - this.indice[startLine - 1]);
+  };
+
+  _classProps(StructuredSource, null, {
+    line: {
+      get: function () {
+        return this.indice.length;
+      }
+    }
+  });
+
+  return StructuredSource;
+})();
+
+exports["default"] = StructuredSource;

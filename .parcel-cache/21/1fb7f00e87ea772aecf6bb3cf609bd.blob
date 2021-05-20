@@ -1,0 +1,11 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "debugLog", function () {
+  return debugLog;
+});
+function debugLog(...args) {
+  if (undefined !== "sentence-splitter") {
+    return;
+  }
+  console.log("sentence-splitter: ", ...args);
+}

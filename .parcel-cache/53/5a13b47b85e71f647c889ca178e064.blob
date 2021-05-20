@@ -1,0 +1,246 @@
+// LICENSE : MIT
+"use strict";
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "Syntax", function () {
+  return Syntax;
+});
+_parcelHelpers.export(exports, "SplitParser", function () {
+  return SplitParser;
+});
+_parcelHelpers.export(exports, "split", function () {
+  return split;
+});
+_parcelHelpers.export(exports, "splitAST", function () {
+  return splitAST;
+});
+_parcelHelpers.export(exports, "createWhiteSpaceNode", function () {
+  return createWhiteSpaceNode;
+});
+_parcelHelpers.export(exports, "createPunctuationNode", function () {
+  return createPunctuationNode;
+});
+_parcelHelpers.export(exports, "createTextNode", function () {
+  return createTextNode;
+});
+_parcelHelpers.export(exports, "createEmptySentenceNode", function () {
+  return createEmptySentenceNode;
+});
+_parcelHelpers.export(exports, "createNode", function () {
+  return createNode;
+});
+var _textlintAstNodeTypes = require("@textlint/ast-node-types");
+var _parserSourceCode = require("./parser/SourceCode");
+var _parserNewLineParser = require("./parser/NewLineParser");
+var _parserSpaceParser = require("./parser/SpaceParser");
+var _parserSeparatorParser = require("./parser/SeparatorParser");
+var _parserAnyValueParser = require("./parser/AnyValueParser");
+var _parserAbbrMarker = require("./parser/AbbrMarker");
+var _parserPairMaker = require("./parser/PairMaker");
+var _logger = require("./logger");
+const Syntax = {
+  WhiteSpace: "WhiteSpace",
+  Punctuation: "Punctuation",
+  Sentence: "Sentence",
+  Str: "Str"
+};
+class SplitParser {
+  nodeList = [];
+  results = [];
+  constructor(text) {
+    this.source = new _parserSourceCode.SourceCode(text);
+  }
+  get current() {
+    return this.nodeList[this.nodeList.length - 1];
+  }
+  pushNodeToCurrent(node) {
+    const current = this.current;
+    if (current) {
+      current.children.push(node);
+    } else {
+      // Under the root
+      this.results.push(node);
+    }
+  }
+  /*open with ParentNode*/
+  open(parentNode) {
+    this.nodeList.push(parentNode);
+  }
+  isOpened() {
+    return this.nodeList.length > 0;
+  }
+  nextLine(parser) {
+    const {value, startPosition, endPosition} = this.source.seekNext(parser);
+    this.pushNodeToCurrent(createWhiteSpaceNode(value, startPosition, endPosition));
+    return endPosition;
+  }
+  nextSpace(parser) {
+    const {value, startPosition, endPosition} = this.source.seekNext(parser);
+    this.pushNodeToCurrent(createNode("WhiteSpace", value, startPosition, endPosition));
+  }
+  nextValue(parser) {
+    const {value, startPosition, endPosition} = this.source.seekNext(parser);
+    this.pushNodeToCurrent(createTextNode(value, startPosition, endPosition));
+  }
+  /*close current Node and remove it from list*/
+  close(parser) {
+    const {value, startPosition, endPosition} = this.source.seekNext(parser);
+    if (startPosition.offset !== endPosition.offset) {
+      this.pushNodeToCurrent(createPunctuationNode(value, startPosition, endPosition));
+    }
+    const currentNode = this.nodeList.pop();
+    if (!currentNode) {
+      return;
+    }
+    if (currentNode.children.length === 0) {
+      return;
+    }
+    const firstChildNode = currentNode.children[0];
+    const endNow = this.source.now();
+    currentNode.loc = {
+      start: firstChildNode.loc.start,
+      end: nowToLoc(endNow)
+    };
+    const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
+    currentNode.range = [firstChildNode.range[0], endNow.offset];
+    currentNode.raw = rawValue;
+    this.results.push(currentNode);
+  }
+  toList() {
+    return this.results;
+  }
+}
+const createParsers = (options = {}) => {
+  const newLine = new _parserNewLineParser.NewLineParser();
+  const space = new _parserSpaceParser.SpaceParser();
+  const separator = new _parserSeparatorParser.SeparatorParser(options.SeparatorParser);
+  const abbrMarker = new _parserAbbrMarker.AbbrMarker();
+  const pairMaker = new _parserPairMaker.PairMaker();
+  // anyValueParser has multiple parser and markers.
+  // anyValueParse eat any value if it reach to other value.
+  const anyValueParser = new _parserAnyValueParser.AnyValueParser({
+    parsers: [newLine, separator],
+    markers: [abbrMarker, pairMaker]
+  });
+  return {
+    newLine,
+    space,
+    separator,
+    abbrMarker,
+    anyValueParser
+  };
+};
+function split(text, options) {
+  const {newLine, space, separator, anyValueParser} = createParsers(options);
+  const splitParser = new SplitParser(text);
+  const sourceCode = splitParser.source;
+  while (!sourceCode.hasEnd) {
+    if (newLine.test(sourceCode)) {
+      splitParser.nextLine(newLine);
+    } else if (space.test(sourceCode)) {
+      // Add WhiteSpace
+      splitParser.nextSpace(space);
+    } else if (separator.test(sourceCode)) {
+      splitParser.close(separator);
+    } else {
+      if (!splitParser.isOpened()) {
+        splitParser.open(createEmptySentenceNode());
+      }
+      splitParser.nextValue(anyValueParser);
+    }
+  }
+  splitParser.close(space);
+  return splitParser.toList();
+}
+function splitAST(paragraphNode, options) {
+  const {newLine, space, separator, anyValueParser} = createParsers(options);
+  const splitParser = new SplitParser(paragraphNode);
+  const sourceCode = splitParser.source;
+  while (!sourceCode.hasEnd) {
+    const currentNode = sourceCode.readNode();
+    if (!currentNode) {
+      break;
+    }
+    if (currentNode.type === _textlintAstNodeTypes.ASTNodeTypes.Str) {
+      if (space.test(sourceCode)) {
+        _logger.debugLog("space");
+        splitParser.nextSpace(space);
+      } else if (separator.test(sourceCode)) {
+        _logger.debugLog("separator");
+        splitParser.close(separator);
+      } else if (newLine.test(sourceCode)) {
+        _logger.debugLog("newline");
+        splitParser.nextLine(newLine);
+      } else {
+        if (!splitParser.isOpened()) {
+          _logger.debugLog("open -> createEmptySentenceNode()");
+          splitParser.open(createEmptySentenceNode());
+        }
+        splitParser.nextValue(anyValueParser);
+      }
+    } else if (currentNode.type === _textlintAstNodeTypes.ASTNodeTypes.Break) {
+      // Break
+      // https://github.com/azu/sentence-splitter/issues/23
+      splitParser.pushNodeToCurrent(currentNode);
+      sourceCode.peekNode(currentNode);
+    } else {
+      if (!splitParser.isOpened()) {
+        splitParser.open(createEmptySentenceNode());
+      }
+      splitParser.pushNodeToCurrent(currentNode);
+      sourceCode.peekNode(currentNode);
+    }
+  }
+  // It follow some text that is not ended with period.
+  // TODO: space is correct?
+  splitParser.close(space);
+  return {
+    ...paragraphNode,
+    children: splitParser.toList()
+  };
+}
+function createWhiteSpaceNode(text, startPosition, endPosition) {
+  return createNode("WhiteSpace", text, startPosition, endPosition);
+}
+function createPunctuationNode(text, startPosition, endPosition) {
+  return createNode("Punctuation", text, startPosition, endPosition);
+}
+function createTextNode(text, startPosition, endPosition) {
+  return createNode("Str", text, startPosition, endPosition);
+}
+function createEmptySentenceNode() {
+  return {
+    type: "Sentence",
+    raw: "",
+    loc: {
+      start: {
+        column: NaN,
+        line: NaN
+      },
+      end: {
+        column: NaN,
+        line: NaN
+      }
+    },
+    range: [NaN, NaN],
+    children: []
+  };
+}
+function createNode(type, text, startPosition, endPosition) {
+  return {
+    type: type,
+    raw: text,
+    value: text,
+    loc: {
+      start: nowToLoc(startPosition),
+      end: nowToLoc(endPosition)
+    },
+    range: [startPosition.offset, endPosition.offset]
+  };
+}
+function nowToLoc(now) {
+  return {
+    line: now.line,
+    column: now.column
+  };
+}

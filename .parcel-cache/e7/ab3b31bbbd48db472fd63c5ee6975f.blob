@@ -1,0 +1,1520 @@
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+
+(function(modules, entry, mainEntry, parcelRequireName, globalName) {
+  /* eslint-disable no-undef */
+  var globalObject =
+    typeof globalThis !== 'undefined'
+      ? globalThis
+      : typeof self !== 'undefined'
+      ? self
+      : typeof window !== 'undefined'
+      ? window
+      : typeof global !== 'undefined'
+      ? global
+      : {};
+  /* eslint-enable no-undef */
+
+  // Save the require from previous bundle to this closure if any
+  var previousRequire =
+    typeof globalObject[parcelRequireName] === 'function' &&
+    globalObject[parcelRequireName];
+
+  var cache = previousRequire.cache || {};
+  // Do not use `require` to prevent Webpack from trying to bundle this call
+  var nodeRequire =
+    typeof module !== 'undefined' &&
+    typeof module.require === 'function' &&
+    module.require.bind(module);
+
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire =
+          typeof globalObject[parcelRequireName] === 'function' &&
+          globalObject[parcelRequireName];
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error("Cannot find module '" + name + "'");
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+      localRequire.cache = {};
+
+      var module = (cache[name] = new newRequire.Module(name));
+
+      modules[name][0].call(
+        module.exports,
+        localRequire,
+        module,
+        module.exports,
+        this
+      );
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x) {
+      return newRequire(localRequire.resolve(x));
+    }
+
+    function resolve(x) {
+      return modules[name][1][x] || x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+  newRequire.register = function(id, exports) {
+    modules[id] = [
+      function(require, module) {
+        module.exports = exports;
+      },
+      {},
+    ];
+  };
+
+  Object.defineProperty(newRequire, 'root', {
+    get: function() {
+      return globalObject[parcelRequireName];
+    },
+  });
+
+  globalObject[parcelRequireName] = newRequire;
+
+  for (var i = 0; i < entry.length; i++) {
+    newRequire(entry[i]);
+  }
+
+  if (mainEntry) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(mainEntry);
+
+    // CommonJS
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+      module.exports = mainExports;
+
+      // RequireJS
+    } else if (typeof define === 'function' && define.amd) {
+      define(function() {
+        return mainExports;
+      });
+
+      // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
+  }
+})({"2bldb":[function(require,module,exports) {
+var HMR_HOST = null;
+var HMR_PORT = 1234;
+var HMR_SECURE = false;
+var HMR_ENV_HASH = "d751713988987e9331980363e24189ce";
+module.bundle.HMR_BUNDLE_ID = "5f3869b8cd16aab70a0d2b5453cef64e";
+// @flow
+/*global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE*/
+/*::
+import type {
+HMRAsset,
+HMRMessage,
+} from '@parcel/reporter-dev-server/src/HMRServer.js';
+interface ParcelRequire {
+(string): mixed;
+cache: {|[string]: ParcelModule|};
+hotData: mixed;
+Module: any;
+parent: ?ParcelRequire;
+isParcelRequire: true;
+modules: {|[string]: [Function, {|[string]: string|}]|};
+HMR_BUNDLE_ID: string;
+root: ParcelRequire;
+}
+interface ParcelModule {
+hot: {|
+data: mixed,
+accept(cb: (Function) => void): void,
+dispose(cb: (mixed) => void): void,
+// accept(deps: Array<string> | string, cb: (Function) => void): void,
+// decline(): void,
+_acceptCallbacks: Array<(Function) => void>,
+_disposeCallbacks: Array<(mixed) => void>,
+|};
+}
+declare var module: {bundle: ParcelRequire, ...};
+declare var HMR_HOST: string;
+declare var HMR_PORT: string;
+declare var HMR_ENV_HASH: string;
+declare var HMR_SECURE: boolean;
+*/
+var OVERLAY_ID = '__parcel__error__overlay__';
+var OldModule = module.bundle.Module;
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    data: module.bundle.hotData,
+    _acceptCallbacks: [],
+    _disposeCallbacks: [],
+    accept: function (fn) {
+      this._acceptCallbacks.push(fn || (function () {}));
+    },
+    dispose: function (fn) {
+      this._disposeCallbacks.push(fn);
+    }
+  };
+  module.bundle.hotData = undefined;
+}
+module.bundle.Module = Module;
+var checkedAssets, /*: {|[string]: boolean|}*/
+acceptedAssets, /*: {|[string]: boolean|}*/
+/*: {|[string]: boolean|}*/
+assetsToAccept;
+function getHostname() {
+  return HMR_HOST || (location.protocol.indexOf('http') === 0 ? location.hostname : 'localhost');
+}
+function getPort() {
+  return HMR_PORT || location.port;
+}
+// eslint-disable-next-line no-redeclare
+var parent = module.bundle.parent;
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = getHostname();
+  var port = getPort();
+  var protocol = HMR_SECURE || location.protocol == 'https:' && !(/localhost|127.0.0.1|0.0.0.0/).test(hostname) ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + (port ? ':' + port : '') + '/');
+  // $FlowFixMe
+  ws.onmessage = function (event) /*: {data: string, ...}*/
+  {
+    checkedAssets = {
+      /*: {|[string]: boolean|}*/
+    };
+    acceptedAssets = {
+      /*: {|[string]: boolean|}*/
+    };
+    assetsToAccept = [];
+    var data = /*: HMRMessage*/
+    JSON.parse(event.data);
+    if (data.type === 'update') {
+      // Remove error overlay if there is one
+      removeErrorOverlay();
+      let assets = data.assets.filter(asset => asset.envHash === HMR_ENV_HASH);
+      // Handle HMR Update
+      var handled = false;
+      assets.forEach(asset => {
+        var didAccept = asset.type === 'css' || asset.type === 'js' && hmrAcceptCheck(module.bundle.root, asset.id, asset.depsByBundle);
+        if (didAccept) {
+          handled = true;
+        }
+      });
+      if (handled) {
+        console.clear();
+        assets.forEach(function (asset) {
+          hmrApply(module.bundle.root, asset);
+        });
+        for (var i = 0; i < assetsToAccept.length; i++) {
+          var id = assetsToAccept[i][1];
+          if (!acceptedAssets[id]) {
+            hmrAcceptRun(assetsToAccept[i][0], id);
+          }
+        }
+      } else {
+        window.location.reload();
+      }
+    }
+    if (data.type === 'error') {
+      // Log parcel errors to console
+      for (let ansiDiagnostic of data.diagnostics.ansi) {
+        let stack = ansiDiagnostic.codeframe ? ansiDiagnostic.codeframe : ansiDiagnostic.stack;
+        console.error('🚨 [parcel]: ' + ansiDiagnostic.message + '\n' + stack + '\n\n' + ansiDiagnostic.hints.join('\n'));
+      }
+      // Render the fancy html overlay
+      removeErrorOverlay();
+      var overlay = createErrorOverlay(data.diagnostics.html);
+      // $FlowFixMe
+      document.body.appendChild(overlay);
+    }
+  };
+  ws.onerror = function (e) {
+    console.error(e.message);
+  };
+  ws.onclose = function (e) {
+    if (undefined !== 'test') {
+      console.warn('[parcel] 🚨 Connection to the HMR server was lost');
+    }
+  };
+}
+function removeErrorOverlay() {
+  var overlay = document.getElementById(OVERLAY_ID);
+  if (overlay) {
+    overlay.remove();
+    console.log('[parcel] ✨ Error resolved');
+  }
+}
+function createErrorOverlay(diagnostics) {
+  var overlay = document.createElement('div');
+  overlay.id = OVERLAY_ID;
+  let errorHTML = '<div style="background: black; opacity: 0.85; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; font-family: Menlo, Consolas, monospace; z-index: 9999;">';
+  for (let diagnostic of diagnostics) {
+    let stack = diagnostic.codeframe ? diagnostic.codeframe : diagnostic.stack;
+    errorHTML += `
+      <div>
+        <div style="font-size: 18px; font-weight: bold; margin-top: 20px;">
+          🚨 ${diagnostic.message}
+        </div>
+        <pre>
+          ${stack}
+        </pre>
+        <div>
+          ${diagnostic.hints.map(hint => '<div>' + hint + '</div>').join('')}
+        </div>
+      </div>
+    `;
+  }
+  errorHTML += '</div>';
+  overlay.innerHTML = errorHTML;
+  return overlay;
+}
+function getParents(bundle, id) /*: Array<[ParcelRequire, string]>*/
+{
+  var modules = bundle.modules;
+  if (!modules) {
+    return [];
+  }
+  var parents = [];
+  var k, d, dep;
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push([bundle, k]);
+      }
+    }
+  }
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+  return parents;
+}
+function updateLink(link) {
+  var newLink = link.cloneNode();
+  newLink.onload = function () {
+    if (link.parentNode !== null) {
+      // $FlowFixMe
+      link.parentNode.removeChild(link);
+    }
+  };
+  newLink.setAttribute('href', // $FlowFixMe
+  link.getAttribute('href').split('?')[0] + '?' + Date.now());
+  // $FlowFixMe
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+var cssTimeout = null;
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < links.length; i++) {
+      // $FlowFixMe[incompatible-type]
+      var href = /*: string*/
+      links[i].getAttribute('href');
+      var hostname = getHostname();
+      var servedFromHMRServer = hostname === 'localhost' ? new RegExp('^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):' + getPort()).test(href) : href.indexOf(hostname + ':' + getPort());
+      var absolute = (/^https?:\/\//i).test(href) && href.indexOf(window.location.origin) !== 0 && !servedFromHMRServer;
+      if (!absolute) {
+        updateLink(links[i]);
+      }
+    }
+    cssTimeout = null;
+  }, 50);
+}
+function hmrApply(bundle, /*: ParcelRequire*/
+asset) /*:  HMRAsset*/
+{
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+  if (asset.type === 'css') {
+    reloadCSS();
+    return;
+  }
+  let deps = asset.depsByBundle[bundle.HMR_BUNDLE_ID];
+  if (deps) {
+    var fn = new Function('require', 'module', 'exports', asset.output);
+    modules[asset.id] = [fn, deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+function hmrAcceptCheck(bundle, /*: ParcelRequire*/
+id, /*: ParcelRequire*/
+/*: string*/
+depsByBundle) /*: ?{ [string]: { [string]: string } }*/
+{
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+  if (depsByBundle && !depsByBundle[bundle.HMR_BUNDLE_ID]) {
+    // If we reached the root bundle without finding where the asset should go,
+    // there's nothing to do. Mark as "accepted" so we don't reload the page.
+    if (!bundle.parent) {
+      return true;
+    }
+    return hmrAcceptCheck(bundle.parent, id, depsByBundle);
+  }
+  if (checkedAssets[id]) {
+    return;
+  }
+  checkedAssets[id] = true;
+  var cached = bundle.cache[id];
+  assetsToAccept.push([bundle, id]);
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    return true;
+  }
+  return getParents(module.bundle.root, id).some(function (v) {
+    return hmrAcceptCheck(v[0], v[1], null);
+  });
+}
+function hmrAcceptRun(bundle, /*: ParcelRequire*/
+id) /*: string*/
+{
+  var cached = bundle.cache[id];
+  bundle.hotData = {};
+  if (cached && cached.hot) {
+    cached.hot.data = bundle.hotData;
+  }
+  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
+    cached.hot._disposeCallbacks.forEach(function (cb) {
+      cb(bundle.hotData);
+    });
+  }
+  delete bundle.cache[id];
+  bundle(id);
+  cached = bundle.cache[id];
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    cached.hot._acceptCallbacks.forEach(function (cb) {
+      var assetsToAlsoAccept = cb(function () {
+        return getParents(module.bundle.root, id);
+      });
+      if (assetsToAlsoAccept && assetsToAccept.length) {
+        assetsToAccept.push.apply(assetsToAccept, assetsToAlsoAccept);
+      }
+    });
+  }
+  acceptedAssets[id] = true;
+}
+
+},{}],"6MuS6":[function(require,module,exports) {
+var _srcSentenceSplitter = require("../src/sentence-splitter");
+const textElement = document.querySelector("#text");
+const jsonElement = document.querySelector("#json");
+const onUpdate = text => {
+  try {
+    const json = _srcSentenceSplitter.split(text);
+    jsonElement.textContent = JSON.stringify(json, null, 4);
+    location.hash = encodeURIComponent(text);
+  } catch {}
+};
+textElement?.addEventListener?.("input", () => {
+  onUpdate(textElement.value);
+});
+const textFromURL = location.hash;
+if (textFromURL.length > 0) {
+  const decodedText = decodeURIComponent(textFromURL);
+  textElement.value = decodedText;
+  onUpdate(decodedText);
+}
+
+},{"../src/sentence-splitter":"dFPge"}],"dFPge":[function(require,module,exports) {
+// LICENSE : MIT
+"use strict";
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "Syntax", function () {
+  return Syntax;
+});
+_parcelHelpers.export(exports, "SplitParser", function () {
+  return SplitParser;
+});
+_parcelHelpers.export(exports, "split", function () {
+  return split;
+});
+_parcelHelpers.export(exports, "splitAST", function () {
+  return splitAST;
+});
+_parcelHelpers.export(exports, "createWhiteSpaceNode", function () {
+  return createWhiteSpaceNode;
+});
+_parcelHelpers.export(exports, "createPunctuationNode", function () {
+  return createPunctuationNode;
+});
+_parcelHelpers.export(exports, "createTextNode", function () {
+  return createTextNode;
+});
+_parcelHelpers.export(exports, "createEmptySentenceNode", function () {
+  return createEmptySentenceNode;
+});
+_parcelHelpers.export(exports, "createNode", function () {
+  return createNode;
+});
+var _textlintAstNodeTypes = require("@textlint/ast-node-types");
+var _parserSourceCode = require("./parser/SourceCode");
+var _parserNewLineParser = require("./parser/NewLineParser");
+var _parserSpaceParser = require("./parser/SpaceParser");
+var _parserSeparatorParser = require("./parser/SeparatorParser");
+var _parserAnyValueParser = require("./parser/AnyValueParser");
+var _parserAbbrMarker = require("./parser/AbbrMarker");
+var _parserPairMaker = require("./parser/PairMaker");
+var _logger = require("./logger");
+const Syntax = {
+  WhiteSpace: "WhiteSpace",
+  Punctuation: "Punctuation",
+  Sentence: "Sentence",
+  Str: "Str"
+};
+class SplitParser {
+  nodeList = [];
+  results = [];
+  constructor(text) {
+    this.source = new _parserSourceCode.SourceCode(text);
+  }
+  get current() {
+    return this.nodeList[this.nodeList.length - 1];
+  }
+  pushNodeToCurrent(node) {
+    const current = this.current;
+    if (current) {
+      current.children.push(node);
+    } else {
+      // Under the root
+      this.results.push(node);
+    }
+  }
+  /*open with ParentNode*/
+  open(parentNode) {
+    this.nodeList.push(parentNode);
+  }
+  isOpened() {
+    return this.nodeList.length > 0;
+  }
+  nextLine(parser) {
+    const {value, startPosition, endPosition} = this.source.seekNext(parser);
+    this.pushNodeToCurrent(createWhiteSpaceNode(value, startPosition, endPosition));
+    return endPosition;
+  }
+  nextSpace(parser) {
+    const {value, startPosition, endPosition} = this.source.seekNext(parser);
+    this.pushNodeToCurrent(createNode("WhiteSpace", value, startPosition, endPosition));
+  }
+  nextValue(parser) {
+    const {value, startPosition, endPosition} = this.source.seekNext(parser);
+    this.pushNodeToCurrent(createTextNode(value, startPosition, endPosition));
+  }
+  /*close current Node and remove it from list*/
+  close(parser) {
+    const {value, startPosition, endPosition} = this.source.seekNext(parser);
+    if (startPosition.offset !== endPosition.offset) {
+      this.pushNodeToCurrent(createPunctuationNode(value, startPosition, endPosition));
+    }
+    const currentNode = this.nodeList.pop();
+    if (!currentNode) {
+      return;
+    }
+    if (currentNode.children.length === 0) {
+      return;
+    }
+    const firstChildNode = currentNode.children[0];
+    const endNow = this.source.now();
+    currentNode.loc = {
+      start: firstChildNode.loc.start,
+      end: nowToLoc(endNow)
+    };
+    const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
+    currentNode.range = [firstChildNode.range[0], endNow.offset];
+    currentNode.raw = rawValue;
+    this.results.push(currentNode);
+  }
+  toList() {
+    return this.results;
+  }
+}
+const createParsers = (options = {}) => {
+  const newLine = new _parserNewLineParser.NewLineParser();
+  const space = new _parserSpaceParser.SpaceParser();
+  const separator = new _parserSeparatorParser.SeparatorParser(options.SeparatorParser);
+  const abbrMarker = new _parserAbbrMarker.AbbrMarker();
+  const pairMaker = new _parserPairMaker.PairMaker();
+  // anyValueParser has multiple parser and markers.
+  // anyValueParse eat any value if it reach to other value.
+  const anyValueParser = new _parserAnyValueParser.AnyValueParser({
+    parsers: [newLine, separator],
+    markers: [abbrMarker, pairMaker]
+  });
+  return {
+    newLine,
+    space,
+    separator,
+    abbrMarker,
+    anyValueParser
+  };
+};
+function split(text, options) {
+  const {newLine, space, separator, anyValueParser} = createParsers(options);
+  const splitParser = new SplitParser(text);
+  const sourceCode = splitParser.source;
+  while (!sourceCode.hasEnd) {
+    if (newLine.test(sourceCode)) {
+      splitParser.nextLine(newLine);
+    } else if (space.test(sourceCode)) {
+      // Add WhiteSpace
+      splitParser.nextSpace(space);
+    } else if (separator.test(sourceCode)) {
+      splitParser.close(separator);
+    } else {
+      if (!splitParser.isOpened()) {
+        splitParser.open(createEmptySentenceNode());
+      }
+      splitParser.nextValue(anyValueParser);
+    }
+  }
+  splitParser.close(space);
+  return splitParser.toList();
+}
+function splitAST(paragraphNode, options) {
+  const {newLine, space, separator, anyValueParser} = createParsers(options);
+  const splitParser = new SplitParser(paragraphNode);
+  const sourceCode = splitParser.source;
+  while (!sourceCode.hasEnd) {
+    const currentNode = sourceCode.readNode();
+    if (!currentNode) {
+      break;
+    }
+    if (currentNode.type === _textlintAstNodeTypes.ASTNodeTypes.Str) {
+      if (space.test(sourceCode)) {
+        _logger.debugLog("space");
+        splitParser.nextSpace(space);
+      } else if (separator.test(sourceCode)) {
+        _logger.debugLog("separator");
+        splitParser.close(separator);
+      } else if (newLine.test(sourceCode)) {
+        _logger.debugLog("newline");
+        splitParser.nextLine(newLine);
+      } else {
+        if (!splitParser.isOpened()) {
+          _logger.debugLog("open -> createEmptySentenceNode()");
+          splitParser.open(createEmptySentenceNode());
+        }
+        splitParser.nextValue(anyValueParser);
+      }
+    } else if (currentNode.type === _textlintAstNodeTypes.ASTNodeTypes.Break) {
+      // Break
+      // https://github.com/azu/sentence-splitter/issues/23
+      splitParser.pushNodeToCurrent(currentNode);
+      sourceCode.peekNode(currentNode);
+    } else {
+      if (!splitParser.isOpened()) {
+        splitParser.open(createEmptySentenceNode());
+      }
+      splitParser.pushNodeToCurrent(currentNode);
+      sourceCode.peekNode(currentNode);
+    }
+  }
+  // It follow some text that is not ended with period.
+  // TODO: space is correct?
+  splitParser.close(space);
+  return {
+    ...paragraphNode,
+    children: splitParser.toList()
+  };
+}
+function createWhiteSpaceNode(text, startPosition, endPosition) {
+  return createNode("WhiteSpace", text, startPosition, endPosition);
+}
+function createPunctuationNode(text, startPosition, endPosition) {
+  return createNode("Punctuation", text, startPosition, endPosition);
+}
+function createTextNode(text, startPosition, endPosition) {
+  return createNode("Str", text, startPosition, endPosition);
+}
+function createEmptySentenceNode() {
+  return {
+    type: "Sentence",
+    raw: "",
+    loc: {
+      start: {
+        column: NaN,
+        line: NaN
+      },
+      end: {
+        column: NaN,
+        line: NaN
+      }
+    },
+    range: [NaN, NaN],
+    children: []
+  };
+}
+function createNode(type, text, startPosition, endPosition) {
+  return {
+    type: type,
+    raw: text,
+    value: text,
+    loc: {
+      start: nowToLoc(startPosition),
+      end: nowToLoc(endPosition)
+    },
+    range: [startPosition.offset, endPosition.offset]
+  };
+}
+function nowToLoc(now) {
+  return {
+    line: now.line,
+    column: now.column
+  };
+}
+
+},{"@textlint/ast-node-types":"6hgu6","./parser/SourceCode":"3S91h","./parser/NewLineParser":"EAbBx","./parser/SpaceParser":"3ZSqZ","./parser/SeparatorParser":"6gkPg","./parser/AnyValueParser":"4YmXX","./parser/AbbrMarker":"2Kg8f","./parser/PairMaker":"3AES6","./logger":"6gdNl","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"6hgu6":[function(require,module,exports) {
+// MIT © 2017 azu
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ASTNodeTypes = void 0;
+var ASTNodeTypes;
+(function (ASTNodeTypes) {
+    ASTNodeTypes["Document"] = "Document";
+    ASTNodeTypes["DocumentExit"] = "Document:exit";
+    ASTNodeTypes["Paragraph"] = "Paragraph";
+    ASTNodeTypes["ParagraphExit"] = "Paragraph:exit";
+    ASTNodeTypes["BlockQuote"] = "BlockQuote";
+    ASTNodeTypes["BlockQuoteExit"] = "BlockQuote:exit";
+    ASTNodeTypes["ListItem"] = "ListItem";
+    ASTNodeTypes["ListItemExit"] = "ListItem:exit";
+    ASTNodeTypes["List"] = "List";
+    ASTNodeTypes["ListExit"] = "List:exit";
+    ASTNodeTypes["Header"] = "Header";
+    ASTNodeTypes["HeaderExit"] = "Header:exit";
+    ASTNodeTypes["CodeBlock"] = "CodeBlock";
+    ASTNodeTypes["CodeBlockExit"] = "CodeBlock:exit";
+    ASTNodeTypes["HtmlBlock"] = "HtmlBlock";
+    ASTNodeTypes["HtmlBlockExit"] = "HtmlBlock:exit";
+    ASTNodeTypes["HorizontalRule"] = "HorizontalRule";
+    ASTNodeTypes["HorizontalRuleExit"] = "HorizontalRule:exit";
+    ASTNodeTypes["Comment"] = "Comment";
+    ASTNodeTypes["CommentExit"] = "Comment:exit";
+    /**
+     * @deprecated
+     */
+    ASTNodeTypes["ReferenceDef"] = "ReferenceDef";
+    /**
+     * @deprecated
+     */
+    ASTNodeTypes["ReferenceDefExit"] = "ReferenceDef:exit";
+    // inline
+    ASTNodeTypes["Str"] = "Str";
+    ASTNodeTypes["StrExit"] = "Str:exit";
+    ASTNodeTypes["Break"] = "Break";
+    ASTNodeTypes["BreakExit"] = "Break:exit";
+    ASTNodeTypes["Emphasis"] = "Emphasis";
+    ASTNodeTypes["EmphasisExit"] = "Emphasis:exit";
+    ASTNodeTypes["Strong"] = "Strong";
+    ASTNodeTypes["StrongExit"] = "Strong:exit";
+    ASTNodeTypes["Html"] = "Html";
+    ASTNodeTypes["HtmlExit"] = "Html:exit";
+    ASTNodeTypes["Link"] = "Link";
+    ASTNodeTypes["LinkExit"] = "Link:exit";
+    ASTNodeTypes["Image"] = "Image";
+    ASTNodeTypes["ImageExit"] = "Image:exit";
+    ASTNodeTypes["Code"] = "Code";
+    ASTNodeTypes["CodeExit"] = "Code:exit";
+    ASTNodeTypes["Delete"] = "Delete";
+    ASTNodeTypes["DeleteExit"] = "Delete:exit";
+})(ASTNodeTypes = exports.ASTNodeTypes || (exports.ASTNodeTypes = {}));
+
+},{}],"3S91h":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "SourceCode", function () {
+  return SourceCode;
+});
+const StructureSource = require("structured-source");
+class SourceCode {
+  index = 0;
+  contexts = [];
+  contextRanges = [];
+  constructor(input) {
+    if (typeof input === "string") {
+      this.textCharacters = input.split("");
+      this.source = new StructureSource(input);
+      this.startOffset = 0;
+      this.firstChildPadding = 0;
+    } else {
+      this.sourceNode = input;
+      // When pass AST, fist node may be >=
+      // Preserve it as `startOffset`
+      this.startOffset = this.sourceNode.range[0];
+      // start index is startOffset
+      this.index = this.startOffset;
+      // before line count of Paragraph node
+      const lineBreaks = Array.from(new Array(this.sourceNode.loc.start.line - 1)).fill("\n");
+      // filled with dummy text
+      const offset = Array.from(new Array(this.startOffset - lineBreaks.length)).fill("∯");
+      this.textCharacters = offset.concat(lineBreaks, input.raw.split(""));
+      this.source = new StructureSource(this.textCharacters.join(""));
+      if (this.sourceNode.children[0]) {
+        // Header Node's children does not start with index 0
+        // Example: # Header
+        // It firstChildPadding is `2`
+        this.firstChildPadding = this.sourceNode.children[0].range[0] - this.startOffset;
+      } else {
+        this.firstChildPadding = 0;
+      }
+    }
+  }
+  markContextRange(range) {
+    this.contextRanges.push(range);
+  }
+  isInContextRange() {
+    const offset = this.offset;
+    return this.contextRanges.some(range => {
+      return range[0] <= offset && offset < range[1];
+    });
+  }
+  enterContext(context) {
+    this.contexts.push(context);
+  }
+  isInContext(context) {
+    if (!context) {
+      return this.contexts.length > 0;
+    }
+    return this.contexts.some(targetContext => targetContext === context);
+  }
+  leaveContext(context) {
+    const index = this.contexts.lastIndexOf(context);
+    if (index !== -1) {
+      this.contexts.splice(index, 1);
+    }
+  }
+  /**
+  * Return current offset value
+  * @returns {number}
+  */
+  get offset() {
+    return this.index + this.firstChildPadding;
+  }
+  /**
+  * Return current position object.
+  * It includes line, column, offset.
+  */
+  now() {
+    const indexWithChildrenOffset = this.offset;
+    const position = this.source.indexToPosition(indexWithChildrenOffset);
+    return {
+      line: position.line,
+      column: position.column,
+      offset: indexWithChildrenOffset
+    };
+  }
+  /**
+  * Return true, no more read char
+  */
+  get hasEnd() {
+    return this.read() === false;
+  }
+  /**
+  * read char
+  * if can not read, return empty string
+  * @returns {string}
+  */
+  read(over = 0) {
+    const index = this.offset + over;
+    if (index < this.startOffset) {
+      return false;
+    }
+    if (0 <= index && index < this.textCharacters.length) {
+      return this.textCharacters[index];
+    }
+    return false;
+  }
+  /**
+  * read node
+  * if can not read, return empty string
+  * @returns {node}
+  */
+  readNode(over = 0) {
+    if (!this.sourceNode) {
+      return false;
+    }
+    const index = this.offset + over;
+    if (index < this.startOffset) {
+      return false;
+    }
+    const matchNodeList = this.sourceNode.children.filter(node => {
+      // <p>[node]</p>
+      // ^
+      // range[1]
+      // `< range[1]` prevent infinity loop
+      // https://github.com/azu/sentence-splitter/issues/9
+      return node.range[0] <= index && index < node.range[1];
+    });
+    if (matchNodeList.length > 0) {
+      // last match
+      // because, range is overlap two nodes
+      return matchNodeList[matchNodeList.length - 1];
+    }
+    return false;
+  }
+  /**
+  * Increment current index
+  */
+  peek() {
+    this.index += 1;
+  }
+  /**
+  * Increment node range
+  */
+  peekNode(node) {
+    this.index += node.range[1] - node.range[0];
+  }
+  /**
+  * Seek and Peek
+  */
+  seekNext(parser) {
+    const startPosition = this.now();
+    parser.seek(this);
+    const endPosition = this.now();
+    const value = this.sliceRange(startPosition.offset, endPosition.offset);
+    return {
+      value,
+      startPosition,
+      endPosition
+    };
+  }
+  /**
+  * Slice text form the range.
+  * @param {number} start
+  * @param {number} end
+  * @returns {string}
+  */
+  sliceRange(start, end) {
+    return this.textCharacters.slice(start, end).join("");
+  }
+}
+
+},{"structured-source":"15gJo","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"15gJo":[function(require,module,exports) {
+"use strict";
+
+var StructuredSource = require('./structured-source.js')["default"];
+
+
+module.exports = StructuredSource;
+
+/* vim: set sw=4 ts=4 et tw=80 : */
+
+},{"./structured-source.js":"5x1uz"}],"5x1uz":[function(require,module,exports) {
+"use strict";
+
+var _classProps = function (child, staticProps, instanceProps) {
+  if (staticProps) Object.defineProperties(child, staticProps);
+  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
+};
+
+var upperBound = require('boundary').upperBound;
+var Position = function Position(line, column) {
+  this.line = line;
+  this.column = column;
+};
+
+exports.Position = Position;
+var SourceLocation = function SourceLocation(start, end) {
+  this.start = start;
+  this.end = end;
+};
+
+exports.SourceLocation = SourceLocation;
+var StructuredSource = (function () {
+  var StructuredSource =
+  /**
+   * @constructs StructuredSource
+   * @param {string} source - source code text.
+   */
+  function StructuredSource(source) {
+    this.indice = [0];
+    var regexp = /[\r\n\u2028\u2029]/g;
+    var length = source.length;
+    regexp.lastIndex = 0;
+    while (true) {
+      var result = regexp.exec(source);
+      if (!result) {
+        break;
+      }
+      var index = result.index;
+      if (source.charCodeAt(index) === 13 /* '\r' */ && source.charCodeAt(index + 1) === 10 /* '\n' */) {
+        index += 1;
+      }
+      var nextIndex = index + 1;
+      // If there's a last line terminator, we push it to the indice.
+      // So use < instead of <=.
+      if (length < nextIndex) {
+        break;
+      }
+      this.indice.push(nextIndex);
+      regexp.lastIndex = nextIndex;
+    }
+  };
+
+  StructuredSource.prototype.locationToRange = function (loc) {
+    return [this.positionToIndex(loc.start), this.positionToIndex(loc.end)];
+  };
+
+  StructuredSource.prototype.rangeToLocation = function (range) {
+    return new SourceLocation(this.indexToPosition(range[0]), this.indexToPosition(range[1]));
+  };
+
+  StructuredSource.prototype.positionToIndex = function (pos) {
+    // Line number starts with 1.
+    // Column number starts with 0.
+    var start = this.indice[pos.line - 1];
+    return start + pos.column;
+  };
+
+  StructuredSource.prototype.indexToPosition = function (index) {
+    var startLine = upperBound(this.indice, index);
+    return new Position(startLine, index - this.indice[startLine - 1]);
+  };
+
+  _classProps(StructuredSource, null, {
+    line: {
+      get: function () {
+        return this.indice.length;
+      }
+    }
+  });
+
+  return StructuredSource;
+})();
+
+exports["default"] = StructuredSource;
+
+},{"boundary":"9R4b6"}],"9R4b6":[function(require,module,exports) {
+"use strict";
+
+/*
+  Copyright (C) 2014 Yusuke Suzuki <utatane.tea@gmail.com>
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+function compare(v1, v2) {
+  return v1 < v2;
+}
+
+function upperBound(array, value, comp) {
+  if (comp === undefined) comp = compare;
+  return (function () {
+    var len = array.length;
+    var i = 0;
+
+    while (len) {
+      var diff = len >>> 1;
+      var cursor = i + diff;
+      if (comp(value, array[cursor])) {
+        len = diff;
+      } else {
+        i = cursor + 1;
+        len -= diff + 1;
+      }
+    }
+    return i;
+  })();
+}
+
+function lowerBound(array, value, comp) {
+  if (comp === undefined) comp = compare;
+  return (function () {
+    var len = array.length;
+    var i = 0;
+
+    while (len) {
+      var diff = len >>> 1;
+      var cursor = i + diff;
+      if (comp(array[cursor], value)) {
+        i = cursor + 1;
+        len -= diff + 1;
+      } else {
+        len = diff;
+      }
+    }
+    return i;
+  })();
+}
+
+function binarySearch(array, value, comp) {
+  if (comp === undefined) comp = compare;
+  return (function () {
+    var cursor = lowerBound(array, value, comp);
+    return cursor !== array.length && !comp(value, array[cursor]);
+  })();
+}
+
+exports.compare = compare;
+exports.lowerBound = lowerBound;
+exports.upperBound = upperBound;
+exports.binarySearch = binarySearch;
+
+},{}],"5gA8y":[function(require,module,exports) {
+"use strict";
+
+exports.interopDefault = function (a) {
+  return a && a.__esModule ? a : {
+    default: a
+  };
+};
+
+exports.defineInteropFlag = function (a) {
+  Object.defineProperty(a, '__esModule', {
+    value: true
+  });
+};
+
+exports.exportAll = function (source, dest) {
+  Object.keys(source).forEach(function (key) {
+    if (key === 'default' || key === '__esModule') {
+      return;
+    } // Skip duplicate re-exports when they have the same value.
+
+
+    if (key in dest && dest[key] === source[key]) {
+      return;
+    }
+
+    Object.defineProperty(dest, key, {
+      enumerable: true,
+      get: function () {
+        return source[key];
+      }
+    });
+  });
+  return dest;
+};
+
+exports.export = function (dest, destName, get) {
+  Object.defineProperty(dest, destName, {
+    enumerable: true,
+    get: get
+  });
+};
+},{}],"EAbBx":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "NewLineParser", function () {
+  return NewLineParser;
+});
+class NewLineParser {
+  test(sourceCode) {
+    const string = sourceCode.read();
+    if (!string) {
+      return false;
+    }
+    return (/[\r\n]/).test(string);
+  }
+  seek(sourceCode) {
+    while (this.test(sourceCode)) {
+      sourceCode.peek();
+    }
+  }
+}
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"3ZSqZ":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "SpaceParser", function () {
+  return SpaceParser;
+});
+class SpaceParser {
+  test(sourceCode) {
+    const string = sourceCode.read();
+    if (!string) {
+      return false;
+    }
+    return (/\s/).test(string);
+  }
+  seek(sourceCode) {
+    while (this.test(sourceCode)) {
+      sourceCode.peek();
+    }
+  }
+}
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"6gkPg":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "DefaultOptions", function () {
+  return DefaultOptions;
+});
+_parcelHelpers.export(exports, "SeparatorParser", function () {
+  return SeparatorParser;
+});
+const DefaultOptions = {
+  separatorCharacters: [".", // period
+  "．", // (ja) zenkaku-period
+  "。", // (ja) 句点
+  "?", // question mark
+  "!", // exclamation mark
+  "？", // (ja) zenkaku question mark
+  "！"]
+};
+class SeparatorParser {
+  constructor(options) {
+    this.options = options;
+    this.separatorCharacters = options && options.separatorCharacters ? options.separatorCharacters : DefaultOptions.separatorCharacters;
+  }
+  test(sourceCode) {
+    if (sourceCode.isInContext()) {
+      return false;
+    }
+    if (sourceCode.isInContextRange()) {
+      return false;
+    }
+    const firstChar = sourceCode.read();
+    const nextChar = sourceCode.read(1);
+    if (!firstChar) {
+      return false;
+    }
+    if (!this.separatorCharacters.includes(firstChar)) {
+      return false;
+    }
+    // Need space after period
+    // Example: "This is a pen. This is not a pen."
+    // It will avoid false-position like `1.23`
+    if (firstChar === ".") {
+      if (nextChar) {
+        return (/[\s\t\r\n]/).test(nextChar);
+      } else {
+        return true;
+      }
+    }
+    return true;
+  }
+  seek(sourceCode) {
+    while (this.test(sourceCode)) {
+      sourceCode.peek();
+    }
+  }
+}
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"4YmXX":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "AnyValueParser", function () {
+  return AnyValueParser;
+});
+class AnyValueParser {
+  /**
+  * Eat any value without `parsers.test`
+  */
+  constructor(options) {
+    this.parsers = options.parsers;
+    this.markers = options.markers;
+  }
+  test(sourceCode) {
+    if (sourceCode.hasEnd) {
+      return false;
+    }
+    return this.parsers.every(parser => !parser.test(sourceCode));
+  }
+  seek(sourceCode) {
+    const currentNode = sourceCode.readNode();
+    if (!currentNode) {
+      // Text mode
+      while (this.test(sourceCode)) {
+        this.markers.forEach(marker => marker.mark(sourceCode));
+        sourceCode.peek();
+      }
+      return;
+    }
+    // node - should not over next node
+    const isInCurrentNode = () => {
+      const currentOffset = sourceCode.offset;
+      return currentNode.range[0] <= currentOffset && currentOffset < currentNode.range[1];
+    };
+    while (isInCurrentNode() && this.test(sourceCode)) {
+      this.markers.forEach(marker => marker.mark(sourceCode));
+      sourceCode.peek();
+    }
+  }
+}
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"2Kg8f":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "AbbrMarker", function () {
+  return AbbrMarker;
+});
+var _langEnglish = require("./lang/English");
+const isCapitalized = text => {
+  if (!text || text.length === 0) {
+    return false;
+  }
+  return (/^[A-Z]/).test(text);
+};
+const compareNoCaseSensitive = (a, b) => {
+  return a.toLowerCase() === b.toLowerCase();
+};
+class AbbrMarker {
+  constructor(lang = _langEnglish.English) {
+    this.lang = lang;
+  }
+  /**
+  * Get Word
+  * word should have left space and right space,
+  * @param {SourceCode} sourceCode
+  * @param {number} startIndex
+  * @returns {string}
+  */
+  getWord(sourceCode, startIndex = 0) {
+    const whiteSpace = /\s/;
+    const prevChar = sourceCode.read(-1);
+    if (prevChar && !whiteSpace.test(prevChar)) {
+      return "";
+    }
+    let word = "";
+    let count = startIndex;
+    let char = "";
+    while (char = sourceCode.read(count)) {
+      if (whiteSpace.test(char)) {
+        break;
+      }
+      word += char;
+      count++;
+    }
+    return word;
+  }
+  getPrevWord(sourceCode) {
+    const whiteSpace = /\s/;
+    let count = -1;
+    let char = "";
+    while (char = sourceCode.read(count)) {
+      if (!whiteSpace.test(char)) {
+        break;
+      }
+      count--;
+    }
+    while (char = sourceCode.read(count)) {
+      if (whiteSpace.test(char)) {
+        break;
+      }
+      count--;
+    }
+    return this.getWord(sourceCode, count + 1);
+  }
+  mark(sourceCode) {
+    if (sourceCode.isInContextRange()) {
+      return;
+    }
+    const currentWord = this.getWord(sourceCode);
+    if (currentWord.length === 0) {
+      return;
+    }
+    // Allow: Multi-period abbr
+    // Example: U.S.A
+    if ((/^([a-zA-Z]\.){3,}$/).test(currentWord)) {
+      return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+    }
+    // EXCALAMATION_WORDS
+    // Example: Yahoo!
+    const isMatchedEXCALAMATION_WORDS = this.lang.EXCALAMATION_WORDS.some(abbr => {
+      return compareNoCaseSensitive(abbr, currentWord);
+    });
+    if (isMatchedEXCALAMATION_WORDS) {
+      return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+    }
+    // PREPOSITIVE_ABBREVIATIONS
+    // Example: Mr. Fuji
+    const isMatchedPREPOSITIVE_ABBREVIATIONS = this.lang.PREPOSITIVE_ABBREVIATIONS.some(abbr => {
+      return compareNoCaseSensitive(abbr, currentWord);
+    });
+    if (isMatchedPREPOSITIVE_ABBREVIATIONS) {
+      return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+    }
+    // ABBREVIATIONS
+    const isMatched = this.lang.ABBREVIATIONS.some(abbr => {
+      return compareNoCaseSensitive(abbr, currentWord);
+    });
+    const prevWord = this.getPrevWord(sourceCode);
+    const nextWord = this.getWord(sourceCode, currentWord.length + 1);
+    // console.log("prevWord", prevWord);
+    // console.log("currentWord", currentWord);
+    // console.log("nextWord", nextWord);
+    // Special case: Capital <ABBR>. Capital
+    // Example: `I` as a sentence boundary and `I` as an abbreviation
+    // > We make a good team, you and I. Did you see Albert I. Jones yesterday?
+    if (isCapitalized(prevWord) && (/[A-Z]\./).test(currentWord) && isCapitalized(nextWord)) {
+      sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+    } else if (isMatched && !isCapitalized(nextWord)) {
+      // Exception. This allow to write Capitalized word at next word
+      // A.M. is store.
+      sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+    }
+  }
+}
+
+},{"./lang/English":"2G0Au","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"2G0Au":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "English", function () {
+  return English;
+});
+const English = {
+  ABBREVIATIONS: ["Adj.", "Adm.", "Adv.", "Al.", "Ala.", "Alta.", "Apr.", "Arc.", "Ariz.", "Ark.", "Art.", "Assn.", "Asst.", "Attys.", "Aug.", "Ave.", "Bart.", "Bld.", "Bldg.", "Blvd.", "Brig.", "Bros.", "Btw.", "Cal.", "Calif.", "Capt.", "Cl.", "Cmdr.", "Co.", "Col.", "Colo.", "Comdr.", "Con.", "Conn.", "Corp.", "Cpl.", "Cres.", "Ct.", "D.phil.", "Dak.", "Dec.", "Del.", "Dept.", "Det.", "Dist.", "Dr.", "Dr.phil.", "Dr.philos.", "Drs.", "E.g.", "Ens.", "Esp.", "Esq.", "Etc.", "Exp.", "Expy.", "Ext.", "Feb.", "Fed.", "Fla.", "Ft.", "Fwy.", "Fy.", "Ga.", "Gen.", "Gov.", "Hon.", "Hosp.", "Hr.", "Hway.", "Hwy.", "I.e.", "Ia.", "Id.", "Ida.", "Ill.", "Inc.", "Ind.", "Ing.", "Insp.", "Is.", "Jan.", "Jr.", "Jul.", "Jun.", "Kan.", "Kans.", "Ken.", "Ky.", "La.", "Lt.", "Ltd.", "Maj.", "Man.", "Mar.", "Mass.", "May.", "Md.", "Me.", "Med.", "Messrs.", "Mex.", "Mfg.", "Mich.", "Min.", "Minn.", "Miss.", "Mlle.", "Mm.", "Mme.", "Mo.", "Mont.", "Mr.", "Mrs.", "Ms.", "Msgr.", "Mssrs.", "Mt.", "Mtn.", "Neb.", "Nebr.", "Nev.", "No.", "Nos.", "Nov.", "Nr.", "Oct.", "Ok.", "Okla.", "Ont.", "Op.", "Ord.", "Ore.", "P.", "Pa.", "Pd.", "Pde.", "Penn.", "Penna.", "Pfc.", "Ph.", "Ph.d.", "Pl.", "Plz.", "Pp.", "Prof.", "Pvt.", "Que.", "Rd.", "Rs.", "Ref.", "Rep.", "Reps.", "Res.", "Rev.", "Rt.", "Sask.", "Sec.", "Sen.", "Sens.", "Sep.", "Sept.", "Sfc.", "Sgt.", "Sr.", "St.", "Supt.", "Surg.", "Tce.", "Tenn.", "Tex.", "Univ.", "Usafa.", "U.S.", "Ut.", "Va.", "V.", "Ver.", "Vs.", "Vt.", "Wash.", "Wis.", "Wisc.", "Wy.", "Wyo.", "Yuk."],
+  PREPOSITIVE_ABBREVIATIONS: ["Adm.", "Attys.", "Brig.", "Capt.", "Cmdr.", "Col.", "Cpl.", "Det.", "Dr.", "Gen.", "Gov.", "Ing.", "Lt.", "Maj.", "Mr.", "Mrs.", "Ms.", "Mt.", "Messrs.", "Mssrs.", "Prof.", "Ph.", "Rep.", "Reps.", "Rev.", "Sen.", "Sens.", "Sgt.", "St.", "Supt.", "V.", "Vs."],
+  EXCALAMATION_WORDS: ["!Xũ", "!Kung", "ǃʼOǃKung", "!Xuun", "!Kung-Ekoka", "ǃHu", "ǃKhung", "ǃKu", "ǃung", "ǃXo", "ǃXû", "ǃXung", "ǃXũ", "!Xun", "Yahoo!", "Y!J", "Yum!"]
+};
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"3AES6":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "PairMaker", function () {
+  return PairMaker;
+});
+var _logger = require("../logger");
+var _object_values = require("object_values");
+var _object_valuesDefault = _parcelHelpers.interopDefault(_object_values);
+class PairMaker {
+  pairs = {
+    [`"`]: `"`,
+    [`「`]: `」`,
+    [`（`]: `）`,
+    [`(`]: `)`,
+    [`『`]: `』`,
+    [`【`]: `】`,
+    [`《`]: `》`
+  };
+  pairKeys = Object.keys(this.pairs);
+  pairValues = _object_valuesDefault.default(this.pairs);
+  mark(sourceCode) {
+    const string = sourceCode.read();
+    if (!string) {
+      return;
+    }
+    // if current is in a context, should not start other context.
+    // PairMaker does not support nest context by design.
+    if (!sourceCode.isInContext()) {
+      const keyIndex = this.pairKeys.indexOf(string);
+      if (keyIndex !== -1) {
+        const key = this.pairKeys[keyIndex];
+        _logger.debugLog(`PairMaker -> enterContext: ${key}`);
+        sourceCode.enterContext(key);
+      }
+    } else {
+      // check that string is end mark?
+      const valueIndex = this.pairValues.indexOf(string);
+      if (valueIndex !== -1) {
+        const key = this.pairKeys[valueIndex];
+        _logger.debugLog(`PairMaker -> leaveContext: ${this.pairValues[valueIndex]}`);
+        sourceCode.leaveContext(key);
+      }
+    }
+  }
+}
+
+},{"../logger":"6gdNl","object_values":"5odD8","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"6gdNl":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "debugLog", function () {
+  return debugLog;
+});
+function debugLog(...args) {
+  if (undefined !== "sentence-splitter") {
+    return;
+  }
+  console.log("sentence-splitter: ", ...args);
+}
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"5odD8":[function(require,module,exports) {
+Object.values = Object.values ? Object.values : function(obj) {
+	var allowedTypes = ["[object String]", "[object Object]", "[object Array]", "[object Function]"];
+	var objType = Object.prototype.toString.call(obj);
+
+	if(obj === null || typeof obj === "undefined") {
+		throw new TypeError("Cannot convert undefined or null to object");
+	} else if(!~allowedTypes.indexOf(objType)) {
+		return [];
+	} else {
+		// if ES6 is supported
+		if (Object.keys) {
+			return Object.keys(obj).map(function (key) {
+				return obj[key];
+			});
+		}
+		
+		var result = [];
+		for (var prop in obj) {
+			if (obj.hasOwnProperty(prop)) {
+				result.push(obj[prop]);
+			}
+		}
+		
+		return result;
+	}
+};
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Object.values;
+}
+},{}]},["2bldb","6MuS6"], "6MuS6", "parcelRequiree029")
+
+//# sourceMappingURL=index.HASH_REF_5f3869b8cd16aab70a0d2b5453cef64e.js.map

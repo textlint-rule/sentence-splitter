@@ -1,0 +1,19 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "SpaceParser", function () {
+  return SpaceParser;
+});
+class SpaceParser {
+  test(sourceCode) {
+    const string = sourceCode.read();
+    if (!string) {
+      return false;
+    }
+    return (/\s/).test(string);
+  }
+  seek(sourceCode) {
+    while (this.test(sourceCode)) {
+      sourceCode.peek();
+    }
+  }
+}

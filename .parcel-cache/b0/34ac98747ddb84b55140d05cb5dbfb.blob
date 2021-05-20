@@ -1,0 +1,19 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "NewLineParser", function () {
+  return NewLineParser;
+});
+class NewLineParser {
+  test(sourceCode) {
+    const string = sourceCode.read();
+    if (!string) {
+      return false;
+    }
+    return (/[\r\n]/).test(string);
+  }
+  seek(sourceCode) {
+    while (this.test(sourceCode)) {
+      sourceCode.peek();
+    }
+  }
+}
