@@ -1,0 +1,96 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "This is a one  \n2nd line",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 2,
+                    "column": 8
+                }
+            },
+            "range": [
+                0,
+                24
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "This is a one",
+                    "value": "This is a one",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 13
+                        }
+                    },
+                    "range": [
+                        0,
+                        13
+                    ]
+                },
+                {
+                    "type": "Break",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 13
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 0
+                        }
+                    },
+                    "range": [
+                        13,
+                        16
+                    ],
+                    "raw": "  \n"
+                },
+                {
+                    "type": "Str",
+                    "raw": "2nd line",
+                    "value": "2nd line",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 8
+                        }
+                    },
+                    "range": [
+                        16,
+                        24
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 2,
+            "column": 8
+        }
+    },
+    "range": [
+        0,
+        24
+    ],
+    "raw": "This is a one  \n2nd line"
+}

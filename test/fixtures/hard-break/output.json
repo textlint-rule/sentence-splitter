@@ -1,0 +1,154 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "This is a one.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 14
+                }
+            },
+            "range": [
+                0,
+                14
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "This is a one",
+                    "value": "This is a one",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 13
+                        }
+                    },
+                    "range": [
+                        0,
+                        13
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 13
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 14
+                        }
+                    },
+                    "range": [
+                        13,
+                        14
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Break",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 14
+                },
+                "end": {
+                    "line": 2,
+                    "column": 0
+                }
+            },
+            "range": [
+                14,
+                17
+            ],
+            "raw": "  \n"
+        },
+        {
+            "type": "Sentence",
+            "raw": "2nd line.",
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 0
+                },
+                "end": {
+                    "line": 2,
+                    "column": 9
+                }
+            },
+            "range": [
+                17,
+                26
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "2nd line",
+                    "value": "2nd line",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 8
+                        }
+                    },
+                    "range": [
+                        17,
+                        25
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 8
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 9
+                        }
+                    },
+                    "range": [
+                        25,
+                        26
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 2,
+            "column": 9
+        }
+    },
+    "range": [
+        0,
+        26
+    ],
+    "raw": "This is a one.  \n2nd line."
+}
