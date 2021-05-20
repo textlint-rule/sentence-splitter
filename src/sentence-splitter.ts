@@ -205,6 +205,11 @@ export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): 
                 }
                 splitParser.nextValue(anyValueParser);
             }
+        } else if (currentNode.type === ASTNodeTypes.Break) {
+            // Break
+            // https://github.com/azu/sentence-splitter/issues/23
+            splitParser.pushNodeToCurrent(currentNode);
+            sourceCode.peekNode(currentNode);
         } else {
             if (!splitParser.isOpened()) {
                 splitParser.open(createEmptySentenceNode());

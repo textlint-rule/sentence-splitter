@@ -1,7 +1,6 @@
 import { TxtNode, TxtParentNode } from "@textlint/ast-node-types";
 import { AbstractParser } from "./AbstractParser";
-
-const StructureSource = require("structured-source");
+import StructureSource from "structured-source";
 
 export class SourceCode {
     private index: number = 0;
