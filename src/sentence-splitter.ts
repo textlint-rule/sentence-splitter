@@ -1,4 +1,4 @@
-import type { AnyTxtNode, TxtNode, TxtParentNode, TxtStrNode, TxtTextNode } from "@textlint/ast-node-types";
+import type { TxtNode, TxtParagraphNode, TxtParentNode, TxtStrNode, TxtTextNode } from "@textlint/ast-node-types";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
 
 import { SourceCode } from "./parser/SourceCode.js";
@@ -17,27 +17,25 @@ export const SentenceSplitterSyntax = {
     Sentence: "Sentence",
     Str: "Str"
 } as const;
+
 export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
     readonly type: "Sentence";
 };
 export type TxtWhiteSpaceNode = Omit<TxtTextNode, "type"> & {
     readonly type: "WhiteSpace";
 };
-
 export type TxtPunctuationNode = Omit<TxtTextNode, "type"> & {
     readonly type: "Punctuation";
 };
-export type SentenceSplitterTxtNode =
-    | TxtSentenceNode
-    | TxtWhiteSpaceNode
-    | TxtPunctuationNode
-    | TxtStrNode
-    | AnyTxtNode;
+export type SentenceSplitterTxtNode = TxtSentenceNode | TxtWhiteSpaceNode | TxtPunctuationNode | TxtStrNode;
 export type SentenceSplitterTxtNodeType = (typeof SentenceSplitterSyntax)[keyof typeof SentenceSplitterSyntax];
+export type TxtParentNodeWithSentenceNode = Omit<TxtParentNode, "children"> & {
+    children: (TxtParentNode["children"] | SentenceSplitterTxtNode)[];
+};
 
 export class SplitParser {
-    private nodeList: TxtSentenceNode[] = [];
-    private results: SentenceSplitterTxtNode[] = [];
+    private sentenceNodeList: TxtSentenceNode[] = [];
+    private results: TxtParentNodeWithSentenceNode["children"] = [];
     public source: SourceCode;
 
     constructor(text: string | TxtParentNode) {
@@ -45,10 +43,10 @@ export class SplitParser {
     }
 
     get current(): TxtSentenceNode | undefined {
-        return this.nodeList[this.nodeList.length - 1];
+        return this.sentenceNodeList[this.sentenceNodeList.length - 1];
     }
 
-    pushNodeToCurrent(node: SentenceSplitterTxtNode) {
+    pushNodeToCurrent(node: SentenceSplitterTxtNode | TxtNode) {
         const current = this.current;
         if (current) {
             current.children.push(node);
@@ -60,11 +58,11 @@ export class SplitParser {
 
     // open with ParentNode
     open(parentNode: TxtSentenceNode) {
-        this.nodeList.push(parentNode);
+        this.sentenceNodeList.push(parentNode);
     }
 
     isOpened() {
-        return this.nodeList.length > 0;
+        return this.sentenceNodeList.length > 0;
     }
 
     nextLine(parser: AbstractParser) {
@@ -89,7 +87,7 @@ export class SplitParser {
         if (startPosition.offset !== endPosition.offset) {
             this.pushNodeToCurrent(createPunctuationNode(value, startPosition, endPosition));
         }
-        const currentNode = this.nodeList.pop();
+        const currentNode = this.sentenceNodeList.pop();
         if (!currentNode) {
             return;
         }
@@ -147,7 +145,7 @@ const createParsers = (options: splitOptions = {}) => {
 /**
  * split `text` into Sentence nodes
  */
-export function split(text: string, options?: splitOptions): SentenceSplitterTxtNode[] {
+export function split(text: string, options?: splitOptions): TxtParentNodeWithSentenceNode["children"] {
     const { newLine, space, separator, anyValueParser } = createParsers(options);
     const splitParser = new SplitParser(text);
     const sourceCode = splitParser.source;
@@ -168,12 +166,13 @@ export function split(text: string, options?: splitOptions): SentenceSplitterTxt
     splitParser.close(space);
     return splitParser.toList();
 }
+
 /**
  * Convert Paragraph Node to Paragraph node that convert children to Sentence node
  * This Node is based on TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
-export function splitAST<T extends TxtParentNode>(paragraphNode: T, options?: splitOptions): T {
+export function splitAST(paragraphNode: TxtParagraphNode, options?: splitOptions): TxtParentNodeWithSentenceNode {
     const { newLine, space, separator, anyValueParser } = createParsers(options);
     const splitParser = new SplitParser(paragraphNode);
     const sourceCode = splitParser.source;

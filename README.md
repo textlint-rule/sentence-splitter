@@ -25,16 +25,17 @@ export interface splitOptions {
 }
 
 /**
- * split `text` into Sentence nodes
+ * split `text` into Sentence nodes.
+ * This function return array of Sentence nodes.
  */
-export declare function split(text: string, options?: splitOptions): SentenceSplitterTxtNode[];
+export declare function split(text: string, options?: splitOptions): TxtParentNodeWithSentenceNode["children"];
 
 /**
- * Convert Paragraph Node to Sentence node.
+ * Convert Paragraph Node to Paragraph Node that includes Sentence Node.
  * Paragraph Node is defined in textlint's TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
-export declare function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): SentenceSplitterTxtNode;
+export declare function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): TxtParentNodeWithSentenceNode;
 ```
 
 See also [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
