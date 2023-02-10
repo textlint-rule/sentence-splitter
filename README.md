@@ -6,18 +6,6 @@ Split {Japanese, English} text into sentences.
 
     npm install sentence-splitter
 
-**Requirements:**
-
-- `Array.from`
-- `Array#fill`
-
-### CLI
-
-    $ npm install -g sentence-splitter
-    $ echo "This is a pen. But, this is not pen" | sentence-splitter
-    This is a pen.
-    But This is not pen
-
 ## Usage
 
 ```ts
