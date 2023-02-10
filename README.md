@@ -82,19 +82,20 @@ Fore more details, Please see [TxtAST](https://github.com/textlint/textlint/blob
 
 Node layout image.
 
+- Example: <https://sentence-splitter.netlify.app/#This%20is%201st%20sentence.%20This%20is%202nd%20sentence.>
+
+> This is 1st sentence. This is 2nd sentence.
+
 ```
-<WhiteSpace />
 <Sentence>
-    <Str />
-    <Punctuation />
-</Sentence>
-<WhiteSpace />
+    <Str />                      |This is 1st sentence| 
+    <Punctuation />              |.|
+</Sentence>  
+<WhiteSpace />                   | |
 <Sentence>
-    <Str />
-    <Str />
-    <Punctuation />
+    <Str />                      |This is 2nd sentence|
+    <Punctuation />              |.|
 </Sentence>
-<WhiteSpace />
 ```
 
 Note: This library will not split `Str` into `Str` and `WhiteSpace`(tokenize)
