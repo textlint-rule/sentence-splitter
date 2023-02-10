@@ -77,7 +77,6 @@
     "structured-source": "^4.0.0"
   },
   "devDependencies": {
-    "@parcel/transformer-typescript-tsc": "^2.8.3",
     "@textlint/markdown-to-ast": "^13.2.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.13.0",
