@@ -1,7 +1,7 @@
-import { SourceCode } from "./SourceCode";
-import { AbstractParser } from "./AbstractParser";
-import { AbstractMarker } from "./AbstractMarker";
-import { seekLog } from "../logger";
+import { SourceCode } from "./SourceCode.js";
+import { AbstractParser } from "./AbstractParser.js";
+import { AbstractMarker } from "./AbstractMarker.js";
+import { seekLog } from "../logger.js";
 
 export interface AnyValueParserOptions {
     parsers: AbstractParser[];
@@ -27,7 +27,7 @@ export class AnyValueParser implements AbstractParser {
         if (sourceCode.hasEnd) {
             return false;
         }
-        return this.parsers.every(parser => !parser.test(sourceCode));
+        return this.parsers.every((parser) => !parser.test(sourceCode));
     }
 
     seek(sourceCode: SourceCode) {
@@ -35,7 +35,7 @@ export class AnyValueParser implements AbstractParser {
         if (!currentNode) {
             // Text mode
             while (this.test(sourceCode)) {
-                this.markers.forEach(marker => marker.mark(sourceCode));
+                this.markers.forEach((marker) => marker.mark(sourceCode));
                 sourceCode.peek();
             }
             return;
@@ -47,7 +47,7 @@ export class AnyValueParser implements AbstractParser {
         };
         while (isInCurrentNode() && this.test(sourceCode)) {
             seekLog(sourceCode.offset, sourceCode.read());
-            this.markers.forEach(marker => marker.mark(sourceCode));
+            this.markers.forEach((marker) => marker.mark(sourceCode));
             sourceCode.peek();
         }
     }

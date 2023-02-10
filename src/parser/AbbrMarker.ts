@@ -1,7 +1,7 @@
-import { SourceCode } from "./SourceCode";
-import { Language } from "./lang/LanguageInterface";
-import { English } from "./lang/English";
-import { AbstractMarker } from "./AbstractMarker";
+import { SourceCode } from "./SourceCode.js";
+import { Language } from "./lang/LanguageInterface.js";
+import { English } from "./lang/English.js";
+import { AbstractMarker } from "./AbstractMarker.js";
 
 const isCapitalized = (text: string) => {
     if (!text || text.length === 0) {
@@ -84,7 +84,7 @@ export class AbbrMarker implements AbstractMarker {
         }
         // EXCALAMATION_WORDS
         // Example: Yahoo!
-        const isMatchedEXCALAMATION_WORDS = this.lang.EXCALAMATION_WORDS.some(abbr => {
+        const isMatchedEXCALAMATION_WORDS = this.lang.EXCALAMATION_WORDS.some((abbr) => {
             return compareNoCaseSensitive(abbr, currentWord);
         });
         if (isMatchedEXCALAMATION_WORDS) {
@@ -92,14 +92,14 @@ export class AbbrMarker implements AbstractMarker {
         }
         // PREPOSITIVE_ABBREVIATIONS
         // Example: Mr. Fuji
-        const isMatchedPREPOSITIVE_ABBREVIATIONS = this.lang.PREPOSITIVE_ABBREVIATIONS.some(abbr => {
+        const isMatchedPREPOSITIVE_ABBREVIATIONS = this.lang.PREPOSITIVE_ABBREVIATIONS.some((abbr) => {
             return compareNoCaseSensitive(abbr, currentWord);
         });
         if (isMatchedPREPOSITIVE_ABBREVIATIONS) {
             return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         }
         // ABBREVIATIONS
-        const isMatched = this.lang.ABBREVIATIONS.some(abbr => {
+        const isMatched = this.lang.ABBREVIATIONS.some((abbr) => {
             return compareNoCaseSensitive(abbr, currentWord);
         });
         const prevWord = this.getPrevWord(sourceCode);

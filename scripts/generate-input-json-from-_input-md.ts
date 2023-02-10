@@ -7,7 +7,7 @@ const { parse } = require("@textlint/markdown-to-ast");
 // Create input.json from Markdown
 // _input.md -> input.json
 const fixturesDir = path.join(__dirname, "../test/fixtures");
-fs.readdirSync(fixturesDir).map(caseName => {
+fs.readdirSync(fixturesDir).map((caseName) => {
     const fixtureDir = path.join(fixturesDir, caseName);
     const actualPath = path.join(fixtureDir, "_input.md");
     if (!fs.existsSync(actualPath)) {

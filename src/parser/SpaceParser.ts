@@ -1,5 +1,5 @@
-import { SourceCode } from "./SourceCode";
-import { AbstractParser } from "./AbstractParser";
+import { SourceCode } from "./SourceCode.js";
+import { AbstractParser } from "./AbstractParser.js";
 
 /**
  * Space parser

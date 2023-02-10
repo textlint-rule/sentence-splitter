@@ -1,6 +1,6 @@
 import { TxtNode, TxtParentNode } from "@textlint/ast-node-types";
-import { AbstractParser } from "./AbstractParser";
-import StructureSource from "structured-source";
+import { AbstractParser } from "./AbstractParser.js";
+import { StructuredSource } from "structured-source";
 
 export class SourceCode {
     private index: number = 0;
@@ -15,7 +15,7 @@ export class SourceCode {
     constructor(input: string | TxtParentNode) {
         if (typeof input === "string") {
             this.textCharacters = input.split("");
-            this.source = new StructureSource(input);
+            this.source = new StructuredSource(input);
             this.startOffset = 0;
             this.firstChildPadding = 0;
         } else {
@@ -30,7 +30,7 @@ export class SourceCode {
             // filled with dummy text
             const offset = Array.from(new Array(this.startOffset - lineBreaks.length)).fill("∯");
             this.textCharacters = offset.concat(lineBreaks, input.raw.split(""));
-            this.source = new StructureSource(this.textCharacters.join(""));
+            this.source = new StructuredSource(this.textCharacters.join(""));
             if (this.sourceNode.children[0]) {
                 // Header Node's children does not start with index 0
                 // Example: # Header
@@ -48,7 +48,7 @@ export class SourceCode {
 
     isInContextRange() {
         const offset = this.offset;
-        return this.contextRanges.some(range => {
+        return this.contextRanges.some((range) => {
             return range[0] <= offset && offset < range[1];
         });
     }
@@ -61,7 +61,7 @@ export class SourceCode {
         if (!context) {
             return this.contexts.length > 0;
         }
-        return this.contexts.some(targetContext => targetContext === context);
+        return this.contexts.some((targetContext) => targetContext === context);
     }
 
     leaveContext(context: string) {
@@ -129,7 +129,7 @@ export class SourceCode {
         if (index < this.startOffset) {
             return false;
         }
-        const matchNodeList = this.sourceNode.children.filter(node => {
+        const matchNodeList = this.sourceNode.children.filter((node) => {
             // <p>[node]</p>
             //         ^
             //        range[1]
@@ -162,9 +162,7 @@ export class SourceCode {
     /**
      * Seek and Peek
      */
-    seekNext(
-        parser: AbstractParser
-    ): {
+    seekNext(parser: AbstractParser): {
         value: string;
         startPosition: {
             line: number;

@@ -17,64 +17,77 @@
   },
   "license": "MIT",
   "author": "azu",
-  "main": "lib/sentence-splitter.js",
-  "types": "lib/sentence-splitter.d.ts",
-  "bin": {
-    "sentence-splitter": "./bin/cmd.js"
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./module/sentence-splitter.d.ts",
+        "default": "./module/sentence-splitter.js"
+      },
+      "require": {
+        "types": "./lib/sentence-splitter.d.ts",
+        "default": "./lib/sentence-splitter.js"
+      },
+      "default": "./lib/sentence-splitter.js"
+    },
+    "./package.json": "./package.json"
   },
+  "main": "./lib/sentence-splitter.js",
+  "module": "./module/sentence-splitter.js",
+  "types": "./module/sentence-splitter.d.ts",
   "directories": {
     "test": "test"
   },
   "files": [
-    "bin",
-    "lib",
-    "src"
+    "bin/",
+    "lib/",
+    "module/",
+    "src/"
   ],
   "scripts": {
-    "build": "tsc -p .",
-    "watch": "tsc -p . --watch",
-    "prepublish": "npm run --if-present build",
-    "test": "mocha \"test/**/*.{js,ts}\"",
+    "build": "tsc -p . && tsc -p ./tsconfig.cjs.json && tsconfig-to-dual-package",
+    "clean": "git clean -fx lib/ module/",
     "createInputJson": "ts-node scripts/generate-input-json-from-_input-md.ts",
-    "updateSnapshot": "UPDATE_SNAPSHOT=1 npm test",
-    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
-    "precommit": "lint-staged",
-    "postcommit": "git reset",
     "dev": "vite",
-    "site:build": "vite build"
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
+    "postcommit": "git reset",
+    "precommit": "lint-staged",
+    "prepare": "git config --local core.hooksPath .githooks",
+    "prepublishOnly": "npm run clean && npm run build",
+    "prepublish": "npm run --if-present build",
+    "site:build": "vite build",
+    "test": "mocha",
+    "updateSnapshot": "UPDATE_SNAPSHOT=1 npm test",
+    "watch": "tsc -p . --watch"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "prettier": {
     "printWidth": 120,
-    "tabWidth": 4
+    "singleQuote": false,
+    "tabWidth": 4,
+    "trailingComma": "none"
   },
   "dependencies": {
-    "@textlint/ast-node-types": "^4.4.2",
-    "concat-stream": "^2.0.0",
-    "object_values": "^0.1.2",
-    "structured-source": "^3.0.2"
+    "@textlint/ast-node-types": "^13.2.0",
+    "structured-source": "^4.0.0"
   },
   "devDependencies": {
-    "@parcel/transformer-typescript-tsc": "^2.0.0-alpha.3",
-    "@snowpack/plugin-typescript": "^1.1.1",
-    "@textlint/markdown-to-ast": "^6.1.6",
-    "@types/mocha": "^8.0.4",
-    "@types/node": "^14.14.10",
-    "@types/structured-source": "^3.0.0",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.5.2",
-    "mocha": "^8.2.1",
-    "power-assert": "^1.6.1",
-    "prettier": "^2.2.1",
-    "ts-node": "^9.1.0",
-    "ts-node-test-register": "^9.0.0",
-    "typescript": "^4.1.2",
-    "vite": "^2.3.3"
+    "@textlint/markdown-to-ast": "^13.2.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.13.0",
+    "lint-staged": "^13.1.1",
+    "mocha": "^10.2.0",
+    "prettier": "^2.8.4",
+    "ts-node": "^10.9.1",
+    "tsconfig-to-dual-package": "^1.1.1",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.1"
   },
+  "packageManager": "yarn@1.22.19",
   "email": "azuciao@gmail.com"
 }

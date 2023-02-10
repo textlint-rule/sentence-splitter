@@ -6,18 +6,6 @@ Split {Japanese, English} text into sentences.
 
     npm install sentence-splitter
 
-**Requirements:**
-
-- `Array.from`
-- `Array#fill`
-
-### CLI
-
-    $ npm install -g sentence-splitter
-    $ echo "This is a pen. But, this is not pen" | sentence-splitter
-    This is a pen.
-    But This is not pen
-
 ## Usage
 
 ```ts
@@ -39,303 +27,21 @@ export interface splitOptions {
 /**
  * split `text` into Sentence nodes
  */
-export declare function split(text: string, options?: splitOptions): (TxtParentNode | TxtNode)[];
+export declare function split(text: string, options?: splitOptions): SentenceSplitterTxtNode[];
 
 /**
- * Convert Paragraph Node to Paragraph node that convert children to Sentence node
- * This Node is based on TxtAST.
+ * Convert Paragraph Node to Sentence node.
+ * Paragraph Node is defined in textlint's TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
-export declare function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): TxtParentNode;
+export declare function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): SentenceSplitterTxtNode;
 ```
 
-`TxtParentNode` and `TxtNode` is defined
-in [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
+See also [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
 
 ### Example
 
-```js
-import { split, Syntax } from "sentence-splitter";
-
-let sentences = split(`There it is! I found it.
-Hello World. My name is Jonas.`);
-console.log(JSON.stringify(sentences, null, 4));
-/*
-{
-    "type": "Paragraph",
-    "children": [
-        {
-            "type": "Sentence",
-            "raw": "There it is!",
-            "value": "There it is!",
-            "loc": {
-                "start": {
-                    "line": 1,
-                    "column": 0
-                },
-                "end": {
-                    "line": 1,
-                    "column": 12
-                }
-            },
-            "range": [
-                0,
-                12
-            ],
-            "children": [
-                {
-                    "type": "Str",
-                    "raw": "There it is",
-                    "value": "There it is",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 0
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 11
-                        }
-                    },
-                    "range": [
-                        0,
-                        11
-                    ]
-                },
-                {
-                    "type": "Punctuation",
-                    "raw": "!",
-                    "value": "!",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 11
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 12
-                        }
-                    },
-                    "range": [
-                        11,
-                        12
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "WhiteSpace",
-            "raw": " ",
-            "value": " ",
-            "loc": {
-                "start": {
-                    "line": 1,
-                    "column": 12
-                },
-                "end": {
-                    "line": 1,
-                    "column": 13
-                }
-            },
-            "range": [
-                12,
-                13
-            ]
-        },
-        {
-            "type": "Sentence",
-            "raw": "I found it.\nHello World.",
-            "value": "I found it.\nHello World.",
-            "loc": {
-                "start": {
-                    "line": 1,
-                    "column": 13
-                },
-                "end": {
-                    "line": 2,
-                    "column": 12
-                }
-            },
-            "range": [
-                13,
-                37
-            ],
-            "children": [
-                {
-                    "type": "Str",
-                    "raw": "I found it.",
-                    "value": "I found it.",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 13
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 24
-                        }
-                    },
-                    "range": [
-                        13,
-                        24
-                    ]
-                },
-                {
-                    "type": "WhiteSpace",
-                    "raw": "\n",
-                    "value": "\n",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 24
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 0
-                        }
-                    },
-                    "range": [
-                        24,
-                        25
-                    ]
-                },
-                {
-                    "type": "Str",
-                    "raw": "Hello World",
-                    "value": "Hello World",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 0
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 11
-                        }
-                    },
-                    "range": [
-                        25,
-                        36
-                    ]
-                },
-                {
-                    "type": "Punctuation",
-                    "raw": ".",
-                    "value": ".",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 11
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 12
-                        }
-                    },
-                    "range": [
-                        36,
-                        37
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "WhiteSpace",
-            "raw": " ",
-            "value": " ",
-            "loc": {
-                "start": {
-                    "line": 2,
-                    "column": 12
-                },
-                "end": {
-                    "line": 2,
-                    "column": 13
-                }
-            },
-            "range": [
-                37,
-                38
-            ]
-        },
-        {
-            "type": "Sentence",
-            "raw": "My name is Jonas.",
-            "value": "My name is Jonas.",
-            "loc": {
-                "start": {
-                    "line": 2,
-                    "column": 13
-                },
-                "end": {
-                    "line": 2,
-                    "column": 30
-                }
-            },
-            "range": [
-                38,
-                55
-            ],
-            "children": [
-                {
-                    "type": "Str",
-                    "raw": "My name is Jonas",
-                    "value": "My name is Jonas",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 13
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 29
-                        }
-                    },
-                    "range": [
-                        38,
-                        54
-                    ]
-                },
-                {
-                    "type": "Punctuation",
-                    "raw": ".",
-                    "value": ".",
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 29
-                        },
-                        "end": {
-                            "line": 2,
-                            "column": 30
-                        }
-                    },
-                    "range": [
-                        54,
-                        55
-                    ]
-                }
-            ]
-        }
-    ],
-    "loc": {
-        "start": {
-            "line": 1,
-            "column": 0
-        },
-        "end": {
-            "line": 2,
-            "column": 30
-        }
-    },
-    "range": [
-        0,
-        55
-    ],
-    "raw": "There it is! I found it.\nHello World. My name is Jonas."
-}
-*/
-```
+- Online playground: <https://sentence-splitter.netlify.app/>
 
 ## Node
 
@@ -343,37 +49,31 @@ This node is based on [TxtAST](https://github.com/textlint/textlint/blob/master/
 
 ### Node's type
 
-- `Str`: Str node has `value`
+- `Str`: Str node has `value`. It is same as TxtAST's `Str` node.
 - `Sentence`: Sentence Node has `Str`, `WhiteSpace`, or `Punctuation` nodes as children
 - `WhiteSpace`: WhiteSpace Node has `\n`.
 - `Punctuation`: Punctuation Node has `.`, `。`
 
-Get these `Syntax` constants value from the module:
+Get these `SentenceSplitterSyntax` constants value from the module:
 
 ```js
-import { Syntax } from "sentence-splitter";
+import { SentenceSplitterSyntax } from "sentence-splitter";
 
-console.log(Syntax.Sentence);// "Sentence"
+console.log(SentenceSplitterSyntax.Sentence);// "Sentence"
 ```
 
 ### Node's interface
 
 ```ts
-export interface WhiteSpaceNode extends TxtTextNode {
-    readonly type: "WhiteSpace";
-}
-
-export interface PunctuationNode extends TxtTextNode {
-    readonly type: "Punctuation";
-}
-
-export interface StrNode extends TxtTextNode {
-    readonly type: "Str";
-}
-
-export interface SentenceNode extends TxtParentNode {
+export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
     readonly type: "Sentence";
-}
+};
+export type TxtWhiteSpaceNode = Omit<TxtTextNode, "type"> & {
+    readonly type: "WhiteSpace";
+};
+export type TxtPunctuationNode = Omit<TxtTextNode, "type"> & {
+    readonly type: "Punctuation";
+};
 ```
 
 Fore more details, Please see [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md "TxtAST").
@@ -382,47 +82,52 @@ Fore more details, Please see [TxtAST](https://github.com/textlint/textlint/blob
 
 Node layout image.
 
+- Example: <https://sentence-splitter.netlify.app/#This%20is%201st%20sentence.%20This%20is%202nd%20sentence.>
+
+> This is 1st sentence. This is 2nd sentence.
+
 ```
-<WhiteSpace />
 <Sentence>
-    <Str />
-    <Punctuation />
-    <Str />
-    <Punctuation />
+    <Str />                      |This is 1st sentence| 
+    <Punctuation />              |.|
+</Sentence>  
+<WhiteSpace />                   | |
+<Sentence>
+    <Str />                      |This is 2nd sentence|
+    <Punctuation />              |.|
 </Sentence>
-<WhiteSpace />
 ```
 
 Note: This library will not split `Str` into `Str` and `WhiteSpace`(tokenize)
 Because, Tokenize need to implement language specific context.
 
-### in textlint rule
+### For textlint rule
 
-You can use `splitAST` in textlint rule.
-`splitAST` function can preverse original AST's position unlike `split` function.
+You can use `splitAST` for textlint rule.
+`splitAST` function can preserve original AST's position unlike `split` function.
 
 ```ts
-import { splitAST, Syntax as SentenceSyntax } from "sentence-splitter";
+import { splitAST, SentenceSplitterSyntax } from "sentence-splitter";
 
 export default function(context, options = {}) {
     const { Syntax, RuleError, report, getSource } = context;
     return {
         [Syntax.Paragraph](node) {
-            const resultNode = splitAST(node);
-            const sentenceNodes = resultNode.children.filter(childNode => childNode.type === SentenceSyntax.Sentence);
+            const parsedNode = splitAST(node);
+            const sentenceNodes = parsedNode.children.filter(childNode => childNode.type === SentenceSplitterSyntax.Sentence);
             console.log(sentenceNodes); // => Sentence nodes
         }
     }
 }
 ```
 
-Example
+Examples
 
 - [textlint-ja/textlint-rule-max-ten: textlint rule that limit maxinum ten(、) count of sentence.](https://github.com/textlint-ja/textlint-rule-max-ten)
 
 ## Reference
 
-This library use ["Golden Rule" test](test/pragmatic_segmenter/test.ts) of `pragmatic_segmenter`.
+This library use ["Golden Rule" test](test/pragmatic_segmenter/test.ts) of `pragmatic_segmenter` for testing.
 
 - [diasks2/pragmatic_segmenter: Pragmatic Segmenter is a rule-based sentence boundary detection gem that works out-of-the-box across many languages.](https://github.com/diasks2/pragmatic_segmenter "diasks2/pragmatic_segmenter: Pragmatic Segmenter is a rule-based sentence boundary detection gem that works out-of-the-box across many languages.")
 

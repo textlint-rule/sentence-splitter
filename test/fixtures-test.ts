@@ -1,18 +1,19 @@
-import * as path from "path";
-import * as fs from "fs";
-import * as assert from "assert";
-import { splitAST } from "../src/sentence-splitter";
+import * as path from "node:path";
+import * as fs from "node:fs";
+import * as assert from "node:assert";
+import { splitAST } from "../src/sentence-splitter.js";
 import { TxtParentNode } from "@textlint/ast-node-types";
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const fixturesDir = path.join(__dirname, "fixtures");
 describe("fixtures testing", () => {
-    fs.readdirSync(fixturesDir).map(caseName => {
-        it(`Test ${caseName.replace(/-/g, " ")}`, function() {
+    fs.readdirSync(fixturesDir).map((caseName) => {
+        it(`Test ${caseName.replace(/-/g, " ")}`, async function () {
             const fixtureDir = path.join(fixturesDir, caseName);
             const actualPath = path.join(fixtureDir, "input.json");
             const optionsPath = path.join(fixtureDir, "options.js");
             const actualContent: TxtParentNode = JSON.parse(fs.readFileSync(actualPath, "utf-8"));
-            const splitOptions = fs.existsSync(optionsPath) ? require(optionsPath) : {};
+            const splitOptions = await (fs.existsSync(optionsPath) ? import(optionsPath).then((o) => o.default) : {});
             const actual = splitAST(actualContent, splitOptions);
             const outputFilePath = path.join(fixtureDir, "output.json");
             if (process.env.UPDATE_SNAPSHOT) {

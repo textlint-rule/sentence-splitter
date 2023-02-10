@@ -1,4 +1,4 @@
-import { Language } from "./LanguageInterface";
+import type { Language } from "./LanguageInterface.js";
 
 export const English: Language = {
     ABBREVIATIONS: [

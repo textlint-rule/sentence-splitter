@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>sentence-splitter</title>
     <link href="./index.css" rel="stylesheet">
-    <script src="./index.ts" type="module"></script>
+    <script type="module">
+        // Avoid Vite sideEffects bug
+        // https://github.com/vitejs/vite/issues/10735
+        import { run } from "./index.ts";
+
+        run();
+    </script>
 </head>
 <body>
 <main class="main">
