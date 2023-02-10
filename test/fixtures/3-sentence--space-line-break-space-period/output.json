@@ -1,0 +1,212 @@
+{
+    "type": "Paragraph",
+    "children": [
+        {
+            "type": "Sentence",
+            "raw": "A.\nB is `QuickJS.wasm`.",
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 2,
+                    "column": 20
+                }
+            },
+            "range": [
+                0,
+                23
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "A.",
+                    "value": "A.",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 2
+                        }
+                    },
+                    "range": [
+                        0,
+                        2
+                    ]
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": "\n",
+                    "value": "\n",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 2
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 0
+                        }
+                    },
+                    "range": [
+                        2,
+                        3
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "B is ",
+                    "value": "B is ",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 5
+                        }
+                    },
+                    "range": [
+                        3,
+                        8
+                    ]
+                },
+                {
+                    "type": "Code",
+                    "value": "QuickJS.wasm",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 5
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 19
+                        }
+                    },
+                    "range": [
+                        8,
+                        22
+                    ],
+                    "raw": "`QuickJS.wasm`"
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 19
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 20
+                        }
+                    },
+                    "range": [
+                        22,
+                        23
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "WhiteSpace",
+            "raw": "\n",
+            "value": "\n",
+            "loc": {
+                "start": {
+                    "line": 2,
+                    "column": 20
+                },
+                "end": {
+                    "line": 3,
+                    "column": 0
+                }
+            },
+            "range": [
+                23,
+                24
+            ]
+        },
+        {
+            "type": "Sentence",
+            "raw": "C.",
+            "loc": {
+                "start": {
+                    "line": 3,
+                    "column": 0
+                },
+                "end": {
+                    "line": 3,
+                    "column": 2
+                }
+            },
+            "range": [
+                24,
+                26
+            ],
+            "children": [
+                {
+                    "type": "Str",
+                    "raw": "C",
+                    "value": "C",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 1
+                        }
+                    },
+                    "range": [
+                        24,
+                        25
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 3,
+                            "column": 1
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 2
+                        }
+                    },
+                    "range": [
+                        25,
+                        26
+                    ]
+                }
+            ]
+        }
+    ],
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 3,
+            "column": 2
+        }
+    },
+    "range": [
+        0,
+        26
+    ],
+    "raw": "A.\nB is `QuickJS.wasm`.\nC."
+}

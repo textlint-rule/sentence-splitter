@@ -1,6 +1,6 @@
 import { SourceCode } from "./SourceCode";
 import { AbstractMarker } from "./AbstractMarker";
-import { debugLog } from "../logger";
+import { logNode } from "../logger";
 // @ts-ignore
 import values from "object_values";
 
@@ -37,7 +37,7 @@ export class PairMaker implements AbstractMarker {
             const keyIndex = this.pairKeys.indexOf(string);
             if (keyIndex !== -1) {
                 const key = this.pairKeys[keyIndex];
-                debugLog(`PairMaker -> enterContext: ${key}`);
+                logNode(`PairMaker -> enterContext: ${key}`);
                 sourceCode.enterContext(key);
             }
         } else {
@@ -45,7 +45,7 @@ export class PairMaker implements AbstractMarker {
             const valueIndex = this.pairValues.indexOf(string);
             if (valueIndex !== -1) {
                 const key = this.pairKeys[valueIndex];
-                debugLog(`PairMaker -> leaveContext: ${this.pairValues[valueIndex]}`);
+                logNode(`PairMaker -> leaveContext: ${this.pairValues[valueIndex]}`);
                 sourceCode.leaveContext(key);
             }
         }

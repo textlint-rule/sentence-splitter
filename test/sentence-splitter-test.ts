@@ -171,12 +171,15 @@ describe("sentence-splitter", function() {
     });
     it("should return sentences split by text and whitespaces, and new line", function() {
         const sentences = splitSentences("1st text. \n 2nd text");
-        assert.equal(sentences.length, 3);
-        const [sentence0, lineBreak, sentence1] = sentences;
+        assert.strictEqual(sentences.length, 5);
+        const [sentence0, whitespace1, lineBreak, whitespace2, sentence1] = sentences;
         assert.strictEqual(sentence0.raw, "1st text.");
         assert.deepStrictEqual(sentence0.range, [0, 9]);
         assert.strictEqual(lineBreak.type, Syntax.WhiteSpace);
-        assert.strictEqual(lineBreak.value, " \n ");
+        assert.strictEqual(whitespace1.value, " ");
+        assert.strictEqual(lineBreak.type, Syntax.WhiteSpace);
+        assert.strictEqual(lineBreak.value, "\n");
+        assert.strictEqual(whitespace2.value, " ");
         assert.strictEqual(sentence1.raw, "2nd text");
         assert.deepStrictEqual(sentence1.range, [12, 20]);
     });
