@@ -173,7 +173,7 @@ export function split(text: string, options?: splitOptions): SentenceSplitterTxt
  * This Node is based on TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
-export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): SentenceSplitterTxtNode {
+export function splitAST<T extends TxtParentNode>(paragraphNode: T, options?: splitOptions): T {
     const { newLine, space, separator, anyValueParser } = createParsers(options);
     const splitParser = new SplitParser(paragraphNode);
     const sourceCode = splitParser.source;
