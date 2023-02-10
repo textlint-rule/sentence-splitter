@@ -1,4 +1,4 @@
-import { split } from "../src/sentence-splitter";
+import { split } from "../src/sentence-splitter.js";
 
 const textElement = document.querySelector("#text") as HTMLTextAreaElement;
 const jsonElement = document.querySelector("#json") as HTMLTextAreaElement;
