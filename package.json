@@ -78,7 +78,6 @@
   },
   "devDependencies": {
     "@parcel/transformer-typescript-tsc": "^2.8.3",
-    "@snowpack/plugin-typescript": "^1.1.1",
     "@textlint/markdown-to-ast": "^13.2.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.13.0",
