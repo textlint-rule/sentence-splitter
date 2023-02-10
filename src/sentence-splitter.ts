@@ -1,4 +1,11 @@
-import type { TxtNode, TxtParentNode, TxtTextNode, TxtStrNode, TxtNodeType } from "@textlint/ast-node-types";
+import type {
+    TxtNode,
+    TxtParentNode,
+    TxtTextNode,
+    TxtStrNode,
+    TxtNodeType,
+    AnyTxtNode
+} from "@textlint/ast-node-types";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
 
 import { SourceCode } from "./parser/SourceCode.js";
@@ -17,30 +24,29 @@ export const Syntax = {
     Sentence: "Sentence",
     Str: "Str"
 } as const;
-export type SentenceSplitterNodeType = (typeof Syntax)[keyof typeof Syntax];
-
-export type SentenceSplitterTxtNode = Omit<TxtParentNode, "type"> & {
-    type: SentenceSplitterNodeType | TxtNodeType;
-};
-export type SentenceNode = SentenceSplitterTxtNode & {
-    readonly type: "Sentence";
-};
-
-export type ToTxtNodeType<T extends SentenceSplitterNodeType | TxtNodeType> = Omit<TxtTextNode, "type"> & {
+type ToTxtNodeType<T extends SentenceSplitterTxtNodeType | TxtNodeType> = Omit<TxtTextNode, "type"> & {
     readonly type: T | TxtNodeType;
 };
-
-export type WhiteSpaceNode = SentenceSplitterTxtNode & {
+export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
+    readonly type: "Sentence";
+};
+export type TxtWhiteSpaceNode = Omit<TxtTextNode, "type"> & {
     readonly type: "WhiteSpace";
 };
 
-export type PunctuationNode = SentenceSplitterTxtNode & {
+export type TxtPunctuationNode = Omit<TxtTextNode, "type"> & {
     readonly type: "Punctuation";
 };
-export type StrNode = TxtStrNode;
+export type SentenceSplitterTxtNode =
+    | TxtSentenceNode
+    | TxtWhiteSpaceNode
+    | TxtPunctuationNode
+    | TxtStrNode
+    | AnyTxtNode;
+export type SentenceSplitterTxtNodeType = (typeof Syntax)[keyof typeof Syntax];
 
 export class SplitParser {
-    private nodeList: SentenceNode[] = [];
+    private nodeList: TxtSentenceNode[] = [];
     private results: SentenceSplitterTxtNode[] = [];
     public source: SourceCode;
 
@@ -48,7 +54,7 @@ export class SplitParser {
         this.source = new SourceCode(text);
     }
 
-    get current(): SentenceNode | undefined {
+    get current(): TxtSentenceNode | undefined {
         return this.nodeList[this.nodeList.length - 1];
     }
 
@@ -63,7 +69,7 @@ export class SplitParser {
     }
 
     // open with ParentNode
-    open(parentNode: SentenceNode) {
+    open(parentNode: TxtSentenceNode) {
         this.nodeList.push(parentNode);
     }
 
@@ -174,7 +180,7 @@ export function split(text: string, options?: splitOptions): SentenceSplitterTxt
 }
 
 export interface SentenceParentNode extends TxtNode {
-    children: Array<TxtNode | TxtTextNode | SentenceNode>;
+    children: Array<TxtNode | TxtTextNode | TxtSentenceNode>;
 }
 
 /**
@@ -282,7 +288,7 @@ export function createPunctuationNode(
         column: number;
         offset: number;
     }
-): PunctuationNode {
+): TxtPunctuationNode {
     return {
         type: Syntax.Punctuation,
         raw: text,
@@ -313,7 +319,7 @@ export function createTextNode(
         column: number;
         offset: number;
     }
-): StrNode {
+): TxtStrNode {
     return {
         type: Syntax.Str,
         raw: text,
@@ -332,7 +338,7 @@ export function createTextNode(
     };
 }
 
-export function createEmptySentenceNode(): SentenceNode {
+export function createEmptySentenceNode(): TxtSentenceNode {
     return {
         type: Syntax.Sentence,
         raw: "",
@@ -345,7 +351,7 @@ export function createEmptySentenceNode(): SentenceNode {
     };
 }
 
-export function createNode<T extends SentenceSplitterNodeType | TxtNodeType>(
+export function createNode<T extends SentenceSplitterTxtNodeType | TxtNodeType>(
     type: T,
     text: string,
     startPosition: {
