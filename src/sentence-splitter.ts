@@ -29,8 +29,9 @@ export type TxtPunctuationNode = Omit<TxtTextNode, "type"> & {
 };
 export type SentenceSplitterTxtNode = TxtSentenceNode | TxtWhiteSpaceNode | TxtPunctuationNode | TxtStrNode;
 export type SentenceSplitterTxtNodeType = (typeof SentenceSplitterSyntax)[keyof typeof SentenceSplitterSyntax];
+export type TxtParentNodeWithSentenceNodeContent = TxtParentNode["children"][number] | SentenceSplitterTxtNode;
 export type TxtParentNodeWithSentenceNode = Omit<TxtParentNode, "children"> & {
-    children: (TxtParentNode["children"] | SentenceSplitterTxtNode)[];
+    children: TxtParentNodeWithSentenceNodeContent[];
 };
 
 export class SplitParser {
@@ -46,7 +47,7 @@ export class SplitParser {
         return this.sentenceNodeList[this.sentenceNodeList.length - 1];
     }
 
-    pushNodeToCurrent(node: SentenceSplitterTxtNode | TxtNode) {
+    pushNodeToCurrent(node: TxtParentNodeWithSentenceNodeContent) {
         const current = this.current;
         if (current) {
             current.children.push(node);
