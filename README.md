@@ -96,10 +96,10 @@ Node layout image.
 Note: This library will not split `Str` into `Str` and `WhiteSpace`(tokenize)
 Because, Tokenize need to implement language specific context.
 
-### in textlint rule
+### For textlint rule
 
-You can use `splitAST` in textlint rule.
-`splitAST` function can preverse original AST's position unlike `split` function.
+You can use `splitAST` for textlint rule.
+`splitAST` function can preserve original AST's position unlike `split` function.
 
 ```ts
 import { splitAST, SentenceSplitterSyntax } from "sentence-splitter";
@@ -108,15 +108,15 @@ export default function(context, options = {}) {
     const { Syntax, RuleError, report, getSource } = context;
     return {
         [Syntax.Paragraph](node) {
-            const resultNode = splitAST(node);
-            const sentenceNodes = resultNode.children.filter(childNode => childNode.type === SentenceSplitterSyntax.Sentence);
+            const parsedNode = splitAST(node);
+            const sentenceNodes = parsedNode.children.filter(childNode => childNode.type === SentenceSplitterSyntax.Sentence);
             console.log(sentenceNodes); // => Sentence nodes
         }
     }
 }
 ```
 
-Example
+Examples
 
 - [textlint-ja/textlint-rule-max-ten: textlint rule that limit maxinum ten(、) count of sentence.](https://github.com/textlint-ja/textlint-rule-max-ten)
 
