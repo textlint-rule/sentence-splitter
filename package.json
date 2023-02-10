@@ -7,13 +7,13 @@
     "analytics",
     "textlint"
   ],
-  "homepage": "https://github.com/azu/sentence-splitter",
+  "homepage": "https://github.com/textlint-rule/sentence-splitter",
   "bugs": {
-    "url": "https://github.com/azu/sentence-splitter/issues"
+    "url": "https://github.com/textlint-rule/sentence-splitter/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/azu/sentence-splitter.git"
+    "url": "git+https://github.com/textlint-rule/sentence-splitter.git"
   },
   "license": "MIT",
   "author": "azu",
