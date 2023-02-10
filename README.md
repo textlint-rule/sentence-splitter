@@ -41,7 +41,7 @@ See also [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.
 
 ### Example
 
-- Visit online playground: <https://sentence-splitter.netlify.app/>
+- Online playground: <https://sentence-splitter.netlify.app/>
 
 ## Node
 
