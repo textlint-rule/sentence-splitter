@@ -18,7 +18,7 @@ export const run = () => {
 
     const textFromURL = location.hash;
     if (textFromURL.length > 0) {
-        const decodedText = decodeURIComponent(textFromURL);
+        const decodedText = decodeURIComponent(textFromURL.slice(1));
         textElement.value = decodedText;
         onUpdate(decodedText);
     }
