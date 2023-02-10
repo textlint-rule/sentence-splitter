@@ -110,10 +110,11 @@ export class AbbrMarker implements AbstractMarker {
         // Special case: Capital <ABBR>. Capital
         // Example: `I` as a sentence boundary and `I` as an abbreviation
         // > We make a good team, you and I. Did you see Albert I. Jones yesterday?
-        if (isCapitalized(prevWord) && /[A-Z]\./.test(currentWord) && isCapitalized(nextWord)) {
+        // Related: https://github.com/azu/sentence-splitter/pull/31
+        if (isCapitalized(prevWord) && /^[A-Z]\./.test(currentWord) && isCapitalized(nextWord)) {
             sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         } else if (isMatched && !isCapitalized(nextWord)) {
-            // Exception. This allow to write Capitalized word at next word
+            // Exception. This allows to write Capitalized word at next word
             // A.M. is store.
             sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         }

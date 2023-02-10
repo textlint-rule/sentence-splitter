@@ -1,6 +1,7 @@
 import { SourceCode } from "./SourceCode";
 import { AbstractParser } from "./AbstractParser";
 import { AbstractMarker } from "./AbstractMarker";
+import { seekLog } from "../logger";
 
 export interface AnyValueParserOptions {
     parsers: AbstractParser[];
@@ -45,6 +46,7 @@ export class AnyValueParser implements AbstractParser {
             return currentNode.range[0] <= currentOffset && currentOffset < currentNode.range[1];
         };
         while (isInCurrentNode() && this.test(sourceCode)) {
+            seekLog(sourceCode.offset, sourceCode.read());
             this.markers.forEach(marker => marker.mark(sourceCode));
             sourceCode.peek();
         }

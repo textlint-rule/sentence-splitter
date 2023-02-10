@@ -37,7 +37,7 @@ export class PairMaker implements AbstractMarker {
             const keyIndex = this.pairKeys.indexOf(string);
             if (keyIndex !== -1) {
                 const key = this.pairKeys[keyIndex];
-                debugLog(`PairMaker -> enterContext: ${key}`);
+                debugLog(`PairMaker -> enterContext: ${key} `, { keyIndex });
                 sourceCode.enterContext(key);
             }
         } else {
@@ -45,7 +45,7 @@ export class PairMaker implements AbstractMarker {
             const valueIndex = this.pairValues.indexOf(string);
             if (valueIndex !== -1) {
                 const key = this.pairKeys[valueIndex];
-                debugLog(`PairMaker -> leaveContext: ${this.pairValues[valueIndex]}`);
+                debugLog(`PairMaker -> leaveContext: ${this.pairValues[valueIndex]} `, { valueIndex });
                 sourceCode.leaveContext(key);
             }
         }

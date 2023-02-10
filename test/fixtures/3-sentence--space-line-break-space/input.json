@@ -1,0 +1,77 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "A。\nBは",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 2
+        }
+      },
+      "range": [
+        0,
+        5
+      ],
+      "raw": "A。\nBは"
+    },
+    {
+      "type": "Code",
+      "value": "QuickJS.wasm",
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 2
+        },
+        "end": {
+          "line": 2,
+          "column": 16
+        }
+      },
+      "range": [
+        5,
+        19
+      ],
+      "raw": "`QuickJS.wasm`"
+    },
+    {
+      "type": "Str",
+      "value": "です。\nShopifyです。",
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 16
+        },
+        "end": {
+          "line": 3,
+          "column": 10
+        }
+      },
+      "range": [
+        19,
+        33
+      ],
+      "raw": "です。\nShopifyです。"
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 3,
+      "column": 10
+    }
+  },
+  "range": [
+    0,
+    33
+  ],
+  "raw": "A。\nBは`QuickJS.wasm`です。\nShopifyです。"
+}

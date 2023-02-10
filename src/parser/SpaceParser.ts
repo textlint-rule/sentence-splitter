@@ -10,7 +10,8 @@ export class SpaceParser implements AbstractParser {
         if (!string) {
             return false;
         }
-        return /\s/.test(string);
+        // space without new line
+        return /[^\S\n\r]/.test(string);
     }
 
     seek(sourceCode: SourceCode): void {

@@ -1,0 +1,39 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "A is 1st line\nB is 2nd line.",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 14
+        }
+      },
+      "range": [
+        0,
+        28
+      ],
+      "raw": "A is 1st line\nB is 2nd line."
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 2,
+      "column": 14
+    }
+  },
+  "range": [
+    0,
+    28
+  ],
+  "raw": "A is 1st line\nB is 2nd line."
+}

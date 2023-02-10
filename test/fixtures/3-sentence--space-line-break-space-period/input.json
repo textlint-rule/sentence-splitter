@@ -1,0 +1,77 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "A.\nB is ",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 5
+        }
+      },
+      "range": [
+        0,
+        8
+      ],
+      "raw": "A.\nB is "
+    },
+    {
+      "type": "Code",
+      "value": "QuickJS.wasm",
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 5
+        },
+        "end": {
+          "line": 2,
+          "column": 19
+        }
+      },
+      "range": [
+        8,
+        22
+      ],
+      "raw": "`QuickJS.wasm`"
+    },
+    {
+      "type": "Str",
+      "value": ".\nC.",
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 19
+        },
+        "end": {
+          "line": 3,
+          "column": 2
+        }
+      },
+      "range": [
+        22,
+        26
+      ],
+      "raw": ".\nC."
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 3,
+      "column": 2
+    }
+  },
+  "range": [
+    0,
+    26
+  ],
+  "raw": "A.\nB is `QuickJS.wasm`.\nC."
+}
