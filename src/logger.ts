@@ -1,6 +1,6 @@
 import { SourceCode } from "./parser/SourceCode.js";
 
-const isDebug = typeof process === "object" && process?.env?.DEBUG !== "sentence-splitter";
+const isDebug = typeof process === "object" && process?.env?.DEBUG === "sentence-splitter";
 export function seekLog(offset: number, current?: string | boolean) {
     if (!isDebug) {
         return;
