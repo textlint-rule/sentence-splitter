@@ -1,5 +1,5 @@
 import { source } from "./pragmatic_segmenter/test.js";
-import { split, Syntax } from "../src/sentence-splitter.js";
+import { split, SentenceSplitterSyntax } from "../src/sentence-splitter.js";
 import * as assert from "node:assert";
 
 describe("pragmatic_segmenter Golden rule", () => {
@@ -10,7 +10,7 @@ describe("pragmatic_segmenter Golden rule", () => {
                 const sentences = split(sourceItem.input);
                 const sentenceTexts = sentences
                     .filter((node) => {
-                        return node.type === Syntax.Sentence;
+                        return node.type === SentenceSplitterSyntax.Sentence;
                     })
                     .map((node) => {
                         return node.raw;

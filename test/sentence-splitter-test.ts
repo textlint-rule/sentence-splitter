@@ -1,6 +1,6 @@
 import * as assert from "node:assert";
 import { ASTNodeTypes, TxtParentNode } from "@textlint/ast-node-types";
-import { split as splitSentences, splitAST, Syntax } from "../src/sentence-splitter.js";
+import { split as splitSentences, splitAST, SentenceSplitterSyntax } from "../src/sentence-splitter.js";
 
 describe("sentence-splitter", function () {
     it("should return array", function () {
@@ -17,7 +17,7 @@ describe("sentence-splitter", function () {
         const sentences = splitSentences("Temperature is 40.2 degrees.");
         assert.equal(sentences.length, 1);
         const [sentence] = sentences;
-        assert.strictEqual(sentence.type, Syntax.Sentence);
+        assert.strictEqual(sentence.type, SentenceSplitterSyntax.Sentence);
         assert.strictEqual(sentence.raw, "Temperature is 40.2 degrees.");
         assert.deepStrictEqual(sentence.range, [0, 28]);
     });
@@ -25,7 +25,7 @@ describe("sentence-splitter", function () {
         const sentences = splitSentences(`I hear "I'm back to home." from radio.`);
         assert.equal(sentences.length, 1);
         const [sentence] = sentences;
-        assert.strictEqual(sentence.type, Syntax.Sentence);
+        assert.strictEqual(sentence.type, SentenceSplitterSyntax.Sentence);
         assert.strictEqual(sentence.raw, `I hear "I'm back to home." from radio.`);
         assert.deepStrictEqual(sentence.range, [0, 38]);
     });
@@ -33,7 +33,7 @@ describe("sentence-splitter", function () {
         const sentences = splitSentences(`彼は「ココにある。」と言った。`);
         assert.equal(sentences.length, 1);
         const [sentence] = sentences;
-        assert.strictEqual(sentence.type, Syntax.Sentence);
+        assert.strictEqual(sentence.type, SentenceSplitterSyntax.Sentence);
         assert.strictEqual(sentence.raw, `彼は「ココにある。」と言った。`);
         assert.deepStrictEqual(sentence.range, [0, 15]);
     });
@@ -41,11 +41,11 @@ describe("sentence-splitter", function () {
         const sentences = splitSentences(`彼は「ココにある。」と言った。だけではそれは違った。`);
         assert.equal(sentences.length, 2);
         const [sentence1, sentence2] = sentences;
-        assert.strictEqual(sentence1.type, Syntax.Sentence);
+        assert.strictEqual(sentence1.type, SentenceSplitterSyntax.Sentence);
         assert.strictEqual(sentence1.raw, `彼は「ココにある。」と言った。`);
         assert.deepStrictEqual(sentence1.range, [0, 15]);
 
-        assert.strictEqual(sentence2.type, Syntax.Sentence);
+        assert.strictEqual(sentence2.type, SentenceSplitterSyntax.Sentence);
         assert.strictEqual(sentence2.raw, `だけではそれは違った。`);
         assert.deepStrictEqual(sentence2.range, [15, 26]);
     });
@@ -53,7 +53,7 @@ describe("sentence-splitter", function () {
         const sentences = splitSentences("\ntext");
         assert.equal(sentences.length, 2);
         const whiteSpace0 = sentences[0];
-        assert.strictEqual(whiteSpace0.type, Syntax.WhiteSpace);
+        assert.strictEqual(whiteSpace0.type, SentenceSplitterSyntax.WhiteSpace);
         assert.strictEqual(whiteSpace0.raw, "\n");
         assert.deepStrictEqual(whiteSpace0.loc.start, { line: 1, column: 0 });
         assert.deepStrictEqual(whiteSpace0.loc.end, { line: 2, column: 0 });
@@ -72,7 +72,7 @@ describe("sentence-splitter", function () {
         assert.strictEqual(sentence0.raw, "text");
         assert.deepStrictEqual(sentence0.loc.start, { line: 1, column: 0 });
         assert.deepStrictEqual(sentence0.loc.end, { line: 1, column: 4 });
-        assert.strictEqual(whiteSpace1.type, Syntax.WhiteSpace);
+        assert.strictEqual(whiteSpace1.type, SentenceSplitterSyntax.WhiteSpace);
         assert.strictEqual(whiteSpace1.raw, "\n");
         assert.deepStrictEqual(whiteSpace1.loc.start, { line: 1, column: 4 });
         assert.deepStrictEqual(whiteSpace1.loc.end, { line: 2, column: 0 });
@@ -86,7 +86,7 @@ describe("sentence-splitter", function () {
         assert.strictEqual(sentence0.raw, "text");
         assert.deepStrictEqual(sentence0.loc.start, { line: 1, column: 0 });
         assert.deepStrictEqual(sentence0.loc.end, { line: 1, column: 4 });
-        assert.strictEqual(whiteSpace1.type, Syntax.WhiteSpace);
+        assert.strictEqual(whiteSpace1.type, SentenceSplitterSyntax.WhiteSpace);
         assert.strictEqual(whiteSpace1.raw, "\n\n");
         assert.deepStrictEqual(whiteSpace1.loc.start, { line: 1, column: 4 });
         assert.deepStrictEqual(whiteSpace1.loc.end, { line: 3, column: 0 });
@@ -148,7 +148,7 @@ describe("sentence-splitter", function () {
         const [sentence0, whitespace0, sentence1] = sentences;
         assert.strictEqual(sentence0.raw, "1st text.");
         assert.deepStrictEqual(sentence0.range, [0, 9]);
-        assert.strictEqual(whitespace0.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace0.type, SentenceSplitterSyntax.WhiteSpace);
         assert.strictEqual(whitespace0.value, "   ");
         assert.deepStrictEqual(whitespace0.range, [9, 12]);
         assert.strictEqual(sentence1.raw, "2nd text");
@@ -158,14 +158,14 @@ describe("sentence-splitter", function () {
         const sentences = splitSentences(" text. ");
         assert.equal(sentences.length, 1 + 2);
         const [whitespace0, sentence0, whitespace1] = sentences;
-        assert.strictEqual(whitespace0.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace0.type, SentenceSplitterSyntax.WhiteSpace);
         assert.strictEqual(whitespace0.value, " ");
         assert.deepStrictEqual(whitespace0.range, [0, 1]);
 
         assert.strictEqual(sentence0.raw, "text.");
         assert.deepStrictEqual(sentence0.range, [1, 6]);
 
-        assert.strictEqual(whitespace1.type, Syntax.WhiteSpace);
+        assert.strictEqual(whitespace1.type, SentenceSplitterSyntax.WhiteSpace);
         assert.strictEqual(whitespace1.value, " ");
         assert.deepStrictEqual(whitespace1.range, [6, 7]);
     });
@@ -175,9 +175,9 @@ describe("sentence-splitter", function () {
         const [sentence0, whitespace1, lineBreak, whitespace2, sentence1] = sentences;
         assert.strictEqual(sentence0.raw, "1st text.");
         assert.deepStrictEqual(sentence0.range, [0, 9]);
-        assert.strictEqual(lineBreak.type, Syntax.WhiteSpace);
+        assert.strictEqual(lineBreak.type, SentenceSplitterSyntax.WhiteSpace);
         assert.strictEqual(whitespace1.value, " ");
-        assert.strictEqual(lineBreak.type, Syntax.WhiteSpace);
+        assert.strictEqual(lineBreak.type, SentenceSplitterSyntax.WhiteSpace);
         assert.strictEqual(lineBreak.value, "\n");
         assert.strictEqual(whitespace2.value, " ");
         assert.strictEqual(sentence1.raw, "2nd text");

@@ -1,11 +1,4 @@
-import type {
-    TxtNode,
-    TxtParentNode,
-    TxtTextNode,
-    TxtStrNode,
-    TxtNodeType,
-    AnyTxtNode
-} from "@textlint/ast-node-types";
+import type { AnyTxtNode, TxtNode, TxtParentNode, TxtStrNode, TxtTextNode } from "@textlint/ast-node-types";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
 
 import { SourceCode } from "./parser/SourceCode.js";
@@ -18,15 +11,12 @@ import { AbbrMarker } from "./parser/AbbrMarker.js";
 import { PairMaker } from "./parser/PairMaker.js";
 import { nodeLog } from "./logger.js";
 
-export const Syntax = {
+export const SentenceSplitterSyntax = {
     WhiteSpace: "WhiteSpace",
     Punctuation: "Punctuation",
     Sentence: "Sentence",
     Str: "Str"
 } as const;
-type ToTxtNodeType<T extends SentenceSplitterTxtNodeType | TxtNodeType> = Omit<TxtTextNode, "type"> & {
-    readonly type: T | TxtNodeType;
-};
 export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
     readonly type: "Sentence";
 };
@@ -43,7 +33,7 @@ export type SentenceSplitterTxtNode =
     | TxtPunctuationNode
     | TxtStrNode
     | AnyTxtNode;
-export type SentenceSplitterTxtNodeType = (typeof Syntax)[keyof typeof Syntax];
+export type SentenceSplitterTxtNodeType = (typeof SentenceSplitterSyntax)[keyof typeof SentenceSplitterSyntax];
 
 export class SplitParser {
     private nodeList: TxtSentenceNode[] = [];
@@ -178,11 +168,6 @@ export function split(text: string, options?: splitOptions): SentenceSplitterTxt
     splitParser.close(space);
     return splitParser.toList();
 }
-
-export interface SentenceParentNode extends TxtNode {
-    children: Array<TxtNode | TxtTextNode | TxtSentenceNode>;
-}
-
 /**
  * Convert Paragraph Node to Paragraph node that convert children to Sentence node
  * This Node is based on TxtAST.
@@ -245,7 +230,7 @@ export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): 
 /**
  * WhiteSpace is space or linebreak
  */
-export function createWhiteSpaceNode(
+function createWhiteSpaceNode(
     text: string,
     startPosition: {
         line: number;
@@ -259,7 +244,7 @@ export function createWhiteSpaceNode(
     }
 ) {
     return {
-        type: Syntax.WhiteSpace,
+        type: SentenceSplitterSyntax.WhiteSpace,
         raw: text,
         value: text,
         loc: {
@@ -276,7 +261,7 @@ export function createWhiteSpaceNode(
     };
 }
 
-export function createPunctuationNode(
+function createPunctuationNode(
     text: string,
     startPosition: {
         line: number;
@@ -290,7 +275,7 @@ export function createPunctuationNode(
     }
 ): TxtPunctuationNode {
     return {
-        type: Syntax.Punctuation,
+        type: SentenceSplitterSyntax.Punctuation,
         raw: text,
         value: text,
         loc: {
@@ -307,7 +292,7 @@ export function createPunctuationNode(
     };
 }
 
-export function createTextNode(
+function createTextNode(
     text: string,
     startPosition: {
         line: number;
@@ -321,7 +306,7 @@ export function createTextNode(
     }
 ): TxtStrNode {
     return {
-        type: Syntax.Str,
+        type: SentenceSplitterSyntax.Str,
         raw: text,
         value: text,
         loc: {
@@ -338,9 +323,9 @@ export function createTextNode(
     };
 }
 
-export function createEmptySentenceNode(): TxtSentenceNode {
+function createEmptySentenceNode(): TxtSentenceNode {
     return {
-        type: Syntax.Sentence,
+        type: SentenceSplitterSyntax.Sentence,
         raw: "",
         loc: {
             start: { column: NaN, line: NaN },
@@ -348,37 +333,5 @@ export function createEmptySentenceNode(): TxtSentenceNode {
         } as const,
         range: [NaN, NaN] as const,
         children: []
-    };
-}
-
-export function createNode<T extends SentenceSplitterTxtNodeType | TxtNodeType>(
-    type: T,
-    text: string,
-    startPosition: {
-        line: number;
-        column: number;
-        offset: number;
-    },
-    endPosition: {
-        line: number;
-        column: number;
-        offset: number;
-    }
-): ToTxtNodeType<T> {
-    return {
-        type: type,
-        raw: text,
-        value: text,
-        loc: {
-            start: {
-                line: startPosition.line,
-                column: startPosition.column
-            },
-            end: {
-                line: endPosition.line,
-                column: endPosition.column
-            }
-        },
-        range: [startPosition.offset, endPosition.offset]
     };
 }
