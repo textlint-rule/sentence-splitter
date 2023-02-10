@@ -1,6 +1,6 @@
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { ASTNodeTypes, TxtParentNode } from "@textlint/ast-node-types";
-import { split as splitSentences, splitAST, Syntax } from "../src/sentence-splitter";
+import { split as splitSentences, splitAST, Syntax } from "../src/sentence-splitter.js";
 
 describe("sentence-splitter", function () {
     it("should return array", function () {

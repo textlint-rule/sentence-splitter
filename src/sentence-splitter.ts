@@ -3,15 +3,15 @@
 import type { TxtNode, TxtParentNode, TxtTextNode, TxtStrNode, TxtNodeType } from "@textlint/ast-node-types";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
 
-import { SourceCode } from "./parser/SourceCode";
-import { AbstractParser } from "./parser/AbstractParser";
-import { NewLineParser } from "./parser/NewLineParser";
-import { SpaceParser } from "./parser/SpaceParser";
-import { SeparatorParser, SeparatorParserOptions } from "./parser/SeparatorParser";
-import { AnyValueParser } from "./parser/AnyValueParser";
-import { AbbrMarker } from "./parser/AbbrMarker";
-import { PairMaker } from "./parser/PairMaker";
-import { nodeLog } from "./logger";
+import { SourceCode } from "./parser/SourceCode.js";
+import { AbstractParser } from "./parser/AbstractParser.js";
+import { NewLineParser } from "./parser/NewLineParser.js";
+import { SpaceParser } from "./parser/SpaceParser.js";
+import { SeparatorParser, SeparatorParserOptions } from "./parser/SeparatorParser.js";
+import { AnyValueParser } from "./parser/AnyValueParser.js";
+import { AbbrMarker } from "./parser/AbbrMarker.js";
+import { PairMaker } from "./parser/PairMaker.js";
+import { nodeLog } from "./logger.js";
 
 export const Syntax = {
     WhiteSpace: "WhiteSpace",

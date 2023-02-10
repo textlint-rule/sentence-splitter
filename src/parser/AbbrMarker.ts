@@ -1,7 +1,7 @@
-import { SourceCode } from "./SourceCode";
-import { Language } from "./lang/LanguageInterface";
-import { English } from "./lang/English";
-import { AbstractMarker } from "./AbstractMarker";
+import { SourceCode } from "./SourceCode.js";
+import { Language } from "./lang/LanguageInterface.js";
+import { English } from "./lang/English.js";
+import { AbstractMarker } from "./AbstractMarker.js";
 
 const isCapitalized = (text: string) => {
     if (!text || text.length === 0) {

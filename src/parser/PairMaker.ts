@@ -1,6 +1,6 @@
-import { SourceCode } from "./SourceCode";
-import { AbstractMarker } from "./AbstractMarker";
-import { debugLog } from "../logger";
+import { SourceCode } from "./SourceCode.js";
+import { AbstractMarker } from "./AbstractMarker.js";
+import { debugLog } from "../logger.js";
 
 /**
  * Mark pair character

@@ -1,5 +1,5 @@
 import { TxtNode, TxtParentNode } from "@textlint/ast-node-types";
-import { AbstractParser } from "./AbstractParser";
+import { AbstractParser } from "./AbstractParser.js";
 import { StructuredSource } from "structured-source";
 
 export class SourceCode {

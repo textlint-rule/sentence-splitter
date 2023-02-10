@@ -1,6 +1,6 @@
-import { SourceCode } from "./SourceCode";
-import { AbstractParser } from "./AbstractParser";
-import { AbstractMarker } from "./AbstractMarker";
+import { SourceCode } from "./SourceCode.js";
+import { AbstractParser } from "./AbstractParser.js";
+import { AbstractMarker } from "./AbstractMarker.js";
 import { seekLog } from "../logger";
 
 export interface AnyValueParserOptions {

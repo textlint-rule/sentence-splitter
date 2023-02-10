@@ -1,6 +1,6 @@
-import { source } from "./pragmatic_segmenter/test";
-import { split, Syntax } from "../src/sentence-splitter";
-import * as assert from "assert";
+import { source } from "./pragmatic_segmenter/test.js";
+import { split, Syntax } from "../src/sentence-splitter.js";
+import * as assert from "node:assert";
 
 describe("pragmatic_segmenter Golden rule", () => {
     source

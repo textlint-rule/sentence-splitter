@@ -17,29 +17,49 @@
   },
   "license": "MIT",
   "author": "azu",
-  "main": "lib/sentence-splitter.js",
-  "types": "lib/sentence-splitter.d.ts",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./module/sentence-splitter.d.ts",
+        "default": "./module/sentence-splitter.js"
+      },
+      "require": {
+        "types": "./lib/sentence-splitter.d.ts",
+        "default": "./lib/sentence-splitter.js"
+      },
+      "default": "./lib/sentence-splitter.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/sentence-splitter.js",
+  "module": "./module/sentence-splitter.js",
+  "types": "./module/sentence-splitter.d.ts",
   "directories": {
     "test": "test"
   },
   "files": [
-    "bin",
-    "lib",
-    "src"
+    "bin/",
+    "lib/",
+    "module/",
+    "src/"
   ],
   "scripts": {
-    "build": "tsc -p .",
-    "watch": "tsc -p . --watch",
-    "prepublish": "npm run --if-present build",
-    "test": "mocha \"test/**/*.{js,ts}\"",
+    "build": "tsc -p . && tsc -p ./tsconfig.cjs.json && tsconfig-to-dual-package",
+    "clean": "git clean -fx lib/ module/",
     "createInputJson": "ts-node scripts/generate-input-json-from-_input-md.ts",
-    "updateSnapshot": "UPDATE_SNAPSHOT=1 npm test",
-    "precommit": "lint-staged",
-    "postcommit": "git reset",
     "dev": "vite",
-    "site:build": "vite build",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
-    "prepare": "git config --local core.hooksPath .githooks"
+    "postcommit": "git reset",
+    "precommit": "lint-staged",
+    "prepare": "git config --local core.hooksPath .githooks",
+    "prepublishOnly": "npm run clean && npm run build",
+    "prepublish": "npm run --if-present build",
+    "site:build": "vite build",
+    "test": "mocha",
+    "updateSnapshot": "UPDATE_SNAPSHOT=1 npm test",
+    "watch": "tsc -p . --watch"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css}": [
@@ -47,8 +67,8 @@
     ]
   },
   "prettier": {
-    "singleQuote": false,
     "printWidth": 120,
+    "singleQuote": false,
     "tabWidth": 4,
     "trailingComma": "none"
   },
@@ -66,9 +86,10 @@
     "mocha": "^10.2.0",
     "prettier": "^2.8.4",
     "ts-node": "^10.9.1",
-    "ts-node-test-register": "^10.0.0",
+    "tsconfig-to-dual-package": "^1.1.1",
     "typescript": "^4.9.5",
     "vite": "^4.1.1"
   },
+  "packageManager": "yarn@1.22.19",
   "email": "azuciao@gmail.com"
 }
