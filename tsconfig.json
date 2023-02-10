@@ -6,12 +6,12 @@
     "esModuleInterop": true,
     "newLine": "LF",
     "outDir": "./lib/",
-    "target": "es5",
+    "target": "ES2018",
     "sourceMap": true,
     "declaration": true,
     "jsx": "preserve",
     "lib": [
-      "es2017",
+      "ES2018",
       "dom"
     ],
     /* Strict Type-Checking Options */
@@ -23,8 +23,9 @@
     /* Report errors on unused parameters. */
     "noImplicitReturns": true,
     /* Report error when not all code paths in function return a value. */
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
     /* Report errors for fallthrough cases in switch statement. */
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"

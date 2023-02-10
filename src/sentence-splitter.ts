@@ -1,6 +1,8 @@
 // LICENSE : MIT
 "use strict";
-import { TxtNode, TxtParentNode, ASTNodeTypes, TxtTextNode } from "@textlint/ast-node-types";
+import type { TxtNode, TxtParentNode, TxtTextNode, TxtStrNode, TxtNodeType } from "@textlint/ast-node-types";
+import { ASTNodeTypes } from "@textlint/ast-node-types";
+
 import { SourceCode } from "./parser/SourceCode";
 import { AbstractParser } from "./parser/AbstractParser";
 import { NewLineParser } from "./parser/NewLineParser";
@@ -16,42 +18,43 @@ export const Syntax = {
     Punctuation: "Punctuation",
     Sentence: "Sentence",
     Str: "Str"
+} as const;
+export type SentenceSplitterNodeType = (typeof Syntax)[keyof typeof Syntax];
+
+export type SentenceSplitterTxtNode = Omit<TxtParentNode, "type"> & {
+    type: SentenceSplitterNodeType | TxtNodeType;
+};
+export type SentenceNode = SentenceSplitterTxtNode & {
+    readonly type: "Sentence";
 };
 
-export interface ToTypeNode<T extends string> extends TxtTextNode {
-    readonly type: T;
-}
+export type ToTxtNodeType<T extends SentenceSplitterNodeType | TxtNodeType> = Omit<TxtTextNode, "type"> & {
+    readonly type: T | TxtNodeType;
+};
 
-export interface WhiteSpaceNode extends TxtTextNode {
+export type WhiteSpaceNode = SentenceSplitterTxtNode & {
     readonly type: "WhiteSpace";
-}
+};
 
-export interface PunctuationNode extends TxtTextNode {
+export type PunctuationNode = SentenceSplitterTxtNode & {
     readonly type: "Punctuation";
-}
-
-export interface StrNode extends TxtTextNode {
-    readonly type: "Str";
-}
-
-export interface SentenceNode extends TxtParentNode {
-    readonly type: "Sentence";
-}
+};
+export type StrNode = TxtStrNode;
 
 export class SplitParser {
-    private nodeList: TxtParentNode[] = [];
-    private results: (TxtParentNode | TxtNode)[] = [];
+    private nodeList: SentenceNode[] = [];
+    private results: SentenceSplitterTxtNode[] = [];
     public source: SourceCode;
 
     constructor(text: string | TxtParentNode) {
         this.source = new SourceCode(text);
     }
 
-    get current(): TxtParentNode | undefined {
+    get current(): SentenceNode | undefined {
         return this.nodeList[this.nodeList.length - 1];
     }
 
-    pushNodeToCurrent(node: TxtNode) {
+    pushNodeToCurrent(node: SentenceSplitterTxtNode) {
         const current = this.current;
         if (current) {
             current.children.push(node);
@@ -62,7 +65,7 @@ export class SplitParser {
     }
 
     // open with ParentNode
-    open(parentNode: TxtParentNode) {
+    open(parentNode: SentenceNode) {
         this.nodeList.push(parentNode);
     }
 
@@ -78,7 +81,7 @@ export class SplitParser {
 
     nextSpace(parser: AbstractParser) {
         const { value, startPosition, endPosition } = this.source.seekNext(parser);
-        this.pushNodeToCurrent(createNode("WhiteSpace", value, startPosition, endPosition));
+        this.pushNodeToCurrent(createWhiteSpaceNode(value, startPosition, endPosition));
     }
 
     nextValue(parser: AbstractParser) {
@@ -103,7 +106,10 @@ export class SplitParser {
         const endNow = this.source.now();
         currentNode.loc = {
             start: firstChildNode.loc.start,
-            end: nowToLoc(endNow)
+            end: {
+                line: endNow.line,
+                column: endNow.column
+            }
         };
         const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
         currentNode.range = [firstChildNode.range[0], endNow.offset];
@@ -147,7 +153,7 @@ const createParsers = (options: splitOptions = {}) => {
 /**
  * split `text` into Sentence nodes
  */
-export function split(text: string, options?: splitOptions): (TxtParentNode | TxtNode)[] {
+export function split(text: string, options?: splitOptions): SentenceSplitterTxtNode[] {
     const { newLine, space, separator, anyValueParser } = createParsers(options);
     const splitParser = new SplitParser(text);
     const sourceCode = splitParser.source;
@@ -178,7 +184,7 @@ export interface SentenceParentNode extends TxtNode {
  * This Node is based on TxtAST.
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
-export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): SentenceParentNode {
+export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): SentenceSplitterTxtNode {
     const { newLine, space, separator, anyValueParser } = createParsers(options);
     const splitParser = new SplitParser(paragraphNode);
     const sourceCode = splitParser.source;
@@ -248,7 +254,22 @@ export function createWhiteSpaceNode(
         offset: number;
     }
 ) {
-    return createNode("WhiteSpace", text, startPosition, endPosition);
+    return {
+        type: Syntax.WhiteSpace,
+        raw: text,
+        value: text,
+        loc: {
+            start: {
+                line: startPosition.line,
+                column: startPosition.column
+            },
+            end: {
+                line: endPosition.line,
+                column: endPosition.column
+            }
+        },
+        range: [startPosition.offset, endPosition.offset]
+    };
 }
 
 export function createPunctuationNode(
@@ -264,7 +285,22 @@ export function createPunctuationNode(
         offset: number;
     }
 ): PunctuationNode {
-    return createNode("Punctuation", text, startPosition, endPosition);
+    return {
+        type: Syntax.Punctuation,
+        raw: text,
+        value: text,
+        loc: {
+            start: {
+                line: startPosition.line,
+                column: startPosition.column
+            },
+            end: {
+                line: endPosition.line,
+                column: endPosition.column
+            }
+        },
+        range: [startPosition.offset, endPosition.offset]
+    };
 }
 
 export function createTextNode(
@@ -280,23 +316,38 @@ export function createTextNode(
         offset: number;
     }
 ): StrNode {
-    return createNode("Str", text, startPosition, endPosition);
+    return {
+        type: Syntax.Str,
+        raw: text,
+        value: text,
+        loc: {
+            start: {
+                line: startPosition.line,
+                column: startPosition.column
+            },
+            end: {
+                line: endPosition.line,
+                column: endPosition.column
+            }
+        },
+        range: [startPosition.offset, endPosition.offset]
+    };
 }
 
 export function createEmptySentenceNode(): SentenceNode {
     return {
-        type: "Sentence",
+        type: Syntax.Sentence,
         raw: "",
         loc: {
             start: { column: NaN, line: NaN },
             end: { column: NaN, line: NaN }
-        },
-        range: [NaN, NaN],
+        } as const,
+        range: [NaN, NaN] as const,
         children: []
     };
 }
 
-export function createNode<T extends string>(
+export function createNode<T extends SentenceSplitterNodeType | TxtNodeType>(
     type: T,
     text: string,
     startPosition: {
@@ -309,22 +360,21 @@ export function createNode<T extends string>(
         column: number;
         offset: number;
     }
-): ToTypeNode<T> {
+): ToTxtNodeType<T> {
     return {
         type: type,
         raw: text,
         value: text,
         loc: {
-            start: nowToLoc(startPosition),
-            end: nowToLoc(endPosition)
+            start: {
+                line: startPosition.line,
+                column: startPosition.column
+            },
+            end: {
+                line: endPosition.line,
+                column: endPosition.column
+            }
         },
         range: [startPosition.offset, endPosition.offset]
-    };
-}
-
-function nowToLoc(now: { line: number; column: number; offset: number }) {
-    return {
-        line: now.line,
-        column: now.column
     };
 }

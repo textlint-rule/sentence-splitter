@@ -2,8 +2,8 @@ import * as assert from "assert";
 import { ASTNodeTypes, TxtParentNode } from "@textlint/ast-node-types";
 import { split as splitSentences, splitAST, Syntax } from "../src/sentence-splitter";
 
-describe("sentence-splitter", function() {
-    it("should return array", function() {
+describe("sentence-splitter", function () {
+    it("should return array", function () {
         const sentences = splitSentences("text");
         assert.equal(sentences.length, 1);
         const sentence = sentences[0];
@@ -13,7 +13,7 @@ describe("sentence-splitter", function() {
         assert.deepStrictEqual(sentences[0].loc.end, { line: 1, column: 4 });
     });
 
-    it("should not split number", function() {
+    it("should not split number", function () {
         const sentences = splitSentences("Temperature is 40.2 degrees.");
         assert.equal(sentences.length, 1);
         const [sentence] = sentences;
@@ -21,7 +21,7 @@ describe("sentence-splitter", function() {
         assert.strictEqual(sentence.raw, "Temperature is 40.2 degrees.");
         assert.deepStrictEqual(sentence.range, [0, 28]);
     });
-    it("should not split in pair string which pair string is same mark", function() {
+    it("should not split in pair string which pair string is same mark", function () {
         const sentences = splitSentences(`I hear "I'm back to home." from radio.`);
         assert.equal(sentences.length, 1);
         const [sentence] = sentences;
@@ -29,7 +29,7 @@ describe("sentence-splitter", function() {
         assert.strictEqual(sentence.raw, `I hear "I'm back to home." from radio.`);
         assert.deepStrictEqual(sentence.range, [0, 38]);
     });
-    it("should not split in pair string", function() {
+    it("should not split in pair string", function () {
         const sentences = splitSentences(`彼は「ココにある。」と言った。`);
         assert.equal(sentences.length, 1);
         const [sentence] = sentences;
@@ -37,7 +37,7 @@ describe("sentence-splitter", function() {
         assert.strictEqual(sentence.raw, `彼は「ココにある。」と言った。`);
         assert.deepStrictEqual(sentence.range, [0, 15]);
     });
-    it("should not split in pair string and correct after sentence", function() {
+    it("should not split in pair string and correct after sentence", function () {
         const sentences = splitSentences(`彼は「ココにある。」と言った。だけではそれは違った。`);
         assert.equal(sentences.length, 2);
         const [sentence1, sentence2] = sentences;
@@ -49,7 +49,7 @@ describe("sentence-splitter", function() {
         assert.strictEqual(sentence2.raw, `だけではそれは違った。`);
         assert.deepStrictEqual(sentence2.range, [15, 26]);
     });
-    it("should return sentences split by first line break", function() {
+    it("should return sentences split by first line break", function () {
         const sentences = splitSentences("\ntext");
         assert.equal(sentences.length, 2);
         const whiteSpace0 = sentences[0];
@@ -64,7 +64,7 @@ describe("sentence-splitter", function() {
         assert.deepStrictEqual(text.loc.start, { line: 2, column: 0 });
         assert.deepStrictEqual(text.loc.end, { line: 2, column: 4 });
     });
-    it("should return sentences split by last line break", function() {
+    it("should return sentences split by last line break", function () {
         const sentences = splitSentences("text\n");
         assert.equal(sentences.length, 1);
         const [sentence0, whiteSpace1] = sentences[0].children;
@@ -77,7 +77,7 @@ describe("sentence-splitter", function() {
         assert.deepStrictEqual(whiteSpace1.loc.start, { line: 1, column: 4 });
         assert.deepStrictEqual(whiteSpace1.loc.end, { line: 2, column: 0 });
     });
-    it("should return sentences split by line break*2", function() {
+    it("should return sentences split by line break*2", function () {
         const sentences = splitSentences("text\n\ntext");
         assert.equal(sentences.length, 1);
         assert.equal(sentences[0].children.length, 3);
@@ -95,7 +95,7 @@ describe("sentence-splitter", function() {
         assert.deepStrictEqual(sentence3.loc.start, { line: 3, column: 0 });
         assert.deepStrictEqual(sentence3.loc.end, { line: 3, column: 4 });
     });
-    it("should return sentences split by 。", function() {
+    it("should return sentences split by 。", function () {
         const sentences = splitSentences("text。。text");
         assert.equal(sentences.length, 2);
         const [sentence0, punctuation] = sentences[0].children;
@@ -110,7 +110,7 @@ describe("sentence-splitter", function() {
         assert.deepStrictEqual(sentence1.loc.start, { line: 1, column: 6 });
         assert.deepStrictEqual(sentence1.loc.end, { line: 1, column: 10 });
     });
-    it("should return sentences split by 。 and linebreak", function() {
+    it("should return sentences split by 。 and linebreak", function () {
         const sentences = splitSentences("text。\ntext");
         assert.equal(sentences.length, 3);
         const sentence0 = sentences[0];
@@ -126,7 +126,7 @@ describe("sentence-splitter", function() {
         assert.deepStrictEqual(sentence2.loc.start, { line: 2, column: 0 });
         assert.deepStrictEqual(sentence2.loc.end, { line: 2, column: 4 });
     });
-    it("should return sentences split by . and whitespace", function() {
+    it("should return sentences split by . and whitespace", function () {
         const sentences = splitSentences("1st text. 2nd text");
         assert.equal(sentences.length, 3);
         const sentence0 = sentences[0];
@@ -142,7 +142,7 @@ describe("sentence-splitter", function() {
         assert.deepStrictEqual(sentence2.loc.start, { line: 1, column: 10 });
         assert.deepStrictEqual(sentence2.loc.end, { line: 1, column: 18 });
     });
-    it("should return sentences split by multiple whitespaces", function() {
+    it("should return sentences split by multiple whitespaces", function () {
         const sentences = splitSentences("1st text.   2nd text");
         assert.equal(sentences.length, 3);
         const [sentence0, whitespace0, sentence1] = sentences;
@@ -154,7 +154,7 @@ describe("sentence-splitter", function() {
         assert.strictEqual(sentence1.raw, "2nd text");
         assert.deepStrictEqual(sentence1.range, [12, 20]);
     });
-    it("should support start and end whitespace", function() {
+    it("should support start and end whitespace", function () {
         const sentences = splitSentences(" text. ");
         assert.equal(sentences.length, 1 + 2);
         const [whitespace0, sentence0, whitespace1] = sentences;
@@ -169,7 +169,7 @@ describe("sentence-splitter", function() {
         assert.strictEqual(whitespace1.value, " ");
         assert.deepStrictEqual(whitespace1.range, [6, 7]);
     });
-    it("should return sentences split by text and whitespaces, and new line", function() {
+    it("should return sentences split by text and whitespaces, and new line", function () {
         const sentences = splitSentences("1st text. \n 2nd text");
         assert.strictEqual(sentences.length, 5);
         const [sentence0, whitespace1, lineBreak, whitespace2, sentence1] = sentences;
@@ -183,7 +183,7 @@ describe("sentence-splitter", function() {
         assert.strictEqual(sentence1.raw, "2nd text");
         assert.deepStrictEqual(sentence1.range, [12, 20]);
     });
-    it("should return sentences split by !?", function() {
+    it("should return sentences split by !?", function () {
         const sentences = splitSentences("text!?text");
         assert.equal(sentences.length, 2);
         const sentence0 = sentences[0];
@@ -195,7 +195,7 @@ describe("sentence-splitter", function() {
         assert.deepStrictEqual(sentence1.loc.start, { line: 1, column: 6 });
         assert.deepStrictEqual(sentence1.loc.end, { line: 1, column: 10 });
     });
-    it("should sentences split by last 。", function() {
+    it("should sentences split by last 。", function () {
         const sentences = splitSentences("text。");
         assert.equal(sentences.length, 1);
         const sentence = sentences[0];

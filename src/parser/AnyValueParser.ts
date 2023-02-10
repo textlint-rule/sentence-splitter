@@ -27,7 +27,7 @@ export class AnyValueParser implements AbstractParser {
         if (sourceCode.hasEnd) {
             return false;
         }
-        return this.parsers.every(parser => !parser.test(sourceCode));
+        return this.parsers.every((parser) => !parser.test(sourceCode));
     }
 
     seek(sourceCode: SourceCode) {
@@ -35,7 +35,7 @@ export class AnyValueParser implements AbstractParser {
         if (!currentNode) {
             // Text mode
             while (this.test(sourceCode)) {
-                this.markers.forEach(marker => marker.mark(sourceCode));
+                this.markers.forEach((marker) => marker.mark(sourceCode));
                 sourceCode.peek();
             }
             return;
@@ -47,7 +47,7 @@ export class AnyValueParser implements AbstractParser {
         };
         while (isInCurrentNode() && this.test(sourceCode)) {
             seekLog(sourceCode.offset, sourceCode.read());
-            this.markers.forEach(marker => marker.mark(sourceCode));
+            this.markers.forEach((marker) => marker.mark(sourceCode));
             sourceCode.peek();
         }
     }

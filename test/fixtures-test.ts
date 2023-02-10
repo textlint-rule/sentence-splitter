@@ -6,8 +6,8 @@ import { TxtParentNode } from "@textlint/ast-node-types";
 
 const fixturesDir = path.join(__dirname, "fixtures");
 describe("fixtures testing", () => {
-    fs.readdirSync(fixturesDir).map(caseName => {
-        it(`Test ${caseName.replace(/-/g, " ")}`, function() {
+    fs.readdirSync(fixturesDir).map((caseName) => {
+        it(`Test ${caseName.replace(/-/g, " ")}`, function () {
             const fixtureDir = path.join(fixturesDir, caseName);
             const actualPath = path.join(fixtureDir, "input.json");
             const optionsPath = path.join(fixtureDir, "options.js");

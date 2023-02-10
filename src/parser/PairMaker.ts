@@ -1,8 +1,6 @@
 import { SourceCode } from "./SourceCode";
 import { AbstractMarker } from "./AbstractMarker";
 import { debugLog } from "../logger";
-// @ts-ignore
-import values from "object_values";
 
 /**
  * Mark pair character
@@ -24,7 +22,7 @@ export class PairMaker implements AbstractMarker {
         [`《`]: `》`
     };
     private pairKeys = Object.keys(this.pairs);
-    private pairValues = values(this.pairs);
+    private pairValues = Object.values(this.pairs);
 
     mark(sourceCode: SourceCode): void {
         const string = sourceCode.read();
