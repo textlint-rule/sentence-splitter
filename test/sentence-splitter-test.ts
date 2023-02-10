@@ -1,6 +1,6 @@
 import * as assert from "node:assert";
-import { ASTNodeTypes, TxtParentNode } from "@textlint/ast-node-types";
-import { split as splitSentences, splitAST, SentenceSplitterSyntax } from "../src/sentence-splitter.js";
+import { ASTNodeTypes, TxtParagraphNode } from "@textlint/ast-node-types";
+import { SentenceSplitterSyntax, split as splitSentences, splitAST } from "../src/sentence-splitter.js";
 
 describe("sentence-splitter", function () {
     it("should return array", function () {
@@ -206,7 +206,7 @@ describe("sentence-splitter", function () {
 
     describe("splitAST", () => {
         it("should handle empty child", () => {
-            const paragraphNode: TxtParentNode = {
+            const paragraphNode: TxtParagraphNode = {
                 type: "Paragraph",
                 children: [],
                 loc: {

@@ -2,7 +2,7 @@ import * as path from "node:path";
 import * as fs from "node:fs";
 import * as assert from "node:assert";
 import { splitAST } from "../src/sentence-splitter.js";
-import { TxtParentNode } from "@textlint/ast-node-types";
+import { TxtParagraphNode, TxtParentNode } from "@textlint/ast-node-types";
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const fixturesDir = path.join(__dirname, "fixtures");
@@ -12,7 +12,7 @@ describe("fixtures testing", () => {
             const fixtureDir = path.join(fixturesDir, caseName);
             const actualPath = path.join(fixtureDir, "input.json");
             const optionsPath = path.join(fixtureDir, "options.js");
-            const actualContent: TxtParentNode = JSON.parse(fs.readFileSync(actualPath, "utf-8"));
+            const actualContent: TxtParagraphNode = JSON.parse(fs.readFileSync(actualPath, "utf-8"));
             const splitOptions = await (fs.existsSync(optionsPath) ? import(optionsPath).then((o) => o.default) : {});
             const actual = splitAST(actualContent, splitOptions);
             const outputFilePath = path.join(fixtureDir, "output.json");
