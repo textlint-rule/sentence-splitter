@@ -87,6 +87,10 @@ Node layout image.
 <Sentence>
     <Str />
     <Punctuation />
+</Sentence>
+<WhiteSpace />
+<Sentence>
+    <Str />
     <Str />
     <Punctuation />
 </Sentence>
