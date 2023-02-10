@@ -9,7 +9,7 @@ import { SeparatorParser, SeparatorParserOptions } from "./parser/SeparatorParse
 import { AnyValueParser } from "./parser/AnyValueParser";
 import { AbbrMarker } from "./parser/AbbrMarker";
 import { PairMaker } from "./parser/PairMaker";
-import { logNode } from "./logger";
+import { nodeLog } from "./logger";
 
 export const Syntax = {
     WhiteSpace: "WhiteSpace",
@@ -189,40 +189,40 @@ export function splitAST(paragraphNode: TxtParentNode, options?: splitOptions): 
         }
         if (currentNode.type === ASTNodeTypes.Str) {
             if (space.test(sourceCode)) {
-                logNode("space", sourceCode, currentNode.raw);
+                nodeLog("space", sourceCode);
                 splitParser.nextSpace(space);
             } else if (separator.test(sourceCode)) {
-                logNode("separator", sourceCode, currentNode.raw);
+                nodeLog("separator", sourceCode);
                 splitParser.close(separator);
             } else if (newLine.test(sourceCode)) {
-                logNode("newline", sourceCode, currentNode.raw);
+                nodeLog("newline", sourceCode);
                 splitParser.nextLine(newLine);
             } else {
                 if (!splitParser.isOpened()) {
-                    logNode("open -> createEmptySentenceNode()");
+                    nodeLog("open -> createEmptySentenceNode()");
                     splitParser.open(createEmptySentenceNode());
                 }
-                logNode("other str value", sourceCode, currentNode.raw);
+                nodeLog("other str value", sourceCode);
                 splitParser.nextValue(anyValueParser);
             }
         } else if (currentNode.type === ASTNodeTypes.Break) {
-            logNode("break", sourceCode, currentNode.raw);
+            nodeLog("break", sourceCode);
             // Break
             // https://github.com/azu/sentence-splitter/issues/23
             splitParser.pushNodeToCurrent(currentNode);
             sourceCode.peekNode(currentNode);
         } else {
             if (!splitParser.isOpened()) {
-                logNode("open -> createEmptySentenceNode()");
+                nodeLog("open -> createEmptySentenceNode()");
                 splitParser.open(createEmptySentenceNode());
             }
-            logNode("other node", sourceCode, currentNode.raw);
+            nodeLog("other node", sourceCode);
             splitParser.pushNodeToCurrent(currentNode);
             sourceCode.peekNode(currentNode);
         }
     }
 
-    logNode("end separator");
+    nodeLog("end separator");
     // It follow some text that is not ended with period.
     // TODO: space is correct?
     splitParser.close(space);
