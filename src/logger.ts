@@ -1,4 +1,4 @@
-import { SourceCode } from "./parser/SourceCode";
+import { SourceCode } from "./parser/SourceCode.js";
 
 export function seekLog(offset: number, current?: string | boolean) {
     if (process.env.DEBUG !== "sentence-splitter") {
@@ -24,7 +24,17 @@ export function nodeLog(message: string, sourceCode?: SourceCode) {
     const RowLength = 50;
     const currentChar = (sourceCode.read() || "").replace(/\n/g, "\\n");
     const nodeValue = currentNode.raw.replace(/\n/g, "\\n");
-    console.log("sentence-splitter: " + sourceCode.offset + " " + message + " |" + currentChar + "| " + " ".repeat(RowLength - currentChar.length - message.length) + nodeValue);
+    console.log(
+        "sentence-splitter: " +
+            sourceCode.offset +
+            " " +
+            message +
+            " |" +
+            currentChar +
+            "| " +
+            " ".repeat(RowLength - currentChar.length - message.length) +
+            nodeValue
+    );
 }
 
 export function debugLog(...message: any[]) {
@@ -32,8 +42,11 @@ export function debugLog(...message: any[]) {
         return;
     }
 
-    console.log("sentence-splitter: ", ...message.map((m) => {
-        // make one line if it is multiline
-        return typeof m === "string" ? m.replace(/\n/g, "\\n") : m;
-    }));
+    console.log(
+        "sentence-splitter: ",
+        ...message.map((m) => {
+            // make one line if it is multiline
+            return typeof m === "string" ? m.replace(/\n/g, "\\n") : m;
+        })
+    );
 }
