@@ -2,6 +2,41 @@
 
 Split {Japanese, English} text into sentences.
 
+## What is sentence?
+
+This library split next text into 3 sentences.
+
+```
+We are talking about pens.
+He said "This is a pen. I like it".
+I could relate to that statement.
+```
+
+Result is:
+
+![Sentence Image](./docs/img/sentence-result.png)
+
+You can check actual AST in online playground.
+
+- <https://sentence-splitter.netlify.app/#We%20are%20talking%20about%20pens.%0AHe%20said%20%22This%20is%20a%20pen.%20I%20like%20it%22.%0AI%20could%20relate%20to%20that%20statement.>
+
+Second sentence has `"This is a pen. I like it"`, but this library can not split it into new sentence.
+The second line will be one sentence.
+
+The reason is `"..."` and `「...」` text is ambiguous as a sentence or a proper noun.
+Also, HTML does not have suitable semantics for conversation.
+
+- [html - Most semantic way to markup a conversation (or interview)? - Stack Overflow](https://stackoverflow.com/questions/8798685/most-semantic-way-to-markup-a-conversation-or-interview)
+
+As a result, sentence-splitter can not support nesting sentence.
+Probably, rule implementation should handle the `"..."` and `「...」` text after parsing sentences by sentence-splitter.
+
+- Issue: [Nesting Sentences Support · Issue #27 · textlint-rule/sentence-splitter](https://github.com/textlint-rule/sentence-splitter/issues/27)
+- Related PR
+  - https://github.com/textlint-ja/textlint-rule-no-doubled-joshi/pull/47
+  - https://github.com/textlint-ja/textlint-rule-no-doubled-conjunctive-particle-ga/pull/27
+  - https://github.com/textlint-ja/textlint-rule-max-ten/pull/24
+
 ## Installation
 
     npm install sentence-splitter
