@@ -20,7 +20,7 @@ You can check actual AST in online playground.
 
 - <https://sentence-splitter.netlify.app/#We%20are%20talking%20about%20pens.%0AHe%20said%20%22This%20is%20a%20pen.%20I%20like%20it%22.%0AI%20could%20relate%20to%20that%20statement.>
 
-Second sentence has `"This is a pen. I like it"`, but this library can not split it into new sentence.
+Second sentence includes `"This is a pen. I like it"`, but this library can not split it into new sentence.
 The second line will be one sentence.
 
 The reason is `"..."` and `「...」` text is ambiguous as a sentence or a proper noun.
