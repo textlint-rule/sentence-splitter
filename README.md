@@ -29,7 +29,7 @@ Also, HTML does not have suitable semantics for conversation.
 - [html - Most semantic way to markup a conversation (or interview)? - Stack Overflow](https://stackoverflow.com/questions/8798685/most-semantic-way-to-markup-a-conversation-or-interview)
 
 As a result, sentence-splitter can not support nesting sentence.
-Probably, rule implementation should handle the `"..."` and `「...」` text after parsing sentences by sentence-splitter.
+Probably, textlint rule implementer should handle the `"..."` and `「...」` text after parsing sentences by sentence-splitter.
 
 - Issue: [Nesting Sentences Support · Issue #27 · textlint-rule/sentence-splitter](https://github.com/textlint-rule/sentence-splitter/issues/27)
 - Related PR
