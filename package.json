@@ -1,6 +1,6 @@
 {
   "name": "sentence-splitter",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "description": "split {japanese, english} text into sentences.",
   "keywords": [
     "text",
