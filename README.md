@@ -167,6 +167,11 @@ This library use ["Golden Rule" test](test/pragmatic_segmenter/test.ts) of `prag
 
 - [diasks2/pragmatic_segmenter: Pragmatic Segmenter is a rule-based sentence boundary detection gem that works out-of-the-box across many languages.](https://github.com/diasks2/pragmatic_segmenter "diasks2/pragmatic_segmenter: Pragmatic Segmenter is a rule-based sentence boundary detection gem that works out-of-the-box across many languages.")
 
+## Related Libraries
+
+- [textlint-util-to-string](https://github.com/textlint/textlint-util-to-string)
+- and <https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule#rule-libraries>
+
 ## Tests
 
 Run tests:
