@@ -1,6 +1,11 @@
 import * as assert from "node:assert";
 import { ASTNodeTypes, TxtParagraphNode } from "@textlint/ast-node-types";
-import { SentenceSplitterSyntax, split as splitSentences, splitAST } from "../src/sentence-splitter.js";
+import {
+    DefaultSentenceSplitterOptions,
+    SentenceSplitterSyntax,
+    split as splitSentences,
+    splitAST
+} from "../src/sentence-splitter.js";
 
 describe("sentence-splitter", function () {
     it("should return array", function () {
@@ -224,6 +229,11 @@ describe("sentence-splitter", function () {
             };
             const resultParagraph = splitAST(paragraphNode);
             assert.deepStrictEqual(resultParagraph, paragraphNode, "same result");
+        });
+    });
+    describe("DefaultSentenceSplitterOptions", () => {
+        it("should return object", () => {
+            assert.ok(typeof DefaultSentenceSplitterOptions === "object");
         });
     });
 });
