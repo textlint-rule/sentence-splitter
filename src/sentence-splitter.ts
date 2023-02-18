@@ -103,7 +103,10 @@ class SplitParser {
     // close current Node and remove it from list
     close(parser: AbstractParser) {
         const { value, startPosition, endPosition } = this.source.seekNext(parser);
-        if (startPosition.offset !== endPosition.offset) {
+        // rest of the value is Punctuation
+        // Except for the case of the last character of the value is a space
+        // See "space-first-and-space-last" test case
+        if (startPosition.offset !== endPosition.offset && !/^\s+$/.test(value)) {
             this.pushNodeToCurrent(createPunctuationNode(value, startPosition, endPosition));
         }
         const currentNode = this.sentenceNodeList.pop();

@@ -59,9 +59,10 @@ export class SourceCode {
             this.index = this.startOffset;
             // before line count of Paragraph node
             const lineBreaks = Array.from(new Array(this.sourceNode.loc.start.line - 1)).fill("\n");
-            // filled with dummy text
-            const offset = Array.from(new Array(this.startOffset - lineBreaks.length)).fill("∯");
-            this.textCharacters = offset.concat(lineBreaks, input.raw.split(""));
+            // filled with dummy text( range[0] - lineBreaks.length = empty space should be filled)
+            const firstOffset = Array.from(new Array(this.startOffset - lineBreaks.length)).fill("∯");
+            const inputCharacters = input.raw.split("");
+            this.textCharacters = [...lineBreaks, ...firstOffset, ...inputCharacters];
             this.source = new StructuredSource(this.textCharacters.join(""));
             if (this.sourceNode.children[0]) {
                 // Header Node's children does not start with index 0
@@ -72,6 +73,10 @@ export class SourceCode {
                 this.firstChildPadding = 0;
             }
         }
+    }
+
+    get length() {
+        return this.textCharacters.length;
     }
 
     // range mark is for abbreviation
