@@ -2,12 +2,31 @@ import { TxtNode, TxtParentNode } from "@textlint/ast-node-types";
 import { AbstractParser } from "./AbstractParser.js";
 import { StructuredSource } from "structured-source";
 
+export type PairMark = {
+    key: string;
+    start: string;
+    end: string;
+};
+
+const findLastIndex = <T>(array: T[], predicate: (value: T, index: number, obj: T[]) => boolean) => {
+    for (let i = array.length - 1; i >= 0; i--) {
+        if (predicate(array[i], i, array)) {
+            return i;
+        }
+    }
+    return -1;
+};
+
 export class SourceCode {
     private index: number = 0;
     private source: any;
     private textCharacters: string[];
     private sourceNode?: TxtParentNode;
-    private contexts: string[] = [];
+    // active context
+    private contexts: PairMark[] = [];
+    // These context is consumed
+    // It is used for attaching context to AST
+    private consumedContexts: PairMark[] = [];
     private contextRanges: [number, number][] = [];
     private firstChildPadding: number;
     private startOffset: number;
@@ -53,21 +72,23 @@ export class SourceCode {
         });
     }
 
-    enterContext(context: string) {
-        this.contexts.push(context);
+    enterContext(pairMark: PairMark) {
+        this.contexts.push(pairMark);
     }
 
-    isInContext(context?: string) {
-        if (!context) {
+    isInContext(pairMark?: PairMark) {
+        if (!pairMark) {
             return this.contexts.length > 0;
         }
-        return this.contexts.some((targetContext) => targetContext === context);
+        return this.contexts.some((targetContext) => targetContext.key === pairMark.key);
     }
 
-    leaveContext(context: string) {
-        const index = this.contexts.lastIndexOf(context);
+    leaveContext(pairMark: PairMark) {
+        const index = findLastIndex(this.contexts, (context) => context.key === pairMark.key);
         if (index !== -1) {
+            const comsumedPair = this.contexts[index];
             this.contexts.splice(index, 1);
+            this.consumedContexts.push(comsumedPair);
         }
     }
 

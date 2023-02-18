@@ -131,7 +131,7 @@ const createParsers = (options: splitOptions = {}) => {
     const abbrMarker = new AbbrMarker();
     const pairMaker = new PairMaker();
     // anyValueParser has multiple parser and markers.
-    // anyValueParse eat any value if it reach to other value.
+    // anyValueParse eat any value if it reaches to other value.
     const anyValueParser = new AnyValueParser({
         parsers: [newLine, separator],
         markers: [abbrMarker, pairMaker]

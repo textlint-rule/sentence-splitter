@@ -22,6 +22,11 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
+  "ts-node": {
+    "include": [
+      "**/*"
+    ]
+  },
   "include": [
     "src/**/*"
   ],

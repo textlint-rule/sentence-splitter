@@ -48,7 +48,7 @@
   "scripts": {
     "build": "tsc -p . && tsc -p ./tsconfig.cjs.json && tsconfig-to-dual-package",
     "clean": "git clean -fx lib/ module/",
-    "createInputJson": "ts-node scripts/generate-input-json-from-_input-md.ts",
+    "createInputJson": "ts-node-esm ./scripts/generate-input-json-from-_input-md.ts",
     "dev": "vite",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "postcommit": "git reset",
@@ -58,7 +58,7 @@
     "prepublish": "npm run --if-present build",
     "site:build": "vite build",
     "test": "mocha",
-    "updateSnapshot": "UPDATE_SNAPSHOT=1 npm test",
+    "updateSnapshot": "npm run createInputJson && UPDATE_SNAPSHOT=1 npm test",
     "watch": "tsc -p . --watch"
   },
   "lint-staged": {
