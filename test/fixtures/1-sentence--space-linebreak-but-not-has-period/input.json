@@ -3,22 +3,22 @@
   "children": [
     {
       "type": "Str",
-      "value": "He said \"I'm going to the 「無印」 store.\"",
+      "value": "A is 1st line\nB is 2nd line.",
       "loc": {
         "start": {
           "line": 1,
           "column": 0
         },
         "end": {
-          "line": 1,
-          "column": 38
+          "line": 2,
+          "column": 14
         }
       },
       "range": [
         0,
-        38
+        28
       ],
-      "raw": "He said \"I'm going to the 「無印」 store.\""
+      "raw": "A is 1st line\nB is 2nd line."
     }
   ],
   "loc": {
@@ -27,13 +27,13 @@
       "column": 0
     },
     "end": {
-      "line": 1,
-      "column": 38
+      "line": 2,
+      "column": 14
     }
   },
   "range": [
     0,
-    38
+    28
   ],
-  "raw": "He said \"I'm going to the 「無印」 store.\""
+  "raw": "A is 1st line\nB is 2nd line."
 }

@@ -19,14 +19,27 @@ const findLastIndex = <T>(array: T[], predicate: (value: T, index: number, obj: 
 
 export class SourceCode {
     private index: number = 0;
-    private source: any;
+    private source: StructuredSource;
     private textCharacters: string[];
     private sourceNode?: TxtParentNode;
     // active context
-    private contexts: PairMark[] = [];
+    private contexts: [pairMark: PairMark, startIndex: number][] = [];
     // These context is consumed
     // It is used for attaching context to AST
-    private consumedContexts: PairMark[] = [];
+    public consumedContexts: {
+        pairMark: PairMark;
+        range: readonly [number, number];
+        loc: {
+            start: {
+                line: number;
+                column: number;
+            };
+            end: {
+                line: number;
+                column: number;
+            };
+        };
+    }[] = [];
     private contextRanges: [number, number][] = [];
     private firstChildPadding: number;
     private startOffset: number;
@@ -61,6 +74,7 @@ export class SourceCode {
         }
     }
 
+    // range mark is for abbreviation
     markContextRange(range: [number, number]) {
         this.contextRanges.push(range);
     }
@@ -72,23 +86,29 @@ export class SourceCode {
         });
     }
 
+    // context is for pair mark
     enterContext(pairMark: PairMark) {
-        this.contexts.push(pairMark);
+        this.contexts.push([pairMark, this.index]);
     }
 
     isInContext(pairMark?: PairMark) {
         if (!pairMark) {
             return this.contexts.length > 0;
         }
-        return this.contexts.some((targetContext) => targetContext.key === pairMark.key);
+        return this.contexts.some((targetContext) => targetContext[0].key === pairMark.key);
     }
 
     leaveContext(pairMark: PairMark) {
-        const index = findLastIndex(this.contexts, (context) => context.key === pairMark.key);
+        const index = findLastIndex(this.contexts, (context) => context[0].key === pairMark.key);
         if (index !== -1) {
-            const comsumedPair = this.contexts[index];
+            const consumed = this.contexts[index];
             this.contexts.splice(index, 1);
-            this.consumedContexts.push(comsumedPair);
+            const range = [consumed[1], this.index] as const;
+            this.consumedContexts.push({
+                pairMark: consumed[0],
+                range: [consumed[1], this.index],
+                loc: this.source.rangeToLocation(range)
+            });
         }
     }
 

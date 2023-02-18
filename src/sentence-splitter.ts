@@ -18,8 +18,27 @@ export const SentenceSplitterSyntax = {
     Str: "Str"
 } as const;
 
+export type SentencePairMarkContext = {
+    type: "PairMark";
+    range: readonly [number, number];
+    loc: {
+        start: {
+            line: number;
+            column: number;
+        };
+        end: {
+            line: number;
+            column: number;
+        };
+    };
+};
 export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
     readonly type: "Sentence";
+    /**
+     * SentenceNode includes some context information
+     * - "PairMark": pair mark information
+     */
+    readonly contexts: SentencePairMarkContext[];
 };
 export type TxtWhiteSpaceNode = Omit<TxtTextNode, "type"> & {
     readonly type: "WhiteSpace";
@@ -33,8 +52,7 @@ export type TxtParentNodeWithSentenceNodeContent = TxtParentNode["children"][num
 export type TxtParentNodeWithSentenceNode = Omit<TxtParentNode, "children"> & {
     children: TxtParentNodeWithSentenceNodeContent[];
 };
-
-export class SplitParser {
+class SplitParser {
     private sentenceNodeList: TxtSentenceNode[] = [];
     private results: TxtParentNodeWithSentenceNode["children"] = [];
     public source: SourceCode;
@@ -97,17 +115,33 @@ export class SplitParser {
         }
         const firstChildNode: TxtNode = currentNode.children[0];
         const endNow = this.source.now();
-        currentNode.loc = {
-            start: firstChildNode.loc.start,
-            end: {
-                line: endNow.line,
-                column: endNow.column
-            }
-        };
+        // update Sentence node's location and range
         const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
-        currentNode.range = [firstChildNode.range[0], endNow.offset];
-        currentNode.raw = rawValue;
-        this.results.push(currentNode);
+        const contexts = this.source.consumedContexts
+            .sort((a, b) => {
+                return a.range[0] - b.range[0];
+            })
+            .map((context) => {
+                return {
+                    type: "PairMark" as const,
+                    pairMark: context.pairMark,
+                    range: context.range,
+                    loc: context.loc
+                };
+            });
+        this.results.push({
+            ...currentNode,
+            loc: {
+                start: firstChildNode.loc.start,
+                end: {
+                    line: endNow.line,
+                    column: endNow.column
+                }
+            },
+            range: [firstChildNode.range[0], endNow.offset],
+            raw: rawValue,
+            contexts: contexts
+        });
     }
 
     toList() {
@@ -334,6 +368,7 @@ function createEmptySentenceNode(): TxtSentenceNode {
             end: { column: NaN, line: NaN }
         } as const,
         range: [NaN, NaN] as const,
-        children: []
+        children: [],
+        contexts: []
     };
 }

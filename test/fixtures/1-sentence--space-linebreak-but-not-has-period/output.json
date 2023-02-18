@@ -3,26 +3,26 @@
     "children": [
         {
             "type": "Sentence",
-            "raw": "He said \"I'm going to the 「無印」 store.\"",
+            "raw": "A is 1st line\nB is 2nd line.",
             "loc": {
                 "start": {
                     "line": 1,
                     "column": 0
                 },
                 "end": {
-                    "line": 1,
-                    "column": 38
+                    "line": 2,
+                    "column": 14
                 }
             },
             "range": [
                 0,
-                38
+                28
             ],
             "children": [
                 {
                     "type": "Str",
-                    "raw": "He said \"I'm going to the 「無印」 store.\"",
-                    "value": "He said \"I'm going to the 「無印」 store.\"",
+                    "raw": "A is 1st line",
+                    "value": "A is 1st line",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -30,15 +30,73 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 38
+                            "column": 13
                         }
                     },
                     "range": [
                         0,
-                        38
+                        13
+                    ]
+                },
+                {
+                    "type": "WhiteSpace",
+                    "raw": "\n",
+                    "value": "\n",
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 13
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 0
+                        }
+                    },
+                    "range": [
+                        13,
+                        14
+                    ]
+                },
+                {
+                    "type": "Str",
+                    "raw": "B is 2nd line",
+                    "value": "B is 2nd line",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 0
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 13
+                        }
+                    },
+                    "range": [
+                        14,
+                        27
+                    ]
+                },
+                {
+                    "type": "Punctuation",
+                    "raw": ".",
+                    "value": ".",
+                    "loc": {
+                        "start": {
+                            "line": 2,
+                            "column": 13
+                        },
+                        "end": {
+                            "line": 2,
+                            "column": 14
+                        }
+                    },
+                    "range": [
+                        27,
+                        28
                     ]
                 }
-            ]
+            ],
+            "contexts": []
         }
     ],
     "loc": {
@@ -47,13 +105,13 @@
             "column": 0
         },
         "end": {
-            "line": 1,
-            "column": 38
+            "line": 2,
+            "column": 14
         }
     },
     "range": [
         0,
-        38
+        28
     ],
-    "raw": "He said \"I'm going to the 「無印」 store.\""
+    "raw": "A is 1st line\nB is 2nd line."
 }

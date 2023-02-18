@@ -57,7 +57,8 @@
                         8
                     ]
                 }
-            ]
+            ],
+            "contexts": []
         },
         {
             "type": "WhiteSpace",
@@ -115,7 +116,8 @@
                         15
                     ]
                 }
-            ]
+            ],
+            "contexts": []
         }
     ],
     "loc": {
