@@ -15,7 +15,8 @@ export const SentenceSplitterSyntax = {
     WhiteSpace: "WhiteSpace",
     Punctuation: "Punctuation",
     Sentence: "Sentence",
-    Str: "Str"
+    Str: "Str",
+    PairMark: "PairMark"
 } as const;
 
 export type SentencePairMarkContext = {
