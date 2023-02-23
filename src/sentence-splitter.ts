@@ -21,7 +21,7 @@ export const SentenceSplitterSyntax = {
 
 export type SentencePairMarkContext = {
     type: "PairMark";
-    range: readonly [number, number];
+    range: readonly [startIndex: number, endIndex: number];
     loc: {
         start: {
             line: number;
@@ -53,6 +53,7 @@ export type TxtParentNodeWithSentenceNodeContent = TxtParentNode["children"][num
 export type TxtParentNodeWithSentenceNode = Omit<TxtParentNode, "children"> & {
     children: TxtParentNodeWithSentenceNodeContent[];
 };
+
 class SplitParser {
     private sentenceNodeList: TxtSentenceNode[] = [];
     private results: TxtParentNodeWithSentenceNode["children"] = [];

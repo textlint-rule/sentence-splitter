@@ -130,8 +130,23 @@ console.log(SentenceSplitterSyntax.Sentence);// "Sentence"
 ### Node's interface
 
 ```ts
+export type SentencePairMarkContext = {
+  type: "PairMark";
+  range: readonly [startIndex: number, endIndex: number];
+  loc: {
+    start: {
+      line: number;
+      column: number;
+    };
+    end: {
+      line: number;
+      column: number;
+    };
+  };
+};
 export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
     readonly type: "Sentence";
+    readonly contexts?: TxtPairMarkNode[];
 };
 export type TxtWhiteSpaceNode = Omit<TxtTextNode, "type"> & {
     readonly type: "WhiteSpace";
