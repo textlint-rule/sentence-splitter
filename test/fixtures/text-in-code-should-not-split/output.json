@@ -57,7 +57,8 @@
                     ],
                     "raw": "`https://{...}/login?continue=/backoffice`"
                 }
-            ]
+            ],
+            "contexts": []
         }
     ],
     "loc": {

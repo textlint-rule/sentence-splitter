@@ -15,11 +15,31 @@ export const SentenceSplitterSyntax = {
     WhiteSpace: "WhiteSpace",
     Punctuation: "Punctuation",
     Sentence: "Sentence",
-    Str: "Str"
+    Str: "Str",
+    PairMark: "PairMark"
 } as const;
 
+export type SentencePairMarkContext = {
+    type: "PairMark";
+    range: readonly [startIndex: number, endIndex: number];
+    loc: {
+        start: {
+            line: number;
+            column: number;
+        };
+        end: {
+            line: number;
+            column: number;
+        };
+    };
+};
 export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
     readonly type: "Sentence";
+    /**
+     * SentenceNode includes some context information
+     * - "PairMark": pair mark information
+     */
+    readonly contexts: SentencePairMarkContext[];
 };
 export type TxtWhiteSpaceNode = Omit<TxtTextNode, "type"> & {
     readonly type: "WhiteSpace";
@@ -34,7 +54,7 @@ export type TxtParentNodeWithSentenceNode = Omit<TxtParentNode, "children"> & {
     children: TxtParentNodeWithSentenceNodeContent[];
 };
 
-export class SplitParser {
+class SplitParser {
     private sentenceNodeList: TxtSentenceNode[] = [];
     private results: TxtParentNodeWithSentenceNode["children"] = [];
     public source: SourceCode;
@@ -85,7 +105,10 @@ export class SplitParser {
     // close current Node and remove it from list
     close(parser: AbstractParser) {
         const { value, startPosition, endPosition } = this.source.seekNext(parser);
-        if (startPosition.offset !== endPosition.offset) {
+        // rest of the value is Punctuation
+        // Except for the case of the last character of the value is a space
+        // See "space-first-and-space-last" test case
+        if (startPosition.offset !== endPosition.offset && !/^\s+$/.test(value)) {
             this.pushNodeToCurrent(createPunctuationNode(value, startPosition, endPosition));
         }
         const currentNode = this.sentenceNodeList.pop();
@@ -97,17 +120,33 @@ export class SplitParser {
         }
         const firstChildNode: TxtNode = currentNode.children[0];
         const endNow = this.source.now();
-        currentNode.loc = {
-            start: firstChildNode.loc.start,
-            end: {
-                line: endNow.line,
-                column: endNow.column
-            }
-        };
+        // update Sentence node's location and range
         const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
-        currentNode.range = [firstChildNode.range[0], endNow.offset];
-        currentNode.raw = rawValue;
-        this.results.push(currentNode);
+        const contexts = this.source.consumedContexts
+            .sort((a, b) => {
+                return a.range[0] - b.range[0];
+            })
+            .map((context) => {
+                return {
+                    type: "PairMark" as const,
+                    pairMark: context.pairMark,
+                    range: context.range,
+                    loc: context.loc
+                };
+            });
+        this.results.push({
+            ...currentNode,
+            loc: {
+                start: firstChildNode.loc.start,
+                end: {
+                    line: endNow.line,
+                    column: endNow.column
+                }
+            },
+            range: [firstChildNode.range[0], endNow.offset],
+            raw: rawValue,
+            contexts: contexts
+        });
     }
 
     toList() {
@@ -131,7 +170,7 @@ const createParsers = (options: splitOptions = {}) => {
     const abbrMarker = new AbbrMarker();
     const pairMaker = new PairMaker();
     // anyValueParser has multiple parser and markers.
-    // anyValueParse eat any value if it reach to other value.
+    // anyValueParse eat any value if it reaches to other value.
     const anyValueParser = new AnyValueParser({
         parsers: [newLine, separator],
         markers: [abbrMarker, pairMaker]
@@ -334,6 +373,7 @@ function createEmptySentenceNode(): TxtSentenceNode {
             end: { column: NaN, line: NaN }
         } as const,
         range: [NaN, NaN] as const,
-        children: []
+        children: [],
+        contexts: []
     };
 }

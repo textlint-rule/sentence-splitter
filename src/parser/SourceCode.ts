@@ -2,12 +2,44 @@ import { TxtNode, TxtParentNode } from "@textlint/ast-node-types";
 import { AbstractParser } from "./AbstractParser.js";
 import { StructuredSource } from "structured-source";
 
+export type PairMark = {
+    key: string;
+    start: string;
+    end: string;
+};
+
+const findLastIndex = <T>(array: T[], predicate: (value: T, index: number, obj: T[]) => boolean) => {
+    for (let i = array.length - 1; i >= 0; i--) {
+        if (predicate(array[i], i, array)) {
+            return i;
+        }
+    }
+    return -1;
+};
+
 export class SourceCode {
     private index: number = 0;
-    private source: any;
+    private source: StructuredSource;
     private textCharacters: string[];
     private sourceNode?: TxtParentNode;
-    private contexts: string[] = [];
+    // active context
+    private contexts: [pairMark: PairMark, startIndex: number][] = [];
+    // These context is consumed
+    // It is used for attaching context to AST
+    public consumedContexts: {
+        pairMark: PairMark;
+        range: readonly [number, number];
+        loc: {
+            start: {
+                line: number;
+                column: number;
+            };
+            end: {
+                line: number;
+                column: number;
+            };
+        };
+    }[] = [];
     private contextRanges: [number, number][] = [];
     private firstChildPadding: number;
     private startOffset: number;
@@ -27,9 +59,10 @@ export class SourceCode {
             this.index = this.startOffset;
             // before line count of Paragraph node
             const lineBreaks = Array.from(new Array(this.sourceNode.loc.start.line - 1)).fill("\n");
-            // filled with dummy text
-            const offset = Array.from(new Array(this.startOffset - lineBreaks.length)).fill("∯");
-            this.textCharacters = offset.concat(lineBreaks, input.raw.split(""));
+            // filled with dummy text( range[0] - lineBreaks.length = empty space should be filled)
+            const firstOffset = Array.from(new Array(this.startOffset - lineBreaks.length)).fill("∯");
+            const inputCharacters = input.raw.split("");
+            this.textCharacters = [...lineBreaks, ...firstOffset, ...inputCharacters];
             this.source = new StructuredSource(this.textCharacters.join(""));
             if (this.sourceNode.children[0]) {
                 // Header Node's children does not start with index 0
@@ -42,6 +75,11 @@ export class SourceCode {
         }
     }
 
+    get length() {
+        return this.textCharacters.length;
+    }
+
+    // range mark is for abbreviation
     markContextRange(range: [number, number]) {
         this.contextRanges.push(range);
     }
@@ -53,21 +91,29 @@ export class SourceCode {
         });
     }
 
-    enterContext(context: string) {
-        this.contexts.push(context);
+    // context is for pair mark
+    enterContext(pairMark: PairMark) {
+        this.contexts.push([pairMark, this.index]);
     }
 
-    isInContext(context?: string) {
-        if (!context) {
+    isInContext(pairMark?: PairMark) {
+        if (!pairMark) {
             return this.contexts.length > 0;
         }
-        return this.contexts.some((targetContext) => targetContext === context);
+        return this.contexts.some((targetContext) => targetContext[0].key === pairMark.key);
     }
 
-    leaveContext(context: string) {
-        const index = this.contexts.lastIndexOf(context);
+    leaveContext(pairMark: PairMark) {
+        const index = findLastIndex(this.contexts, (context) => context[0].key === pairMark.key);
         if (index !== -1) {
+            const consumed = this.contexts[index];
             this.contexts.splice(index, 1);
+            const range = [consumed[1], this.index] as const;
+            this.consumedContexts.push({
+                pairMark: consumed[0],
+                range: [consumed[1], this.index],
+                loc: this.source.rangeToLocation(range)
+            });
         }
     }
 

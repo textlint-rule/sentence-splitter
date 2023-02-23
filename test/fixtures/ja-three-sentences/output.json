@@ -95,6 +95,30 @@
                         60
                     ]
                 }
+            ],
+            "contexts": [
+                {
+                    "type": "PairMark",
+                    "pairMark": {
+                        "key": "double quote",
+                        "start": "\"",
+                        "end": "\""
+                    },
+                    "range": [
+                        9,
+                        16
+                    ],
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 9
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 16
+                        }
+                    }
+                }
             ]
         },
         {
@@ -171,6 +195,30 @@
                         97,
                         98
                     ]
+                }
+            ],
+            "contexts": [
+                {
+                    "type": "PairMark",
+                    "pairMark": {
+                        "key": "double quote",
+                        "start": "\"",
+                        "end": "\""
+                    },
+                    "range": [
+                        9,
+                        16
+                    ],
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 9
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 16
+                        }
+                    }
                 }
             ]
         },
@@ -324,6 +372,30 @@
                         148,
                         149
                     ]
+                }
+            ],
+            "contexts": [
+                {
+                    "type": "PairMark",
+                    "pairMark": {
+                        "key": "double quote",
+                        "start": "\"",
+                        "end": "\""
+                    },
+                    "range": [
+                        9,
+                        16
+                    ],
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 9
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 16
+                        }
+                    }
                 }
             ]
         }

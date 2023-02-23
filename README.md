@@ -21,15 +21,44 @@ You can check actual AST in online playground.
 - <https://sentence-splitter.netlify.app/#We%20are%20talking%20about%20pens.%0AHe%20said%20%22This%20is%20a%20pen.%20I%20like%20it%22.%0AI%20could%20relate%20to%20that%20statement.>
 
 Second sentence includes `"This is a pen. I like it"`, but this library can not split it into new sentence.
-The second line will be one sentence.
-
 The reason is `"..."` and `「...」` text is ambiguous as a sentence or a proper noun.
 Also, HTML does not have suitable semantics for conversation.
 
 - [html - Most semantic way to markup a conversation (or interview)? - Stack Overflow](https://stackoverflow.com/questions/8798685/most-semantic-way-to-markup-a-conversation-or-interview)
 
-As a result, sentence-splitter can not support nesting sentence.
-Probably, textlint rule implementer should handle the `"..."` and `「...」` text after parsing sentences by sentence-splitter.
+As a result, The second line will be one sentence, but sentence-splitter add a `contexts` info to the sentence node.
+
+```json5
+{
+    "type": "Sentence",
+    "children": [
+      {
+        "type": "Str",
+        "value": "He said \"This is a pen. I like it\""
+      },
+      ...
+    ],
+    "contexts": [
+        {
+            "type": "PairMark",
+            "pairMark": {
+                "key": "double quote",
+                "start": "\"",
+                "end": "\""
+            },
+            "range": [
+                8,
+                33
+            ],
+            ...
+        ]
+    ]
+}
+```
+
+- Example: <https://sentence-splitter.netlify.app/#He%20said%20%22This%20is%20a%20pen.%20I%20like%20it%22.>
+
+Probably, textlint rule should handle the `"..."` and `「...」` text after parsing sentences by sentence-splitter.
 
 - Issue: [Nesting Sentences Support · Issue #27 · textlint-rule/sentence-splitter](https://github.com/textlint-rule/sentence-splitter/issues/27)
 - Related PR
@@ -101,8 +130,23 @@ console.log(SentenceSplitterSyntax.Sentence);// "Sentence"
 ### Node's interface
 
 ```ts
+export type SentencePairMarkContext = {
+  type: "PairMark";
+  range: readonly [startIndex: number, endIndex: number];
+  loc: {
+    start: {
+      line: number;
+      column: number;
+    };
+    end: {
+      line: number;
+      column: number;
+    };
+  };
+};
 export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
     readonly type: "Sentence";
+    readonly contexts?: TxtPairMarkNode[];
 };
 export type TxtWhiteSpaceNode = Omit<TxtTextNode, "type"> & {
     readonly type: "WhiteSpace";

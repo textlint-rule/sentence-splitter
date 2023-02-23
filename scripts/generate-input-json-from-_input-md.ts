@@ -1,9 +1,10 @@
 import * as path from "path";
 import * as fs from "fs";
 import { TxtParentNode } from "@textlint/ast-node-types";
-
-const { parse } = require("@textlint/markdown-to-ast");
-
+import { parse } from "@textlint/markdown-to-ast";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // Create input.json from Markdown
 // _input.md -> input.json
 const fixturesDir = path.join(__dirname, "../test/fixtures");

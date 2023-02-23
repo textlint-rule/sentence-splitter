@@ -3,7 +3,7 @@
     "children": [
         {
             "type": "Sentence",
-            "raw": "text`code`text",
+            "raw": "He said \"I'm going to the 「無印」 store.\"",
             "loc": {
                 "start": {
                     "line": 1,
@@ -11,18 +11,18 @@
                 },
                 "end": {
                     "line": 1,
-                    "column": 14
+                    "column": 38
                 }
             },
             "range": [
                 0,
-                14
+                38
             ],
             "children": [
                 {
                     "type": "Str",
-                    "raw": "text",
-                    "value": "text",
+                    "raw": "He said \"I'm going to the 「無印」 store.\"",
+                    "value": "He said \"I'm going to the 「無印」 store.\"",
                     "loc": {
                         "start": {
                             "line": 1,
@@ -30,54 +30,61 @@
                         },
                         "end": {
                             "line": 1,
-                            "column": 4
+                            "column": 38
                         }
                     },
                     "range": [
                         0,
-                        4
-                    ]
-                },
-                {
-                    "type": "Code",
-                    "value": "code",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 4
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 10
-                        }
-                    },
-                    "range": [
-                        4,
-                        10
-                    ],
-                    "raw": "`code`"
-                },
-                {
-                    "type": "Str",
-                    "raw": "text",
-                    "value": "text",
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 10
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 14
-                        }
-                    },
-                    "range": [
-                        10,
-                        14
+                        38
                     ]
                 }
             ],
-            "contexts": []
+            "contexts": [
+                {
+                    "type": "PairMark",
+                    "pairMark": {
+                        "key": "double quote",
+                        "start": "\"",
+                        "end": "\""
+                    },
+                    "range": [
+                        8,
+                        37
+                    ],
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 8
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 37
+                        }
+                    }
+                },
+                {
+                    "type": "PairMark",
+                    "pairMark": {
+                        "key": "かぎ括弧",
+                        "start": "「",
+                        "end": "」"
+                    },
+                    "range": [
+                        26,
+                        29
+                    ],
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 26
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 29
+                        }
+                    }
+                }
+            ]
         }
     ],
     "loc": {
@@ -87,12 +94,12 @@
         },
         "end": {
             "line": 1,
-            "column": 14
+            "column": 38
         }
     },
     "range": [
         0,
-        14
+        38
     ],
-    "raw": "text`code`text"
+    "raw": "He said \"I'm going to the 「無印」 store.\""
 }
