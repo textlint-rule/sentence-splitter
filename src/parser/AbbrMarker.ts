@@ -95,7 +95,8 @@ export class AbbrMarker implements AbstractMarker {
         const isMatchedPREPOSITIVE_ABBREVIATIONS = this.lang.PREPOSITIVE_ABBREVIATIONS.some((abbr) => {
             return compareNoCaseSensitive(abbr, currentWord);
         });
-        if (isMatchedPREPOSITIVE_ABBREVIATIONS) {
+        const isMatchedLineIndexes = /^\d+\.$/.test(currentWord);
+        if (isMatchedPREPOSITIVE_ABBREVIATIONS || isMatchedLineIndexes) {
             return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         }
         // ABBREVIATIONS
