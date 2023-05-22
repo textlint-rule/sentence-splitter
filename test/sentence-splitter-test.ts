@@ -208,6 +208,15 @@ describe("sentence-splitter", function () {
         assert.deepStrictEqual(sentences[0].loc.start, { line: 1, column: 0 });
         assert.deepStrictEqual(sentences[0].loc.end, { line: 1, column: 5 });
     });
+    it("should not split line indexes", function () {
+        const sentences = splitSentences("1. 1st text.\n2. 2nd text.");
+        assert.equal(sentences.length, 3);
+        const [sentence0, whiteSpace0, sentence1] = sentences;
+        assert.strictEqual(whiteSpace0.type, SentenceSplitterSyntax.WhiteSpace);
+        assert.strictEqual(whiteSpace0.raw, "\n");
+        assert.strictEqual(sentence0.raw, "1. 1st text.");
+        assert.strictEqual(sentence1.raw, "2. 2nd text.");
+    });
 
     describe("splitAST", () => {
         it("should handle empty child", () => {
