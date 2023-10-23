@@ -7,7 +7,7 @@ import { NewLineParser } from "./parser/NewLineParser.js";
 import { SpaceParser } from "./parser/SpaceParser.js";
 import { DefaultOptions, SeparatorParser, SeparatorParserOptions } from "./parser/SeparatorParser.js";
 import { AnyValueParser } from "./parser/AnyValueParser.js";
-import { AbbrMarker } from "./parser/AbbrMarker.js";
+import { AbbrMarker, AbbrMarkerOptions } from "./parser/AbbrMarker.js";
 import { PairMaker } from "./parser/PairMaker.js";
 import { nodeLog } from "./logger.js";
 
@@ -158,16 +158,17 @@ export { DefaultOptions as DefaultSentenceSplitterOptions };
 
 export interface splitOptions {
     /**
-     * Separator options
+     * Separator & AbbrMarker options
      */
     SeparatorParser?: SeparatorParserOptions;
+    AbbrMarker?: AbbrMarkerOptions;
 }
 
 const createParsers = (options: splitOptions = {}) => {
     const newLine = new NewLineParser();
     const space = new SpaceParser();
     const separator = new SeparatorParser(options.SeparatorParser);
-    const abbrMarker = new AbbrMarker();
+    const abbrMarker = new AbbrMarker(options.AbbrMarker);
     const pairMaker = new PairMaker();
     // anyValueParser has multiple parser and markers.
     // anyValueParse eat any value if it reaches to other value.
