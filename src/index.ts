@@ -9,4 +9,4 @@ export type {
     TxtWhiteSpaceNode,
     splitOptions
 } from "./sentence-splitter.js";
-export { split, splitAST, DefaultSentenceSplitterOptions } from "./sentence-splitter.js";
+export { split, splitAST, DefaultSentenceSplitterOptions, DefaultAbbrMarkerOptions } from "./sentence-splitter.js";

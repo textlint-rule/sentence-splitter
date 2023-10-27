@@ -1,6 +1,6 @@
 {
   "name": "sentence-splitter",
-  "version": "4.2.1",
+  "version": "4.3.0",
   "description": "split {japanese, english} text into sentences.",
   "keywords": [
     "text",
@@ -30,6 +30,16 @@
         "default": "./lib/sentence-splitter.js"
       },
       "default": "./lib/sentence-splitter.js"
+    },
+    "./lang": {
+      "import": {
+        "types": "./module/parser/lang/index.d.ts",
+        "default": "./module/parser/lang/index.js"
+      },
+      "require": {
+        "types": "./lib/parser/lang/index.d.ts",
+        "default": "./lib/parser/lang/index.js"
+      }
     },
     "./package.json": "./package.json"
   },

@@ -5,9 +5,13 @@ import { SourceCode } from "./parser/SourceCode.js";
 import { AbstractParser } from "./parser/AbstractParser.js";
 import { NewLineParser } from "./parser/NewLineParser.js";
 import { SpaceParser } from "./parser/SpaceParser.js";
-import { DefaultOptions, SeparatorParser, SeparatorParserOptions } from "./parser/SeparatorParser.js";
+import {
+    DefaultOptions as DefaultSentenceSplitterOptions,
+    SeparatorParser,
+    SeparatorParserOptions
+} from "./parser/SeparatorParser.js";
 import { AnyValueParser } from "./parser/AnyValueParser.js";
-import { AbbrMarker, AbbrMarkerOptions } from "./parser/AbbrMarker.js";
+import { DefaultOptions as DefaultAbbrMarkerOptions, AbbrMarker, AbbrMarkerOptions } from "./parser/AbbrMarker.js";
 import { PairMaker } from "./parser/PairMaker.js";
 import { nodeLog } from "./logger.js";
 
@@ -154,7 +158,7 @@ class SplitParser {
     }
 }
 
-export { DefaultOptions as DefaultSentenceSplitterOptions };
+export { DefaultAbbrMarkerOptions, DefaultSentenceSplitterOptions };
 
 export interface splitOptions {
     /**
