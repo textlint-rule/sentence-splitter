@@ -92,7 +92,7 @@ export class AbbrMarker implements AbstractMarker {
         }
         // EXCALAMATION_WORDS
         // Example: Yahoo!
-        const isMatchedEXCALAMATION_WORDS = this.lang.EXCALAMATION_WORDS.some((abbr) => {
+        const isMatchedEXCALAMATION_WORDS = this.lang.EXCLAMATION_WORDS.some((abbr) => {
             return compareNoCaseSensitive(abbr, currentWord);
         });
         if (isMatchedEXCALAMATION_WORDS) {

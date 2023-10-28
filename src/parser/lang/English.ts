@@ -225,7 +225,7 @@ export const English: Language = {
         "Vs."
     ],
 
-    EXCALAMATION_WORDS: [
+    EXCLAMATION_WORDS: [
         "!Xũ",
         "!Kung",
         "ǃʼOǃKung",
