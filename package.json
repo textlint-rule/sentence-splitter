@@ -31,6 +31,16 @@
       },
       "default": "./lib/sentence-splitter.js"
     },
+    "./lang": {
+      "import": {
+        "types": "./module/parser/lang/index.d.ts",
+        "default": "./module/parser/lang/index.js"
+      },
+      "require": {
+        "types": "./lib/parser/lang/index.d.ts",
+        "default": "./lib/parser/lang/index.js"
+      }
+    },
     "./package.json": "./package.json"
   },
   "main": "./lib/sentence-splitter.js",
@@ -53,7 +63,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "postcommit": "git reset",
     "precommit": "lint-staged",
-    "prepare": "git config --local core.hooksPath .githooks",
+    "prepare": "git rev-parse --is-inside-work-tree > /dev/null 2>&1 && git config --local core.hooksPath .githooks || echo 'Not inside a Git work tree'",
     "prepublishOnly": "npm run clean && npm run build",
     "prepublish": "npm run --if-present build",
     "site:build": "vite build",

@@ -81,11 +81,16 @@ export interface SeparatorParserOptions {
     separatorCharacters?: string[]
 }
 
+export interface AbbrMarkerOptions {
+    language?: Language;
+}
+
 export interface splitOptions {
     /**
-     * Separator options
+     * Separator & AbbrMarker options
      */
     SeparatorParser?: SeparatorParserOptions;
+    AbbrMarker?: AbbrMarkerOptions;
 }
 
 /**
@@ -168,9 +173,9 @@ Node layout image.
 
 ```
 <Sentence>
-    <Str />                      |This is 1st sentence| 
+    <Str />                      |This is 1st sentence|
     <Punctuation />              |.|
-</Sentence>  
+</Sentence>
 <WhiteSpace />                   | |
 <Sentence>
     <Str />                      |This is 2nd sentence|
@@ -224,7 +229,7 @@ Run tests:
 
 Create `input.json` from `_input.md`
 
-    npm run createInputJson    
+    npm run createInputJson
 
 Update snapshots(`output.json`):
 

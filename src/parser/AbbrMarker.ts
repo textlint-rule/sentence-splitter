@@ -14,14 +14,22 @@ const compareNoCaseSensitive = (a: string, b: string): boolean => {
     return a.toLowerCase() === b.toLowerCase();
 };
 
+export const DefaultOptions = {
+    language: English
+};
+
+export interface AbbrMarkerOptions {
+    language?: Language;
+}
+
 /**
  * abbreviation marker
  */
 export class AbbrMarker implements AbstractMarker {
     private lang: Language;
 
-    constructor(lang: Language = English) {
-        this.lang = lang;
+    constructor(readonly options?: AbbrMarkerOptions) {
+        this.lang = options && options.language ? options.language : DefaultOptions.language;
     }
 
     /**
