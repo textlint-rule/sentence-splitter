@@ -6,6 +6,7 @@ import {
     split as splitSentences,
     splitAST
 } from "../src/sentence-splitter.js";
+import { English } from "sentence-splitter/lang";
 
 describe("sentence-splitter", function () {
     it("should return array", function () {
@@ -238,6 +239,16 @@ describe("sentence-splitter", function () {
             };
             const resultParagraph = splitAST(paragraphNode);
             assert.deepStrictEqual(resultParagraph, paragraphNode, "same result");
+        });
+    });
+    describe("Lang Options", () => {
+        it("should allow to pass lang", () => {
+            const sentences = splitSentences("text", {
+                AbbrMarker: {
+                    language: English
+                }
+            });
+            assert.equal(sentences.length, 1);
         });
     });
     describe("DefaultSentenceSplitterOptions", () => {
