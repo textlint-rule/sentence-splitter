@@ -7,7 +7,7 @@ const isCapitalized = (text: string) => {
     if (!text || text.length === 0) {
         return false;
     }
-    return /^[A-Z]/.test(text);
+    return /^\p{Lu}/u.test(text);
 };
 
 const compareNoCaseSensitive = (a: string, b: string): boolean => {
@@ -120,7 +120,7 @@ export class AbbrMarker implements AbstractMarker {
         // Example: `I` as a sentence boundary and `I` as an abbreviation
         // > We make a good team, you and I. Did you see Albert I. Jones yesterday?
         // Related: https://github.com/azu/sentence-splitter/pull/31
-        if (isCapitalized(prevWord) && /^[A-Z]\./.test(currentWord) && isCapitalized(nextWord)) {
+        if (isCapitalized(prevWord) && /^\p{Lu}\./u.test(currentWord) && isCapitalized(nextWord)) {
             sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
         } else if (isMatched && !isCapitalized(nextWord)) {
             // Exception. This allows to write Capitalized word at next word
