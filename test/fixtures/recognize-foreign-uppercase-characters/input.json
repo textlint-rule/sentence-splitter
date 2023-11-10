@@ -1,0 +1,39 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "Ők Cornel West és Robert F Kennedy Jr. Ők elvehetik a szavazatokat Joe Biden-től és Donald Trump-tól.",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 101
+        }
+      },
+      "range": [
+        0,
+        101
+      ],
+      "raw": "Ők Cornel West és Robert F Kennedy Jr. Ők elvehetik a szavazatokat Joe Biden-től és Donald Trump-tól."
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 101
+    }
+  },
+  "range": [
+    0,
+    101
+  ],
+  "raw": "Ők Cornel West és Robert F Kennedy Jr. Ők elvehetik a szavazatokat Joe Biden-től és Donald Trump-tól."
+}
