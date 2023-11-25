@@ -1,0 +1,97 @@
+{
+  "type": "Paragraph",
+  "children": [
+    {
+      "type": "Str",
+      "value": "test",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 4
+        }
+      },
+      "range": [
+        0,
+        4
+      ],
+      "raw": "test"
+    },
+    {
+      "type": "Delete",
+      "children": [
+        {
+          "type": "Str",
+          "value": "test",
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 6
+            },
+            "end": {
+              "line": 1,
+              "column": 10
+            }
+          },
+          "range": [
+            6,
+            10
+          ],
+          "raw": "test"
+        }
+      ],
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 4
+        },
+        "end": {
+          "line": 1,
+          "column": 12
+        }
+      },
+      "range": [
+        4,
+        12
+      ],
+      "raw": "~~test~~"
+    },
+    {
+      "type": "Str",
+      "value": "test",
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 12
+        },
+        "end": {
+          "line": 1,
+          "column": 16
+        }
+      },
+      "range": [
+        12,
+        16
+      ],
+      "raw": "test"
+    }
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 16
+    }
+  },
+  "range": [
+    0,
+    16
+  ],
+  "raw": "test~~test~~test"
+}
