@@ -83,20 +83,20 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@textlint/ast-node-types": "^13.2.0",
+    "@textlint/ast-node-types": "^13.4.1",
     "structured-source": "^4.0.0"
   },
   "devDependencies": {
-    "@textlint/markdown-to-ast": "^13.2.0",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^18.13.0",
-    "lint-staged": "^13.1.1",
+    "@textlint/markdown-to-ast": "^13.4.1",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.0",
+    "lint-staged": "^15.1.0",
     "mocha": "^10.2.0",
-    "prettier": "^2.8.4",
+    "prettier": "^3.1.0",
     "ts-node": "^10.9.1",
-    "tsconfig-to-dual-package": "^1.1.1",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.1"
+    "tsconfig-to-dual-package": "^1.2.0",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.2"
   },
   "packageManager": "yarn@1.22.19",
   "email": "azuciao@gmail.com"
