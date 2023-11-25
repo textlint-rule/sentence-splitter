@@ -1,7 +1,5 @@
 name: test
 on: [push, pull_request]
-env:
-  CI: true
 jobs:
   test:
     name: "Test on Node.js ${{ matrix.node-version }}"
