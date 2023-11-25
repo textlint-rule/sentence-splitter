@@ -1,4 +1,4 @@
-import type { TxtNode, TxtParagraphNode, TxtParentNode, TxtStrNode, TxtTextNode } from "@textlint/ast-node-types";
+import type { TxtParagraphNode, TxtParentNode, TxtStrNode, TxtTextNode } from "@textlint/ast-node-types";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
 
 import { SourceCode } from "./parser/SourceCode.js";
@@ -11,7 +11,7 @@ import {
     SeparatorParserOptions
 } from "./parser/SeparatorParser.js";
 import { AnyValueParser } from "./parser/AnyValueParser.js";
-import { DefaultOptions as DefaultAbbrMarkerOptions, AbbrMarker, AbbrMarkerOptions } from "./parser/AbbrMarker.js";
+import { AbbrMarker, AbbrMarkerOptions, DefaultOptions as DefaultAbbrMarkerOptions } from "./parser/AbbrMarker.js";
 import { PairMaker } from "./parser/PairMaker.js";
 import { nodeLog } from "./logger.js";
 
@@ -37,13 +37,22 @@ export type SentencePairMarkContext = {
         };
     };
 };
-export type TxtSentenceNode = Omit<TxtParentNode, "type"> & {
+// SentenceNode does not have sentence
+// Nested SentenceNode is not allowed
+export type TxtSentenceNodeChildren =
+    | TxtParentNode["children"][number]
+    | TxtWhiteSpaceNode
+    | TxtPunctuationNode
+    | TxtStrNode;
+export type TxtSentenceNode = Omit<TxtParentNode, "type" | "children"> & {
     readonly type: "Sentence";
     /**
      * SentenceNode includes some context information
      * - "PairMark": pair mark information
      */
     readonly contexts: SentencePairMarkContext[];
+
+    children: TxtSentenceNodeChildren[];
 };
 export type TxtWhiteSpaceNode = Omit<TxtTextNode, "type"> & {
     readonly type: "WhiteSpace";
@@ -71,7 +80,7 @@ class SplitParser {
         return this.sentenceNodeList[this.sentenceNodeList.length - 1];
     }
 
-    pushNodeToCurrent(node: TxtParentNodeWithSentenceNodeContent) {
+    pushNodeToCurrent(node: TxtSentenceNodeChildren) {
         const current = this.current;
         if (current) {
             current.children.push(node);
@@ -122,7 +131,7 @@ class SplitParser {
         if (currentNode.children.length === 0) {
             return;
         }
-        const firstChildNode: TxtNode = currentNode.children[0];
+        const firstChildNode = currentNode.children[0];
         const endNow = this.source.now();
         // update Sentence node's location and range
         const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
@@ -303,7 +312,7 @@ function createWhiteSpaceNode(
                 column: endPosition.column
             }
         },
-        range: [startPosition.offset, endPosition.offset]
+        range: [startPosition.offset, endPosition.offset] as const
     };
 }
 
