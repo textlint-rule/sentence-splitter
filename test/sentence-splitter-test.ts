@@ -257,6 +257,36 @@ describe("sentence-splitter", function () {
             assert.deepStrictEqual(resultParagraph, paragraphNode, "same result");
         });
     });
+    describe("CJK word boundary for EXCLAMATION_WORDS", () => {
+        it("should not split Yahoo! surrounded by CJK characters", () => {
+            const sentences = splitSentences("すごろくや公式サイトかYahoo!ショッピングでの購入を推奨");
+            assert.equal(sentences.length, 1);
+            assert.strictEqual(
+                getSentence(sentences, 0).raw,
+                "すごろくや公式サイトかYahoo!ショッピングでの購入を推奨"
+            );
+        });
+        it("should not split Yahoo! preceded by CJK character", () => {
+            const sentences = splitSentences("これはYahoo!です");
+            assert.equal(sentences.length, 1);
+            assert.strictEqual(getSentence(sentences, 0).raw, "これはYahoo!です");
+        });
+        it("should not split Yum! followed by CJK character", () => {
+            const sentences = splitSentences("美味しいYum!だね");
+            assert.equal(sentences.length, 1);
+            assert.strictEqual(getSentence(sentences, 0).raw, "美味しいYum!だね");
+        });
+        it("should still split normal exclamation in CJK text", () => {
+            const sentences = splitSentences("すごい! 次の文です");
+            assert.equal(sentences.length, 3); // sentence, whitespace, sentence
+            assert.strictEqual(getSentence(sentences, 0).raw, "すごい!");
+            assert.strictEqual(getSentence(sentences, 2).raw, "次の文です");
+        });
+        it("should not split Yahoo! in English (existing behavior preserved)", () => {
+            const sentences = splitSentences("She works at Yahoo! in the accounting department.");
+            assert.equal(sentences.length, 1);
+        });
+    });
     describe("Lang Options", () => {
         it("should allow to pass lang", () => {
             const sentences = splitSentences("text", {
