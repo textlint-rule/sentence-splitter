@@ -14,6 +14,13 @@ const compareNoCaseSensitive = (a: string, b: string): boolean => {
     return a.toLowerCase() === b.toLowerCase();
 };
 
+/**
+ * CJK characters act as word boundaries because CJK text does not use spaces between words.
+ */
+const isCJK = (char: string): boolean => {
+    return /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u.test(char);
+};
+
 export const DefaultOptions = {
     language: English
 };
@@ -34,7 +41,7 @@ export class AbbrMarker implements AbstractMarker {
 
     /**
      * Get Word
-     * word should have left space and right space,
+     * word should have left space and right space (or CJK boundary),
      * @param {SourceCode} sourceCode
      * @param {number} startIndex
      * @returns {string}
@@ -42,14 +49,15 @@ export class AbbrMarker implements AbstractMarker {
     private getWord(sourceCode: SourceCode, startIndex: number = 0): string {
         const whiteSpace = /\s/;
         const prevChar = sourceCode.read(-1);
-        if (prevChar && !whiteSpace.test(prevChar)) {
+        // Also treat CJK characters as word boundaries
+        if (prevChar && !whiteSpace.test(prevChar) && !isCJK(prevChar)) {
             return "";
         }
         let word = "";
         let count = startIndex;
         let char: boolean | string = "";
         while ((char = sourceCode.read(count))) {
-            if (whiteSpace.test(char)) {
+            if (whiteSpace.test(char) || isCJK(char)) {
                 break;
             }
             word += char;
