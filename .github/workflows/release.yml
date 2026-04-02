@@ -1,0 +1,135 @@
+name: Release
+
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+    types:
+      - closed
+
+jobs:
+  release:
+    if: |
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.name, 'Type: Release')
+    runs-on: ubuntu-latest
+    environment: 
+      name: npm
+    permissions:
+      contents: write
+      id-token: write  # OIDC
+    outputs:
+      released: ${{ steps.tag-check.outputs.exists == 'false' }}
+      version: ${{ steps.package.outputs.version }}
+      package-name: ${{ steps.package.outputs.name }}
+      release-url: ${{ steps.create-release.outputs.url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      
+      - name: Get package info
+        id: package
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          PACKAGE_NAME=$(jq -r '.name' package.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+      
+      - name: Check if tag exists
+        id: tag-check
+        run: |
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          VERSION: ${{ steps.package.outputs.version }}
+      
+      - name: Install pnpm
+        if: steps.tag-check.outputs.exists == 'false'
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+      
+      - name: Setup Node.js
+        if: steps.tag-check.outputs.exists == 'false'
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        if: steps.tag-check.outputs.exists == 'false'
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build package
+        if: steps.tag-check.outputs.exists == 'false'
+        run: pnpm run build
+      
+      - name: Publish to npm with provenance
+        if: steps.tag-check.outputs.exists == 'false'
+        run: pnpm publish --access public
+      
+      - name: Create GitHub Release with tag
+        id: create-release
+        if: steps.tag-check.outputs.exists == 'false'
+        run: |
+          RELEASE_URL=$(gh release create "v$VERSION" \
+            --title "v$VERSION" \
+            --target "$SHA" \
+            --notes "$PR_BODY")
+          echo "url=$RELEASE_URL" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.package.outputs.version }}
+          SHA: ${{ github.sha }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+  
+  comment:
+    needs: release
+    if: |
+      always() && 
+      github.event_name == 'pull_request' && 
+      needs.release.outputs.released == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comment on PR - Success
+        if: needs.release.result == 'success'
+        run: |
+          gh pr comment "$PR_NUMBER" \
+            --repo "$REPOSITORY" \
+            --body "✅ **Release v$VERSION completed successfully!**
+          
+          - 📦 npm package: https://www.npmjs.com/package/$PACKAGE_NAME/v/$VERSION
+          - 🏷️ GitHub Release: $RELEASE_URL
+          - 🔗 Workflow run: $SERVER_URL/$REPOSITORY/actions/runs/$RUN_ID"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          VERSION: ${{ needs.release.outputs.version }}
+          PACKAGE_NAME: ${{ needs.release.outputs.package-name }}
+          RELEASE_URL: ${{ needs.release.outputs.release-url }}
+          SERVER_URL: ${{ github.server_url }}
+          REPOSITORY: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+      
+      - name: Comment on PR - Failure
+        if: needs.release.result == 'failure'
+        run: |
+          gh pr comment "$PR_NUMBER" \
+            --repo "$REPOSITORY" \
+            --body "❌ **Release v$VERSION failed**
+          
+          Please check the workflow logs for details.
+          🔗 Workflow run: $SERVER_URL/$REPOSITORY/actions/runs/$RUN_ID"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          VERSION: ${{ needs.release.outputs.version }}
+          SERVER_URL: ${{ github.server_url }}
+          REPOSITORY: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
