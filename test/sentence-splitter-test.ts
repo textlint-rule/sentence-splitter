@@ -9,7 +9,7 @@ import {
     TxtSentenceNode,
     TxtWhiteSpaceNode
 } from "../src/sentence-splitter.js";
-import { English } from "sentence-splitter/lang";
+import { English } from "../src/parser/lang/index.js";
 
 const getSentence = (children: TxtParentNodeWithSentenceNode["children"], index: number): TxtSentenceNode => {
     const sentence = children[index];
@@ -261,10 +261,7 @@ describe("sentence-splitter", function () {
         it("should not split Yahoo! surrounded by CJK characters", () => {
             const sentences = splitSentences("すごろくや公式サイトかYahoo!ショッピングでの購入を推奨");
             assert.equal(sentences.length, 1);
-            assert.strictEqual(
-                getSentence(sentences, 0).raw,
-                "すごろくや公式サイトかYahoo!ショッピングでの購入を推奨"
-            );
+            assert.strictEqual(getSentence(sentences, 0).raw, "すごろくや公式サイトかYahoo!ショッピングでの購入を推奨");
         });
         it("should not split Yahoo! preceded by CJK character", () => {
             const sentences = splitSentences("これはYahoo!です");
