@@ -65,11 +65,11 @@
     "postcommit": "git reset",
     "precommit": "lint-staged",
     "prepare": "git rev-parse --is-inside-work-tree > /dev/null 2>&1 && git config --local core.hooksPath .githooks || echo 'Not inside a Git work tree'",
-    "prepublishOnly": "npm run clean && npm run build",
-    "prepublish": "npm run --if-present build",
+    "prepublishOnly": "pnpm run clean && pnpm run build",
+    "prepublish": "pnpm run --if-present build",
     "site:build": "vite build",
     "test": "mocha",
-    "updateSnapshot": "npm run createInputJson && UPDATE_SNAPSHOT=1 npm test",
+    "updateSnapshot": "pnpm run createInputJson && UPDATE_SNAPSHOT=1 pnpm test",
     "watch": "tsc -p . --watch"
   },
   "lint-staged": {
@@ -99,6 +99,6 @@
     "typescript": "^5.3.2",
     "vite": "^5.0.2"
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "pnpm@10.33.0",
   "email": "azuciao@gmail.com"
 }
