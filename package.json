@@ -84,11 +84,11 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@textlint/ast-node-types": "^13.4.1",
+    "@textlint/ast-node-types": "^15.8.0",
     "structured-source": "^4.0.0"
   },
   "devDependencies": {
-    "@textlint/markdown-to-ast": "^13.4.1",
+    "@textlint/markdown-to-ast": "^15.8.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.10.0",
     "lint-staged": "^15.1.0",
