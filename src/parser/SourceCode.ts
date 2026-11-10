@@ -19,8 +19,14 @@ const findLastIndex = <T>(array: T[], predicate: (value: T, index: number, obj: 
 
 export class SourceCode {
     private index: number = 0;
+    // StructuredSource of the paragraph text only (not the whole file)
     private source: StructuredSource;
+    // Characters of the paragraph text only; textCharacters[i] is at offset `startOffset + i` in the file
     private textCharacters: string[];
+    // Line number of the first line of the paragraph (1-based)
+    private startLine: number;
+    // Column reported for the start of the paragraph (`startOffset - (startLine - 1)`)
+    private startColumn: number;
     private sourceNode?: TxtParentNode;
     // active context
     private contexts: [pairMark: PairMark, startIndex: number][] = [];
@@ -50,6 +56,8 @@ export class SourceCode {
             this.source = new StructuredSource(input);
             this.startOffset = 0;
             this.firstChildPadding = 0;
+            this.startLine = 1;
+            this.startColumn = 0;
         } else {
             this.sourceNode = input;
             // When pass AST, fist node may be >=
@@ -57,13 +65,14 @@ export class SourceCode {
             this.startOffset = this.sourceNode.range[0];
             // start index is startOffset
             this.index = this.startOffset;
-            // before line count of Paragraph node
-            const lineBreaks = Array.from(new Array(this.sourceNode.loc.start.line - 1)).fill("\n");
-            // filled with dummy text( range[0] - lineBreaks.length = empty space should be filled)
-            const firstOffset = Array.from(new Array(this.startOffset - lineBreaks.length)).fill("∯");
-            const inputCharacters = input.raw.split("");
-            this.textCharacters = [...lineBreaks, ...firstOffset, ...inputCharacters];
-            this.source = new StructuredSource(this.textCharacters.join(""));
+            // Keep only the text of the node, not the whole file.
+            // Offsets are translated by `startOffset`, and positions by `startLine` and `startColumn`.
+            // The positions are the same as the ones of the text that was padded with
+            // `loc.start.line - 1` line breaks and `range[0] - (loc.start.line - 1)` dummy characters.
+            this.startLine = this.sourceNode.loc.start.line;
+            this.startColumn = this.startOffset - (this.startLine - 1);
+            this.textCharacters = input.raw.split("");
+            this.source = new StructuredSource(input.raw);
             if (this.sourceNode.children[0]) {
                 // Header Node's children does not start with index 0
                 // Example: # Header
@@ -75,8 +84,20 @@ export class SourceCode {
         }
     }
 
+    /**
+     * Convert the offset in the file to the position.
+     * `source` holds only the text of the node, so translate the position by the start of the node.
+     */
+    private offsetToPosition(offset: number): { line: number; column: number } {
+        const position = this.source.indexToPosition(offset - this.startOffset);
+        if (position.line === 1) {
+            return { line: this.startLine, column: this.startColumn + position.column };
+        }
+        return { line: this.startLine + position.line - 1, column: position.column };
+    }
+
     get length() {
-        return this.textCharacters.length;
+        return this.startOffset + this.textCharacters.length;
     }
 
     // range mark is for abbreviation
@@ -112,7 +133,10 @@ export class SourceCode {
             this.consumedContexts.push({
                 pairMark: consumed[0],
                 range: [consumed[1], this.index],
-                loc: this.source.rangeToLocation(range)
+                loc: {
+                    start: this.offsetToPosition(range[0]),
+                    end: this.offsetToPosition(range[1])
+                }
             });
         }
     }
@@ -131,7 +155,7 @@ export class SourceCode {
      */
     now() {
         const indexWithChildrenOffset = this.offset;
-        const position = this.source.indexToPosition(indexWithChildrenOffset);
+        const position = this.offsetToPosition(indexWithChildrenOffset);
         return {
             line: position.line as number,
             column: position.column as number,
@@ -156,8 +180,8 @@ export class SourceCode {
         if (index < this.startOffset) {
             return false;
         }
-        if (0 <= index && index < this.textCharacters.length) {
-            return this.textCharacters[index];
+        if (0 <= index && index < this.length) {
+            return this.textCharacters[index - this.startOffset];
         }
         return false;
     }
@@ -239,6 +263,8 @@ export class SourceCode {
      * @returns {string}
      */
     sliceRange(start: number, end: number): string {
-        return this.textCharacters.slice(start, end).join("");
+        return this.textCharacters
+            .slice(Math.max(start - this.startOffset, 0), Math.max(end - this.startOffset, 0))
+            .join("");
     }
 }
