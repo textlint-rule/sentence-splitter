@@ -94,9 +94,15 @@ export class AbbrMarker implements AbstractMarker {
             return;
         }
         // Allow: Multi-period abbr
-        // Example: U.S.A
+        // Example: I visited the U.S.A. last year.
+        // But, it can be the end of a sentence when the next word is capitalized like "U.S."
+        // Example: I was born in the U.S.A. My name is Benjamin D. Lee.
+        // https://github.com/textlint-rule/sentence-splitter/issues/21
         if (/^([a-zA-Z]\.){3,}$/.test(currentWord)) {
-            return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+            const nextWord = this.getWord(sourceCode, currentWord.length + 1);
+            if (!isCapitalized(nextWord)) {
+                return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+            }
         }
         // EXCALAMATION_WORDS
         // Example: Yahoo!

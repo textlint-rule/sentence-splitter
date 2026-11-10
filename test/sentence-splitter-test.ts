@@ -284,6 +284,19 @@ describe("sentence-splitter", function () {
             assert.equal(sentences.length, 1);
         });
     });
+    // https://github.com/textlint-rule/sentence-splitter/issues/21
+    describe("Multi-period abbreviations", () => {
+        it("should not split multi-period abbreviations in the middle of a sentence", () => {
+            const sentences = splitSentences("I visited the U.S.A. last year.");
+            assert.equal(sentences.length, 1);
+        });
+        it("should split multi-period abbreviations at the end of a sentence", () => {
+            const sentences = splitSentences("I was born in the U.S.A. My name is Benjamin D. Lee.");
+            assert.equal(sentences.length, 3);
+            assert.strictEqual(getSentence(sentences, 0).raw, "I was born in the U.S.A.");
+            assert.strictEqual(getSentence(sentences, 2).raw, "My name is Benjamin D. Lee.");
+        });
+    });
     describe("Lang Options", () => {
         it("should allow to pass lang", () => {
             const sentences = splitSentences("text", {
