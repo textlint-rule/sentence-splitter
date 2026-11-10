@@ -234,6 +234,7 @@ describe("sentence-splitter", function () {
         assert.strictEqual(sentence0.raw, "1. 1st text.");
         assert.strictEqual(sentence1.raw, "2. 2nd text.");
     });
+
     describe("splitAST", () => {
         it("should handle empty child", () => {
             const paragraphNode: TxtParagraphNode = {
