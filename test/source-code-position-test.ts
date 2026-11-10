@@ -14,14 +14,6 @@ const collectParagraphs = (node: TxtNode, paragraphs: TxtParagraphNode[] = []): 
     return paragraphs;
 };
 
-// Positions that SourceCode returned when it padded the text of the paragraph to the offset of the file:
-// `loc.start.line - 1` line breaks, `range[0] - (loc.start.line - 1)` dummy characters, then `raw`.
-const paddedSource = (paragraph: TxtParagraphNode) => {
-    const lineBreaks = "\n".repeat(paragraph.loc.start.line - 1);
-    const dummies = "∯".repeat(paragraph.range[0] - lineBreaks.length);
-    return new StructuredSource(lineBreaks + dummies + paragraph.raw);
-};
-
 type Located = {
     type: string;
     raw?: string;
@@ -33,8 +25,9 @@ type Located = {
 
 const generatedTypes = new Set(["Sentence", "Str", "WhiteSpace", "Punctuation"]);
 
-const assertSameAsPadded = (text: string, paragraph: TxtParagraphNode) => {
-    const source = paddedSource(paragraph);
+const assertSameAsFile = (text: string, paragraph: TxtParagraphNode) => {
+    // loc must be the position in the file
+    const source = new StructuredSource(text);
     const result = splitAST(paragraph);
     const visit = (node: Located) => {
         assert.deepStrictEqual(node.loc, source.rangeToLocation(node.range as [number, number]), JSON.stringify(node));
@@ -53,7 +46,7 @@ const assertSameAsPadded = (text: string, paragraph: TxtParagraphNode) => {
 const assertAllParagraphs = (text: string) => {
     const paragraphs = collectParagraphs(parse(text) as TxtNode);
     assert.ok(paragraphs.length > 0);
-    return paragraphs.map((paragraph) => assertSameAsPadded(text, paragraph));
+    return paragraphs.map((paragraph) => assertSameAsFile(text, paragraph));
 };
 
 describe("SourceCode positions of a paragraph in a file", () => {
@@ -70,7 +63,13 @@ describe("SourceCode positions of a paragraph in a file", () => {
         assert.strictEqual(results[1].children[0].loc.start.line, 5);
     });
     it("paragraph whose first line starts at a column (list item, block quote)", () => {
-        assertAllParagraphs("- one. two.\n  three.\n- four.\n\n> five. six.\n> seven.\n\n  1. eight. nine.\n");
+        const results = assertAllParagraphs(
+            "- one. two.\n  three.\n- four.\n\n> five. six.\n> seven.\n\n  1. eight. nine.\n"
+        );
+        // "one." starts at column 2 of line 1, after "- "
+        assert.deepStrictEqual(results[0].children[0].loc.start, { line: 1, column: 2 });
+        // "five." starts at column 2 of line 5, after "> "
+        assert.deepStrictEqual(results[2].children[0].loc.start, { line: 5, column: 2 });
     });
     it("multi-line paragraph: lines after the first have columns from the start of the line", () => {
         const text = "intro\n\nfoo.\nbar. baz.\n";
@@ -79,7 +78,7 @@ describe("SourceCode positions of a paragraph in a file", () => {
         assert.deepStrictEqual(
             sentences.map((node) => [node.raw, node.loc]),
             [
-                ["foo.", { start: { line: 3, column: 5 }, end: { line: 3, column: 9 } }],
+                ["foo.", { start: { line: 3, column: 0 }, end: { line: 3, column: 4 } }],
                 ["bar.", { start: { line: 4, column: 0 }, end: { line: 4, column: 4 } }],
                 ["baz.", { start: { line: 4, column: 5 }, end: { line: 4, column: 9 } }]
             ]

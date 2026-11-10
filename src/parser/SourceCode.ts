@@ -25,7 +25,7 @@ export class SourceCode {
     private textCharacters: string[];
     // Line number of the first line of the paragraph (1-based)
     private startLine: number;
-    // Column reported for the start of the paragraph (`startOffset - (startLine - 1)`)
+    // Column of the start of the paragraph in the file (0-based)
     private startColumn: number;
     private sourceNode?: TxtParentNode;
     // active context
@@ -67,10 +67,9 @@ export class SourceCode {
             this.index = this.startOffset;
             // Keep only the text of the node, not the whole file.
             // Offsets are translated by `startOffset`, and positions by `startLine` and `startColumn`.
-            // The positions are the same as the ones of the text that was padded with
-            // `loc.start.line - 1` line breaks and `range[0] - (loc.start.line - 1)` dummy characters.
+            // The first line of the node starts at `loc.start.column` in the file.
             this.startLine = this.sourceNode.loc.start.line;
-            this.startColumn = this.startOffset - (this.startLine - 1);
+            this.startColumn = this.sourceNode.loc.start.column;
             this.textCharacters = input.raw.split("");
             this.source = new StructuredSource(input.raw);
             if (this.sourceNode.children[0]) {
