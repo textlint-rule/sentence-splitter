@@ -210,6 +210,26 @@ Examples
 
 - [textlint-ja/textlint-rule-max-ten: textlint rule that limit maxinum ten(、) count of sentence.](https://github.com/textlint-ja/textlint-rule-max-ten)
 
+## Difference from `Intl.Segmenter`
+
+[`Intl.Segmenter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter/Segmenter) with `granularity: "sentence"` also splits text into sentences.
+It is built into JavaScript runtimes and is a good choice when you only need sentence strings.
+
+sentence-splitter is designed for linting tools like [textlint](https://textlint.org/), and it provides the following features that `Intl.Segmenter` does not have.
+
+- Return AST nodes(`Sentence`, `Str`, `Punctuation`, `WhiteSpace`) with `range` and `loc`(line and column)
+- Split a [TxtAST](https://github.com/textlint/textlint/blob/master/docs/txtnode.md) `Paragraph` node with `splitAST`, so it works with Markdown and other formats supported by textlint
+- Handle abbreviations like `Mr.` and `U.S.`
+- Do not split a sentence inside pair marks like `"..."` and `「...」`, and add `contexts` info to the sentence node
+- Return the same result in every runtime. The result of `Intl.Segmenter` depends on the ICU data of the runtime
+
+For example, Node.js 22 (ICU 78.3) returns the following results.
+
+| Input                                          | `Intl.Segmenter`                                         | sentence-splitter                                  |
+| ---------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------- |
+| `Mr. Smith went to Washington. He left.`       | `Mr. ` / `Smith went to Washington. ` / `He left.`       | `Mr. Smith went to Washington.` / `He left.`       |
+| `He said "This is a pen. I like it". I agree.` | `He said "This is a pen. ` / `I like it". ` / `I agree.` | `He said "This is a pen. I like it".` / `I agree.` |
+
 ## Reference
 
 This library use ["Golden Rule" test](test/pragmatic_segmenter/test.ts) of `pragmatic_segmenter` for testing.
