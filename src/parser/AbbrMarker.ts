@@ -85,6 +85,26 @@ export class AbbrMarker implements AbstractMarker {
         return this.getWord(sourceCode, count + 1);
     }
 
+    /**
+     * Return true if there are only whitespaces between the start of the line and the current position
+     * @param {SourceCode} sourceCode
+     * @returns {boolean}
+     */
+    private isLineStart(sourceCode: SourceCode): boolean {
+        let count = -1;
+        let char: boolean | string = "";
+        while ((char = sourceCode.read(count))) {
+            if (char === "\n") {
+                return true;
+            }
+            if (!/\s/.test(char)) {
+                return false;
+            }
+            count--;
+        }
+        return true;
+    }
+
     mark(sourceCode: SourceCode) {
         if (sourceCode.isInContextRange()) {
             return;
@@ -117,9 +137,21 @@ export class AbbrMarker implements AbstractMarker {
         const isMatchedPREPOSITIVE_ABBREVIATIONS = this.lang.PREPOSITIVE_ABBREVIATIONS.some((abbr) => {
             return compareNoCaseSensitive(abbr, currentWord);
         });
-        const isMatchedLineIndexes = /^\d+\.$/.test(currentWord);
-        if (isMatchedPREPOSITIVE_ABBREVIATIONS || isMatchedLineIndexes) {
+        if (isMatchedPREPOSITIVE_ABBREVIATIONS) {
             return sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+        }
+        // Number + period
+        // It is a list index: "1. First item" or "1. The first item. 2. The second item."
+        // It is the end of a sentence: "It is Interstate 55. Twenty-five people got hurt."
+        // https://github.com/textlint-rule/sentence-splitter/issues/41
+        if (/^\d+\.$/.test(currentWord)) {
+            const prevWord = this.getPrevWord(sourceCode);
+            const nextWord = this.getWord(sourceCode, currentWord.length + 1);
+            const isListIndex = this.isLineStart(sourceCode) || /[.!?]$/.test(prevWord) || !isCapitalized(nextWord);
+            if (isListIndex) {
+                sourceCode.markContextRange([sourceCode.offset, sourceCode.offset + currentWord.length]);
+            }
+            return;
         }
         // ABBREVIATIONS
         const isMatched = this.lang.ABBREVIATIONS.some((abbr) => {

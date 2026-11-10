@@ -234,6 +234,28 @@ describe("sentence-splitter", function () {
         assert.strictEqual(sentence0.raw, "1. 1st text.");
         assert.strictEqual(sentence1.raw, "2. 2nd text.");
     });
+    it("should not split inline list indexes", function () {
+        const sentences = splitSentences("1. The first item. 2. The second item.");
+        assert.equal(sentences.length, 3);
+        assert.strictEqual(getSentence(sentences, 0).raw, "1. The first item.");
+        assert.strictEqual(getSentence(sentences, 2).raw, "2. The second item.");
+    });
+    it("should not split number + period followed by a lowercase word", function () {
+        const sentences = splitSentences("See section 4. it is important.");
+        assert.equal(sentences.length, 1);
+    });
+    // https://github.com/textlint-rule/sentence-splitter/issues/41
+    it("should split sentence that ends with a number", function () {
+        const sentences = splitSentences(
+            "The crash involved 158 cars on a big road called Interstate 55. Twenty-five people got hurt in the crash."
+        );
+        assert.equal(sentences.length, 3);
+        assert.strictEqual(
+            getSentence(sentences, 0).raw,
+            "The crash involved 158 cars on a big road called Interstate 55."
+        );
+        assert.strictEqual(getSentence(sentences, 2).raw, "Twenty-five people got hurt in the crash.");
+    });
 
     describe("splitAST", () => {
         it("should handle empty child", () => {
