@@ -141,6 +141,16 @@ export class SourceCode {
     }
 
     /**
+     * Return the consumed contexts, and clear them.
+     * The next call returns only the contexts that are consumed after this call.
+     */
+    takeConsumedContexts() {
+        const consumedContexts = this.consumedContexts;
+        this.consumedContexts = [];
+        return consumedContexts;
+    }
+
+    /**
      * Return current offset value
      * @returns {number}
      */
