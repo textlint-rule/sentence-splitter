@@ -134,9 +134,9 @@ export const build = (
         return list;
     };
 
-    // Nodes are pushed into the current Sentence, or the results
+    // Nodes are pushed into the current Sentence, or the results.
+    // The scanner always closes the opened Sentence.
     let current = results;
-    let isSentenceOpened = false;
     // Count of the pair marks that are closed before the current Sentence
     let prevContextCount = 0;
     for (let i = 0; i < tokenLength; i += TOKEN_SIZE) {
@@ -160,13 +160,11 @@ export const build = (
             current.push(children![tokens[i + 1]]);
         } else if (kind === TOKEN_SENTENCE_OPEN) {
             current = [];
-            isSentenceOpened = true;
         } else if (kind === TOKEN_SENTENCE_CLOSE) {
             const end = tokens[i + 1];
             const contextCount = tokens[i + 2];
             const sentenceChildren = current;
             current = results;
-            isSentenceOpened = false;
             const firstChild = sentenceChildren[0];
             const startOffsetOfSentence: number = firstChild.range[0];
             if (contextCount > prevContextCount && contexts === undefined) {
@@ -188,10 +186,6 @@ export const build = (
             });
             prevContextCount = contextCount;
         }
-    }
-    // unreachable: the scanner always closes the opened Sentence
-    if (isSentenceOpened) {
-        throw new Error("Sentence is not closed");
     }
     return results;
 };

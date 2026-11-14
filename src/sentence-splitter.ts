@@ -15,6 +15,15 @@ export const SentenceSplitterSyntax = {
 
 export type SentencePairMarkContext = {
     type: "PairMark";
+    /**
+     * The pair mark of the context
+     * Example: { key: "double quote", start: `"`, end: `"` }
+     */
+    pairMark: {
+        key: string;
+        start: string;
+        end: string;
+    };
     range: readonly [startIndex: number, endIndex: number];
     loc: {
         start: {

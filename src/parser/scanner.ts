@@ -67,9 +67,9 @@ const result: ScanResult = {
     pairMarkEnds: new Int32Array(64),
     pairMarkLength: 0
 };
-// Stack of the opened pair marks
-let openedPairMarkIds: Int32Array = new Int32Array(16);
-let openedPairMarkStarts: Int32Array = new Int32Array(16);
+// Stack of the opened pair marks. The same pair mark is not nested, so the size is the count of pair marks at most.
+const openedPairMarkIds = new Int32Array(PAIR_MARK_START_CODES.length);
+const openedPairMarkStarts = new Int32Array(PAIR_MARK_START_CODES.length);
 let openedPairMarkLength = 0;
 
 const grow = (array: Int32Array): Int32Array => {
@@ -93,8 +93,6 @@ const emit = (kind: number, a: number, b: number) => {
 // State of the current scan. These are module variables, so the helper functions do not need many arguments.
 let text = "";
 let textLength = 0;
-// Characters before this index are not readable. It is 0 unless the range of the node is broken.
-let lowerBound = 0;
 let table: Uint8Array = new Uint8Array(0);
 let language: Language;
 let abbreviationIndex: AbbreviationIndex | undefined;
@@ -118,10 +116,6 @@ const markPairMark = (index: number, code: number) => {
     }
     if (openedIndex === -1) {
         if (PAIR_MARK_START_CODES[id] === code) {
-            if (openedPairMarkLength === openedPairMarkIds.length) {
-                openedPairMarkIds = grow(openedPairMarkIds);
-                openedPairMarkStarts = grow(openedPairMarkStarts);
-            }
             openedPairMarkIds[openedPairMarkLength] = id;
             openedPairMarkStarts[openedPairMarkLength] = index;
             openedPairMarkLength++;
@@ -172,10 +166,10 @@ const isCapitalizedWordAt = (start: number): boolean => {
  */
 const findPrevWordStart = (index: number): number => {
     let i = index - 1;
-    while (i >= lowerBound && (table[text.charCodeAt(i)] & WHITE_SPACE) !== 0) {
+    while (i >= 0 && (table[text.charCodeAt(i)] & WHITE_SPACE) !== 0) {
         i--;
     }
-    while (i >= lowerBound && (table[text.charCodeAt(i)] & WHITE_SPACE) === 0) {
+    while (i >= 0 && (table[text.charCodeAt(i)] & WHITE_SPACE) === 0) {
         i--;
     }
     return i + 1;
@@ -200,7 +194,7 @@ const isWordEndWithTerminalAt = (start: number): boolean => {
  * Return true if there are only white spaces between the start of the line and `index`
  */
 const isLineStart = (index: number): boolean => {
-    for (let i = index - 1; i >= lowerBound; i--) {
+    for (let i = index - 1; i >= 0; i--) {
         const code = text.charCodeAt(i);
         if (code === CODE_LINE_FEED) {
             return true;
@@ -376,7 +370,6 @@ export const scan = (
     table = characterTable;
     language = inputLanguage;
     abbreviationIndex = undefined;
-    lowerBound = startOffset < 0 ? -startOffset : 0;
     result.tokenLength = 0;
     result.pairMarkLength = 0;
     openedPairMarkLength = 0;
@@ -389,7 +382,8 @@ export const scan = (
     // A separator before this index is a part of an abbreviation
     let abbreviationEnd = 0;
     let isSentenceOpened = false;
-    if (!(index >= lowerBound)) {
+    // The first child is before the start of the parent node
+    if (!(index >= 0)) {
         return result;
     }
     while (index < textLength) {
@@ -504,7 +498,7 @@ export const scan = (
             isSentenceOpened = true;
         }
         // A word should have left space (or CJK boundary, or the start of the text)
-        let isPrevWordBoundary = index - 1 < lowerBound || (table[text.charCodeAt(index - 1)] & WORD_BOUNDARY) !== 0;
+        let isPrevWordBoundary = index - 1 < 0 || (table[text.charCodeAt(index - 1)] & WORD_BOUNDARY) !== 0;
         for (;;) {
             if (flags === 0 && !isPrevWordBoundary) {
                 // Fast path: a plain character in a word
