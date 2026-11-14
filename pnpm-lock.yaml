@@ -11,9 +11,6 @@ importers:
       '@textlint/ast-node-types':
         specifier: ^15.8.0
         version: 15.8.0
-      structured-source:
-        specifier: ^4.0.0
-        version: 4.0.0
     devDependencies:
       '@textlint/markdown-to-ast':
         specifier: ^15.8.0
@@ -33,6 +30,9 @@ importers:
       prettier:
         specifier: ^3.1.0
         version: 3.8.1
+      structured-source:
+        specifier: ^4.0.0
+        version: 4.0.0
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@20.19.37)(typescript@5.9.3)
