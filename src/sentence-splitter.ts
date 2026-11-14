@@ -71,6 +71,8 @@ class SplitParser {
     private sentenceNodeList: TxtSentenceNode[] = [];
     private results: TxtParentNodeWithSentenceNode["children"] = [];
     public source: SourceCode;
+    // The length of `source.consumedContexts` at the last sort
+    private sortedContextsLength: number = 0;
 
     constructor(text: string | TxtParentNode) {
         this.source = new SourceCode(text);
@@ -135,20 +137,26 @@ class SplitParser {
         const endNow = this.source.now();
         // update Sentence node's location and range
         const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
-        const contexts = this.source.consumedContexts
-            .sort((a, b) => {
+        const consumedContexts = this.source.consumedContexts;
+        // Contexts are only appended, so no need to sort again if no context is added after the last sort
+        if (consumedContexts.length !== this.sortedContextsLength) {
+            consumedContexts.sort((a, b) => {
                 return a.range[0] - b.range[0];
-            })
-            .map((context) => {
-                return {
-                    type: "PairMark" as const,
-                    pairMark: context.pairMark,
-                    range: context.range,
-                    loc: context.loc
-                };
             });
+            this.sortedContextsLength = consumedContexts.length;
+        }
+        const contexts = consumedContexts.map((context) => {
+            return {
+                type: "PairMark" as const,
+                pairMark: context.pairMark,
+                range: context.range,
+                loc: context.loc
+            };
+        });
+        // Keep the order of the properties: it is the same order as `createEmptySentenceNode()`
         this.results.push({
-            ...currentNode,
+            type: currentNode.type,
+            raw: rawValue,
             loc: {
                 start: firstChildNode.loc.start,
                 end: {
@@ -157,7 +165,7 @@ class SplitParser {
                 }
             },
             range: [firstChildNode.range[0], endNow.offset],
-            raw: rawValue,
+            children: currentNode.children,
             contexts: contexts
         });
     }

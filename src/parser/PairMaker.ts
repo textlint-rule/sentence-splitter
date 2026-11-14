@@ -74,25 +74,38 @@ const DEFAULT_PAIR_MARKS: PairMark[] = [
  * > I hear "I'm back to home." from radio.
  *
  */
+// key: UTF-16 code unit of the start mark or the end mark
+const PAIR_MARKS_CODE_Map = new Map<number, PairMark>(
+    DEFAULT_PAIR_MARKS.flatMap((mark) => {
+        return [
+            [mark.start.charCodeAt(0), mark],
+            [mark.end.charCodeAt(0), mark]
+        ];
+    })
+);
+
+// Bit set of `code & 31` of the pair marks.
+// It is used for filtering out most characters without looking up the Map
+let PAIR_MARKS_CODE_BITS = 0;
+for (const code of PAIR_MARKS_CODE_Map.keys()) {
+    PAIR_MARKS_CODE_BITS |= 1 << (code & 31);
+}
+
 export class PairMaker implements AbstractMarker {
-    private PAIR_MARKS_KEY_Map = new Map<string, PairMark>(
-        DEFAULT_PAIR_MARKS.flatMap((mark) => {
-            return [
-                [mark.start, mark],
-                [mark.end, mark]
-            ];
-        })
-    );
+    canMark(code: number) {
+        return (PAIR_MARKS_CODE_BITS & (1 << (code & 31))) !== 0 && PAIR_MARKS_CODE_Map.has(code);
+    }
 
     mark(sourceCode: SourceCode): void {
-        const string = sourceCode.read();
-        if (!string) {
+        const code = sourceCode.readCode();
+        if (code === -1) {
             return;
         }
-        const pairMark = this.PAIR_MARKS_KEY_Map.get(string);
+        const pairMark = this.canMark(code) ? PAIR_MARKS_CODE_Map.get(code) : undefined;
         if (!pairMark) {
             return;
         }
+        const string = String.fromCharCode(code);
         // if current is in a context, should not start other context.
         // PairMaker does not support nest context by design.
         if (!sourceCode.isInContext(pairMark)) {
