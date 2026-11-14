@@ -104,7 +104,7 @@ export const build = (
         return { line: startLine + line, column: line === 0 ? index + startColumn : index - lineStarts[line] };
     };
 
-    // The pair mark contexts are created once, and Sentence nodes refer to them
+    // The pair mark contexts are created once in the order of the start, and each Sentence takes its part
     let contexts: PairMarkContext[] | undefined;
     const createContexts = (): PairMarkContext[] => {
         const { pairMarkIds, pairMarkStarts, pairMarkEnds, pairMarkLength } = scanned;
@@ -137,6 +137,8 @@ export const build = (
     // Nodes are pushed into the current Sentence, or the results
     let current = results;
     let isSentenceOpened = false;
+    // Count of the pair marks that are closed before the current Sentence
+    let prevContextCount = 0;
     for (let i = 0; i < tokenLength; i += TOKEN_SIZE) {
         const kind = tokens[i];
         if (kind <= TOKEN_PUNCTUATION) {
@@ -167,7 +169,7 @@ export const build = (
             isSentenceOpened = false;
             const firstChild = sentenceChildren[0];
             const startOffsetOfSentence: number = firstChild.range[0];
-            if (contextCount > 0 && contexts === undefined) {
+            if (contextCount > prevContextCount && contexts === undefined) {
                 contexts = createContexts();
             }
             results.push({
@@ -179,13 +181,12 @@ export const build = (
                 },
                 range: [startOffsetOfSentence, end + startOffset],
                 children: sentenceChildren,
-                // A Sentence has all pair marks that are closed before the end of the Sentence.
-                // It includes the pair marks of the previous Sentences.
-                // When a Sentence is closed, all closed pair marks start before the Sentence end,
-                // and the pair marks that will be closed later start after it.
-                // So the contexts of the Sentence are the first `contextCount` items of the ordered list.
-                contexts: contextCount > 0 ? contexts!.slice(0, contextCount) : []
+                // A Sentence has the pair marks that are closed in the Sentence.
+                // The pair marks of a Sentence are sequential in the ordered list,
+                // because a Sentence is not closed in a pair mark.
+                contexts: contextCount > prevContextCount ? contexts!.slice(prevContextCount, contextCount) : []
             });
+            prevContextCount = contextCount;
         }
     }
     // unreachable: the scanner always closes the opened Sentence
