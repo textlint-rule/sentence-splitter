@@ -329,6 +329,36 @@ describe("sentence-splitter", function () {
             assert.equal(sentences.length, 1);
         });
     });
+    describe("contexts", () => {
+        it("should have only the pair marks in the sentence", () => {
+            const sentences = splitSentences('He said "A. B". Next one. Third (x) here.').filter(
+                (node): node is TxtSentenceNode => node.type === SentenceSplitterSyntax.Sentence
+            );
+            assert.deepStrictEqual(
+                sentences.map((sentence) => {
+                    return { raw: sentence.raw, contexts: sentence.contexts.map((context) => context.range) };
+                }),
+                [
+                    { raw: 'He said "A. B".', contexts: [[8, 13]] },
+                    { raw: "Next one.", contexts: [] },
+                    { raw: "Third (x) here.", contexts: [[32, 34]] }
+                ]
+            );
+        });
+        it("should order the pair marks in the sentence by the start position", () => {
+            const [sentence] = splitSentences("He said (it is [a. b] pen.) and 「c. d」.").filter(
+                (node): node is TxtSentenceNode => node.type === SentenceSplitterSyntax.Sentence
+            );
+            assert.deepStrictEqual(
+                sentence.contexts.map((context) => context.range),
+                [
+                    [8, 26],
+                    [15, 20],
+                    [32, 37]
+                ]
+            );
+        });
+    });
     describe("DefaultSentenceSplitterOptions", () => {
         it("should return object", () => {
             assert.ok(typeof DefaultSentenceSplitterOptions === "object");
