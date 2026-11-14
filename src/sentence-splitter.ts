@@ -1,19 +1,9 @@
 import type { TxtParagraphNode, TxtParentNode, TxtStrNode, TxtTextNode } from "@textlint/ast-node-types";
-import { ASTNodeTypes } from "@textlint/ast-node-types";
-
-import { SourceCode } from "./parser/SourceCode.js";
-import { AbstractParser } from "./parser/AbstractParser.js";
-import { NewLineParser } from "./parser/NewLineParser.js";
-import { SpaceParser } from "./parser/SpaceParser.js";
-import {
-    DefaultOptions as DefaultSentenceSplitterOptions,
-    SeparatorParser,
-    SeparatorParserOptions
-} from "./parser/SeparatorParser.js";
-import { AnyValueParser } from "./parser/AnyValueParser.js";
-import { AbbrMarker, AbbrMarkerOptions, DefaultOptions as DefaultAbbrMarkerOptions } from "./parser/AbbrMarker.js";
-import { PairMaker } from "./parser/PairMaker.js";
-import { nodeLog } from "./logger.js";
+import { English } from "./parser/lang/English.js";
+import type { Language } from "./parser/lang/LanguageInterface.js";
+import { getCharacterTable } from "./parser/CharacterTable.js";
+import { scan } from "./parser/scanner.js";
+import { build } from "./parser/builder.js";
 
 export const SentenceSplitterSyntax = {
     WhiteSpace: "WhiteSpace",
@@ -67,107 +57,33 @@ export type TxtParentNodeWithSentenceNode = Omit<TxtParentNode, "children"> & {
     children: TxtParentNodeWithSentenceNodeContent[];
 };
 
-class SplitParser {
-    private sentenceNodeList: TxtSentenceNode[] = [];
-    private results: TxtParentNodeWithSentenceNode["children"] = [];
-    public source: SourceCode;
+export const DefaultSentenceSplitterOptions = {
+    separatorCharacters: [
+        ".", // period
+        "．", // (ja) zenkaku-period
+        "。", // (ja) 句点
+        "?", // question mark
+        "!", //  exclamation mark
+        "？", // (ja) zenkaku question mark
+        "！" // (ja) zenkaku exclamation mark
+    ]
+};
 
-    constructor(text: string | TxtParentNode) {
-        this.source = new SourceCode(text);
-    }
-
-    get current(): TxtSentenceNode | undefined {
-        return this.sentenceNodeList[this.sentenceNodeList.length - 1];
-    }
-
-    pushNodeToCurrent(node: TxtSentenceNodeChildren) {
-        const current = this.current;
-        if (current) {
-            current.children.push(node);
-        } else {
-            // Under the root
-            this.results.push(node);
-        }
-    }
-
-    // open with ParentNode
-    open(parentNode: TxtSentenceNode) {
-        this.sentenceNodeList.push(parentNode);
-    }
-
-    isOpened() {
-        return this.sentenceNodeList.length > 0;
-    }
-
-    nextLine(parser: AbstractParser) {
-        const { value, startPosition, endPosition } = this.source.seekNext(parser);
-        this.pushNodeToCurrent(createWhiteSpaceNode(value, startPosition, endPosition));
-        return endPosition;
-    }
-
-    nextSpace(parser: AbstractParser) {
-        const { value, startPosition, endPosition } = this.source.seekNext(parser);
-        this.pushNodeToCurrent(createWhiteSpaceNode(value, startPosition, endPosition));
-    }
-
-    nextValue(parser: AbstractParser) {
-        const { value, startPosition, endPosition } = this.source.seekNext(parser);
-        this.pushNodeToCurrent(createTextNode(value, startPosition, endPosition));
-    }
-
-    // close current Node and remove it from list
-    close(parser: AbstractParser) {
-        const { value, startPosition, endPosition } = this.source.seekNext(parser);
-        // rest of the value is Punctuation
-        // Except for the case of the last character of the value is a space
-        // See "space-first-and-space-last" test case
-        if (startPosition.offset !== endPosition.offset && !/^\s+$/.test(value)) {
-            this.pushNodeToCurrent(createPunctuationNode(value, startPosition, endPosition));
-        }
-        const currentNode = this.sentenceNodeList.pop();
-        if (!currentNode) {
-            return;
-        }
-        if (currentNode.children.length === 0) {
-            return;
-        }
-        const firstChildNode = currentNode.children[0];
-        const endNow = this.source.now();
-        // update Sentence node's location and range
-        const rawValue = this.source.sliceRange(firstChildNode.range[0], endNow.offset);
-        const contexts = this.source.consumedContexts
-            .sort((a, b) => {
-                return a.range[0] - b.range[0];
-            })
-            .map((context) => {
-                return {
-                    type: "PairMark" as const,
-                    pairMark: context.pairMark,
-                    range: context.range,
-                    loc: context.loc
-                };
-            });
-        this.results.push({
-            ...currentNode,
-            loc: {
-                start: firstChildNode.loc.start,
-                end: {
-                    line: endNow.line,
-                    column: endNow.column
-                }
-            },
-            range: [firstChildNode.range[0], endNow.offset],
-            raw: rawValue,
-            contexts: contexts
-        });
-    }
-
-    toList() {
-        return this.results;
-    }
+export interface SeparatorParserOptions {
+    /**
+     * Recognize each characters as separator
+     * Example [".", "!", "?"]
+     */
+    separatorCharacters?: string[];
 }
 
-export { DefaultAbbrMarkerOptions, DefaultSentenceSplitterOptions };
+export const DefaultAbbrMarkerOptions = {
+    language: English
+};
+
+export interface AbbrMarkerOptions {
+    language?: Language;
+}
 
 export interface splitOptions {
     /**
@@ -177,24 +93,28 @@ export interface splitOptions {
     AbbrMarker?: AbbrMarkerOptions;
 }
 
-const createParsers = (options: splitOptions = {}) => {
-    const newLine = new NewLineParser();
-    const space = new SpaceParser();
-    const separator = new SeparatorParser(options.SeparatorParser);
-    const abbrMarker = new AbbrMarker(options.AbbrMarker);
-    const pairMaker = new PairMaker();
-    // anyValueParser has multiple parser and markers.
-    // anyValueParse eat any value if it reaches to other value.
-    const anyValueParser = new AnyValueParser({
-        parsers: [newLine, separator],
-        markers: [abbrMarker, pairMaker]
-    });
+/*
+ * Implementation note:
+ *
+ * It works in two steps, and they share only flat arrays of integers.
+ *
+ * 1. scan (parser/scanner.ts): read the text as UTF-16 code units, and write tokens into Int32Array.
+ *    A token refers to the text by indexes. This step does not create node objects and strings.
+ * 2. build (parser/builder.ts): create node objects from the tokens. Each node is created once.
+ */
+const resolveOptions = (options: splitOptions = {}) => {
+    const separatorOptions = options.SeparatorParser;
+    const abbrMarkerOptions = options.AbbrMarker;
     return {
-        newLine,
-        space,
-        separator,
-        abbrMarker,
-        anyValueParser
+        table: getCharacterTable(
+            separatorOptions && separatorOptions.separatorCharacters
+                ? separatorOptions.separatorCharacters
+                : DefaultSentenceSplitterOptions.separatorCharacters
+        ),
+        language:
+            abbrMarkerOptions && abbrMarkerOptions.language
+                ? abbrMarkerOptions.language
+                : DefaultAbbrMarkerOptions.language
     };
 };
 
@@ -202,25 +122,8 @@ const createParsers = (options: splitOptions = {}) => {
  * split `text` into Sentence nodes
  */
 export function split(text: string, options?: splitOptions): TxtParentNodeWithSentenceNode["children"] {
-    const { newLine, space, separator, anyValueParser } = createParsers(options);
-    const splitParser = new SplitParser(text);
-    const sourceCode = splitParser.source;
-    while (!sourceCode.hasEnd) {
-        if (newLine.test(sourceCode)) {
-            splitParser.nextLine(newLine);
-        } else if (space.test(sourceCode)) {
-            splitParser.nextSpace(space);
-        } else if (separator.test(sourceCode)) {
-            splitParser.close(separator);
-        } else {
-            if (!splitParser.isOpened()) {
-                splitParser.open(createEmptySentenceNode());
-            }
-            splitParser.nextValue(anyValueParser);
-        }
-    }
-    splitParser.close(space);
-    return splitParser.toList();
+    const { table, language } = resolveOptions(options);
+    return build(scan(text, table, language), text, undefined, 0, 1, 0, 0);
 }
 
 /**
@@ -229,165 +132,26 @@ export function split(text: string, options?: splitOptions): TxtParentNodeWithSe
  * See https://github.com/textlint/textlint/blob/master/docs/txtnode.md
  */
 export function splitAST(paragraphNode: TxtParagraphNode, options?: splitOptions): TxtParentNodeWithSentenceNode {
-    const { newLine, space, separator, anyValueParser } = createParsers(options);
-    const splitParser = new SplitParser(paragraphNode);
-    const sourceCode = splitParser.source;
-    while (!sourceCode.hasEnd) {
-        const currentNode = sourceCode.readNode();
-        if (!currentNode) {
-            break;
-        }
-        if (currentNode.type === ASTNodeTypes.Str) {
-            if (space.test(sourceCode)) {
-                nodeLog("space", sourceCode);
-                splitParser.nextSpace(space);
-            } else if (separator.test(sourceCode)) {
-                nodeLog("separator", sourceCode);
-                splitParser.close(separator);
-            } else if (newLine.test(sourceCode)) {
-                nodeLog("newline", sourceCode);
-                splitParser.nextLine(newLine);
-            } else {
-                if (!splitParser.isOpened()) {
-                    nodeLog("open -> createEmptySentenceNode()");
-                    splitParser.open(createEmptySentenceNode());
-                }
-                nodeLog("other str value", sourceCode);
-                splitParser.nextValue(anyValueParser);
-            }
-        } else if (currentNode.type === ASTNodeTypes.Break) {
-            nodeLog("break", sourceCode);
-            // Break
-            // https://github.com/azu/sentence-splitter/issues/23
-            splitParser.pushNodeToCurrent(currentNode);
-            sourceCode.peekNode(currentNode);
-        } else {
-            if (!splitParser.isOpened()) {
-                nodeLog("open -> createEmptySentenceNode()");
-                splitParser.open(createEmptySentenceNode());
-            }
-            nodeLog("other node", sourceCode);
-            splitParser.pushNodeToCurrent(currentNode);
-            sourceCode.peekNode(currentNode);
-        }
-    }
-
-    nodeLog("end separator");
-    // It follow some text that is not ended with period.
-    // TODO: space is correct?
-    splitParser.close(space);
+    const { table, language } = resolveOptions(options);
+    // Scan only the text of the node, not the whole file.
+    // `raw` starts at `range[0]` in the file, and the first line of `raw` starts at `loc.start.column`.
+    const text = paragraphNode.raw;
+    const children = paragraphNode.children;
+    const startOffset = paragraphNode.range[0];
+    // Header Node's children does not start with index 0
+    // Example: # Header
+    // It firstChildPadding is `2`
+    const firstChildPadding = children[0] ? children[0].range[0] - startOffset : 0;
     return {
         ...paragraphNode,
-        children: splitParser.toList()
-    };
-}
-
-/**
- * WhiteSpace is space or linebreak
- */
-function createWhiteSpaceNode(
-    text: string,
-    startPosition: {
-        line: number;
-        column: number;
-        offset: number;
-    },
-    endPosition: {
-        line: number;
-        column: number;
-        offset: number;
-    }
-) {
-    return {
-        type: SentenceSplitterSyntax.WhiteSpace,
-        raw: text,
-        value: text,
-        loc: {
-            start: {
-                line: startPosition.line,
-                column: startPosition.column
-            },
-            end: {
-                line: endPosition.line,
-                column: endPosition.column
-            }
-        },
-        range: [startPosition.offset, endPosition.offset] as const
-    };
-}
-
-function createPunctuationNode(
-    text: string,
-    startPosition: {
-        line: number;
-        column: number;
-        offset: number;
-    },
-    endPosition: {
-        line: number;
-        column: number;
-        offset: number;
-    }
-): TxtPunctuationNode {
-    return {
-        type: SentenceSplitterSyntax.Punctuation,
-        raw: text,
-        value: text,
-        loc: {
-            start: {
-                line: startPosition.line,
-                column: startPosition.column
-            },
-            end: {
-                line: endPosition.line,
-                column: endPosition.column
-            }
-        },
-        range: [startPosition.offset, endPosition.offset]
-    };
-}
-
-function createTextNode(
-    text: string,
-    startPosition: {
-        line: number;
-        column: number;
-        offset: number;
-    },
-    endPosition: {
-        line: number;
-        column: number;
-        offset: number;
-    }
-): TxtStrNode {
-    return {
-        type: SentenceSplitterSyntax.Str,
-        raw: text,
-        value: text,
-        loc: {
-            start: {
-                line: startPosition.line,
-                column: startPosition.column
-            },
-            end: {
-                line: endPosition.line,
-                column: endPosition.column
-            }
-        },
-        range: [startPosition.offset, endPosition.offset]
-    };
-}
-
-function createEmptySentenceNode(): TxtSentenceNode {
-    return {
-        type: SentenceSplitterSyntax.Sentence,
-        raw: "",
-        loc: {
-            start: { column: NaN, line: NaN },
-            end: { column: NaN, line: NaN }
-        } as const,
-        range: [NaN, NaN] as const,
-        children: [],
-        contexts: []
+        children: build(
+            scan(text, table, language, children, startOffset),
+            text,
+            children,
+            startOffset,
+            paragraphNode.loc.start.line,
+            paragraphNode.loc.start.column,
+            firstChildPadding
+        )
     };
 }
