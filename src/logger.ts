@@ -1,11 +1,11 @@
 import { SourceCode } from "./parser/SourceCode.js";
 
-const isDebug = typeof process === "object" && process?.env?.DEBUG === "sentence-splitter";
-export function seekLog(offset: number, current?: string | boolean) {
+export const isDebug = typeof process === "object" && process?.env?.DEBUG === "sentence-splitter";
+export function seekLog(sourceCode: SourceCode) {
     if (!isDebug) {
         return;
     }
-    console.log("sentence-splitter: " + offset, current);
+    console.log("sentence-splitter: " + sourceCode.offset, sourceCode.read());
 }
 
 export function nodeLog(message: string, sourceCode?: SourceCode) {

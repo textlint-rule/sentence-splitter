@@ -17,12 +17,28 @@ const findLastIndex = <T>(array: T[], predicate: (value: T, index: number, obj: 
     return -1;
 };
 
+/**
+ * Return true if the nodes are ordered by range and does not overlap each other.
+ */
+const isOrderedNodes = (nodes: readonly TxtNode[]): boolean => {
+    let prevEnd = -Infinity;
+    for (let i = 0; i < nodes.length; i++) {
+        const range = nodes[i].range;
+        // `!(a <= b)` is also true for NaN
+        if (!(prevEnd <= range[0]) || !(range[0] <= range[1])) {
+            return false;
+        }
+        prevEnd = range[1];
+    }
+    return true;
+};
+
 export class SourceCode {
     private index: number = 0;
     // StructuredSource of the paragraph text only (not the whole file)
     private source: StructuredSource;
-    // Characters of the paragraph text only; textCharacters[i] is at offset `startOffset + i` in the file
-    private textCharacters: string[];
+    // The paragraph text only; text[i] is at offset `startOffset + i` in the file
+    private text: string;
     // Line number of the first line of the paragraph (1-based)
     private startLine: number;
     // Column of the start of the paragraph in the file (0-based)
@@ -46,13 +62,16 @@ export class SourceCode {
             };
         };
     }[] = [];
-    private contextRanges: [number, number][] = [];
+    // The max end offset of the marked context ranges
+    private contextRangeEnd: number = -Infinity;
+    // true if `sourceNode.children` is ordered by range and does not overlap each other
+    private isOrderedChildren: boolean = false;
     private firstChildPadding: number;
     private startOffset: number;
 
     constructor(input: string | TxtParentNode) {
         if (typeof input === "string") {
-            this.textCharacters = input.split("");
+            this.text = input;
             this.source = new StructuredSource(input);
             this.startOffset = 0;
             this.firstChildPadding = 0;
@@ -70,7 +89,7 @@ export class SourceCode {
             // The first line of the node starts at `loc.start.column` in the file.
             this.startLine = this.sourceNode.loc.start.line;
             this.startColumn = this.sourceNode.loc.start.column;
-            this.textCharacters = input.raw.split("");
+            this.text = input.raw;
             this.source = new StructuredSource(input.raw);
             if (this.sourceNode.children[0]) {
                 // Header Node's children does not start with index 0
@@ -80,6 +99,7 @@ export class SourceCode {
             } else {
                 this.firstChildPadding = 0;
             }
+            this.isOrderedChildren = isOrderedNodes(this.sourceNode.children);
         }
     }
 
@@ -96,19 +116,21 @@ export class SourceCode {
     }
 
     get length() {
-        return this.startOffset + this.textCharacters.length;
+        return this.startOffset + this.text.length;
     }
 
     // range mark is for abbreviation
+    // The range should start at the current offset or before it.
     markContextRange(range: [number, number]) {
-        this.contextRanges.push(range);
+        if (this.contextRangeEnd < range[1]) {
+            this.contextRangeEnd = range[1];
+        }
     }
 
     isInContextRange() {
-        const offset = this.offset;
-        return this.contextRanges.some((range) => {
-            return range[0] <= offset && offset < range[1];
-        });
+        // The current offset never go back, and every range starts at the offset or before it.
+        // So, the offset is in a range if it is before the max end of the ranges.
+        return this.offset < this.contextRangeEnd;
     }
 
     // context is for pair mark
@@ -166,7 +188,7 @@ export class SourceCode {
      * Return true, no more read char
      */
     get hasEnd() {
-        return this.read() === false;
+        return this.readCode() === -1;
     }
 
     /**
@@ -180,9 +202,22 @@ export class SourceCode {
             return false;
         }
         if (0 <= index && index < this.length) {
-            return this.textCharacters[index - this.startOffset];
+            return this.text.charAt(index - this.startOffset);
         }
         return false;
+    }
+
+    /**
+     * read char as UTF-16 code unit
+     * if can not read, return -1
+     * @returns {number}
+     */
+    readCode(over: number = 0): number {
+        const textIndex = this.index + this.firstChildPadding + over - this.startOffset;
+        if (0 <= textIndex && textIndex < this.text.length) {
+            return this.text.charCodeAt(textIndex);
+        }
+        return -1;
     }
 
     /**
@@ -198,18 +233,38 @@ export class SourceCode {
         if (index < this.startOffset) {
             return false;
         }
-        const matchNodeList = this.sourceNode.children.filter((node) => {
-            // <p>[node]</p>
-            //         ^
-            //        range[1]
-            // `< range[1]` prevent infinity loop
-            // https://github.com/azu/sentence-splitter/issues/9
-            return node.range[0] <= index && index < node.range[1];
-        });
-        if (matchNodeList.length > 0) {
-            // last match
-            // because, range is overlap two nodes
-            return matchNodeList[matchNodeList.length - 1];
+        const children = this.sourceNode.children;
+        // <p>[node]</p>
+        //         ^
+        //        range[1]
+        // `< range[1]` prevent infinity loop
+        // https://github.com/azu/sentence-splitter/issues/9
+        if (this.isOrderedChildren) {
+            // Binary search: find the last node that starts at the index or before it.
+            // The nodes before it end before the index, so it is the only candidate.
+            let low = 0;
+            let high = children.length;
+            while (low < high) {
+                const middle = (low + high) >>> 1;
+                if (children[middle].range[0] <= index) {
+                    low = middle + 1;
+                } else {
+                    high = middle;
+                }
+            }
+            if (low === 0) {
+                return false;
+            }
+            const node = children[low - 1];
+            return index < node.range[1] ? node : false;
+        }
+        // last match
+        // because, range is overlap two nodes
+        for (let i = children.length - 1; i >= 0; i--) {
+            const node = children[i];
+            if (node.range[0] <= index && index < node.range[1]) {
+                return node;
+            }
         }
         return false;
     }
@@ -262,8 +317,6 @@ export class SourceCode {
      * @returns {string}
      */
     sliceRange(start: number, end: number): string {
-        return this.textCharacters
-            .slice(Math.max(start - this.startOffset, 0), Math.max(end - this.startOffset, 0))
-            .join("");
+        return this.text.slice(Math.max(start - this.startOffset, 0), Math.max(end - this.startOffset, 0));
     }
 }

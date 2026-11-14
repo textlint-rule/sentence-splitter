@@ -57,6 +57,7 @@
     "src/"
   ],
   "scripts": {
+    "benchmark": "node --no-warnings --loader ts-node/esm ./scripts/benchmark.ts",
     "build": "tsc -p . && tsc -p ./tsconfig.cjs.json && tsconfig-to-dual-package",
     "clean": "git clean -fx lib/ module/",
     "createInputJson": "ts-node-esm ./scripts/generate-input-json-from-_input-md.ts",
