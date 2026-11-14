@@ -10,6 +10,7 @@ import {
     TxtWhiteSpaceNode
 } from "../src/sentence-splitter.js";
 import { English } from "../src/parser/lang/index.js";
+import { parse } from "@textlint/markdown-to-ast";
 
 const getSentence = (children: TxtParentNodeWithSentenceNode["children"], index: number): TxtSentenceNode => {
     const sentence = children[index];
@@ -327,6 +328,90 @@ describe("sentence-splitter", function () {
                 }
             });
             assert.equal(sentences.length, 1);
+        });
+    });
+    describe("Lang Options are changed", () => {
+        it("should use the current words of the language even if the list is changed in place", () => {
+            const language = { ABBREVIATIONS: ["Foo."], PREPOSITIVE_ABBREVIATIONS: [], EXCLAMATION_WORDS: [] };
+            const options = { AbbrMarker: { language } };
+            const text = "It is foo. bar. End.";
+            assert.deepStrictEqual(
+                splitSentences(text, options).map((node) => node.raw),
+                ["It is foo. bar.", " ", "End."]
+            );
+            language.ABBREVIATIONS[0] = "Bar.";
+            assert.deepStrictEqual(
+                splitSentences(text, options).map((node) => node.raw),
+                ["It is foo.", " ", "bar.", " ", "End."]
+            );
+        });
+    });
+    describe("separatorCharacters are changed", () => {
+        it("should use the current separators even if the list is changed in place", () => {
+            const separatorCharacters = ["。"];
+            const options = { SeparatorParser: { separatorCharacters } };
+            const text = "A。B！C";
+            assert.deepStrictEqual(
+                splitSentences(text, options).map((node) => node.raw),
+                ["A。", "B！C"]
+            );
+            separatorCharacters[0] = "！";
+            assert.deepStrictEqual(
+                splitSentences(text, options).map((node) => node.raw),
+                ["A。B！", "C"]
+            );
+        });
+    });
+    describe("contexts", () => {
+        it("should have only the pair marks in the sentence", () => {
+            const sentences = splitSentences('He said "A. B". Next one. Third (x) here.').filter(
+                (node): node is TxtSentenceNode => node.type === SentenceSplitterSyntax.Sentence
+            );
+            assert.deepStrictEqual(
+                sentences.map((sentence) => {
+                    return { raw: sentence.raw, contexts: sentence.contexts.map((context) => context.range) };
+                }),
+                [
+                    { raw: 'He said "A. B".', contexts: [[8, 13]] },
+                    { raw: "Next one.", contexts: [] },
+                    { raw: "Third (x) here.", contexts: [[32, 34]] }
+                ]
+            );
+        });
+        it("should order the pair marks in the sentence by the start position", () => {
+            const [sentence] = splitSentences("He said (it is [a. b] pen.) and 「c. d」.").filter(
+                (node): node is TxtSentenceNode => node.type === SentenceSplitterSyntax.Sentence
+            );
+            assert.deepStrictEqual(
+                sentence.contexts.map((context) => context.range),
+                [
+                    [8, 26],
+                    [15, 20],
+                    [32, 37]
+                ]
+            );
+        });
+    });
+    describe("children of the paragraph are not ordered", () => {
+        const paragraph = parse("First `code.` is here. Second one.").children[0] as TxtParagraphNode;
+        it("should use the last node when ranges of children are overlapped", () => {
+            const [str, code] = paragraph.children;
+            const overlapped = {
+                ...paragraph,
+                // Str covers the whole paragraph, and Code overlaps it
+                children: [{ ...str, range: paragraph.range, raw: paragraph.raw, loc: paragraph.loc }, code]
+            } as TxtParagraphNode;
+            assert.deepStrictEqual(
+                splitAST(overlapped).children.map((node) => node.raw),
+                ["First `code.` is here.", " ", "Second one."]
+            );
+        });
+        it("should work when children are reversed", () => {
+            const reversed = { ...paragraph, children: [...paragraph.children].reverse() } as TxtParagraphNode;
+            assert.deepStrictEqual(
+                splitAST(reversed).children.map((node) => node.raw),
+                [" ", "is here.", " ", "Second one."]
+            );
         });
     });
     describe("DefaultSentenceSplitterOptions", () => {
