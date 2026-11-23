@@ -135,7 +135,31 @@ export const measureSet = (set, builds, outDir, tmpDir) => {
         for (const build of builds) times[build.name].push(runWorker(build, set, setFile, "time"));
     }
     log(`${set.name}: allocation`);
-    const allocations = each("allocation");
+    // The pause of the collections changes from process to process: the median of TIME_ROUNDS processes
+    const allocationRuns = Object.fromEntries(builds.map((build) => [build.name, []]));
+    for (let round = 0; round < TIME_ROUNDS; round++) {
+        for (const build of builds) allocationRuns[build.name].push(runWorker(build, set, setFile, "allocation"));
+    }
+    const median = (values) => {
+        const sorted = [...values].sort((a, b) => a - b);
+        const middle = Math.floor(sorted.length / 2);
+        return sorted.length % 2 === 1 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+    };
+    const allocations = Object.fromEntries(
+        builds.map((build) => {
+            const runs = allocationRuns[build.name];
+            const of = (key) => median(runs.map((run) => run[key]));
+            return [
+                build.name,
+                {
+                    allocatedMB: of("allocatedMB"),
+                    gcPauseMs: of("gcPauseMs"),
+                    minorGcs: of("minorGcs"),
+                    majorGcs: of("majorGcs")
+                }
+            ];
+        })
+    );
     log(`${set.name}: CPU profiles`);
     const cpuDir = path.join(outDir, "cpuprofiles");
     fs.mkdirSync(cpuDir, { recursive: true });

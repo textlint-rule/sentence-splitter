@@ -19,6 +19,10 @@ const MIN_TOTAL_MS = 1000;
 const MAX_TOTAL_MS = 10000;
 // The allocation of a small set is measured over several passes, so that it has enough samples
 const MIN_ALLOCATION_CHARACTERS = 2000000;
+// The garbage collections are counted over more passes: a pass of a large set has only a few collections,
+// and one long pause of them would decide the number
+const MIN_GC_CHARACTERS = 40000000;
+const MIN_GC_PASSES = 10;
 const SAMPLING_INTERVAL_BYTES = 8192;
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -81,6 +85,7 @@ const main = async () => {
         /** The bytes that `splitAST` of every paragraph allocates, and its garbage collections. All numbers are for one pass. */
         async allocation() {
             const passes = Math.max(1, Math.ceil(MIN_ALLOCATION_CHARACTERS / set.characters));
+            const gcPasses = Math.max(MIN_GC_PASSES, Math.ceil(MIN_GC_CHARACTERS / set.characters));
             // the first pass compiles the code
             splitParagraphs();
             global.gc();
@@ -90,7 +95,7 @@ const main = async () => {
             const collections = [];
             const observer = new PerformanceObserver((list) => collections.push(...list.getEntries()));
             observer.observe({ entryTypes: ["gc"] });
-            for (let i = 0; i < passes; i++) splitParagraphs();
+            for (let i = 0; i < gcPasses; i++) splitParagraphs();
             await wait(50);
             observer.disconnect();
             const minor = collections.filter((entry) => entry.detail.kind === constants.NODE_PERFORMANCE_GC_MINOR);
@@ -115,9 +120,10 @@ const main = async () => {
             return {
                 passes,
                 allocatedMB: bytes / passes / 1e6,
-                gcPauseMs: collections.reduce((sum, entry) => sum + entry.duration, 0) / passes,
-                minorGcs: minor.length / passes,
-                majorGcs: (collections.length - minor.length) / passes
+                gcPasses,
+                gcPauseMs: collections.reduce((sum, entry) => sum + entry.duration, 0) / gcPasses,
+                minorGcs: minor.length / gcPasses,
+                majorGcs: (collections.length - minor.length) / gcPasses
             };
         },
 
