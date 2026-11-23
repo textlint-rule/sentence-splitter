@@ -90,3 +90,4 @@ crashlytics-build.properties
 .netlify
 /module/
 /lib/
+/profile-result/

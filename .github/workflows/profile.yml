@@ -1,0 +1,55 @@
+name: Performance profile
+# Compare the performance profile of the base and the head of a pull request.
+# Usage of the scripts: README.md#performance-profile
+#
+# This workflow runs the code of the pull request, including a pull request from a fork.
+# Do not change it to pull_request_target, and do not give it secrets or write permissions.
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "benchmark/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "tsconfig.json"
+      - "tsconfig.cjs.json"
+      - ".github/workflows/profile.yml"
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  compare:
+    name: compare with the base
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          # the base branch is needed for the worktree of the base
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+      - name: setup Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version-file: ".node-version"
+      - name: Install
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Compare the base and the head
+        env:
+          # The tip of the base branch, which the checkout has merged the pull request into.
+          # The base commit of the event can be an older commit, or the one of a base branch that was changed.
+          BASE_REF: ${{ github.base_ref }}
+        # The Markdown goes to the log too. `shell: bash` fails the step when the comparison fails before `tee`
+        shell: bash
+        run: node benchmark/compare.js --base "origin/$BASE_REF" --out-dir profile-result | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Upload the result
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: performance-profile
+          path: profile-result/
+          if-no-files-found: error

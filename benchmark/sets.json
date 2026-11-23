@@ -1,0 +1,21 @@
+{
+    "small": {
+        "label": "the fixtures of this repository",
+        "path": "test/fixtures",
+        "ending": "_input.md"
+    },
+    "medium": {
+        "label": "js-primer v7.0.0 (Japanese)",
+        "repository": "https://github.com/asciidwango/js-primer",
+        "commit": "6c1a17c246baaf0f6ae573a6947acddef6f6b5f9",
+        "path": "source",
+        "ending": ".md"
+    },
+    "large": {
+        "label": "Node.js v24.12.0 API documents (English)",
+        "repository": "https://github.com/nodejs/node",
+        "commit": "70f6b58ac655234435a99d72b857dd7b316d34bf",
+        "path": "doc/api",
+        "ending": ".md"
+    }
+}
