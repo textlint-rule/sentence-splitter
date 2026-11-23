@@ -263,6 +263,37 @@ Update snapshots(`output.json`):
 4. Check the `test/fixtures/<test-case-name>/output.json`
 5. If it is ok, commit it
 
+## Performance profile
+
+The profile measures `splitAST` of each paragraph and `split` of each file on fixed sets of documents:
+the times, the allocation and the garbage collection, and the functions with the most CPU time.
+It keeps sentence-splitter from getting slower without anyone noticing.
+
+| Set | Documents |
+| --- | --- |
+| `small` | `test/fixtures/*/_input.md` of this repository |
+| `medium` | [js-primer](https://github.com/asciidwango/js-primer) v7.0.0 (Japanese) |
+| `large` | [Node.js](https://github.com/nodejs/node) v24.12.0 API documents (English) |
+
+Profile the working tree:
+
+    pnpm run profile
+
+Compare `master` and the working tree. The comparison also lists the paragraphs and the files whose result differs:
+
+    pnpm run compare
+    # a quick check
+    pnpm run compare --set small,medium
+    # another base
+    pnpm run compare --base <ref>
+
+The result is written to `profile-result/` (`profile.md`, `profile.json`, and the CPU profiles that Chrome DevTools opens).
+`medium` and `large` are downloaded, and the build of a base is kept, in `~/.cache/sentence-splitter-profile`.
+
+The "Performance profile" workflow runs `pnpm run compare` on a pull request that changes `src/`, and writes the Markdown to the job summary.
+It does not fail on a difference.
+When a pull request changes the performance, paste the output of `pnpm run compare` into its description.
+
 ## Contributing
 
 1. Fork it!
